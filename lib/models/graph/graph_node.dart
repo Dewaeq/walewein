@@ -1,6 +1,7 @@
-class GraphNode<X, Y> {
-  GraphNode({required this.x, required this.y});
+class GraphNode {
+  GraphNode({required this.x, required this.y, required this.dateAdded});
 
-  final X x;
-  final Y y;
+  final DateTime x;
+  final int y;
+  final DateTime dateAdded;
 }

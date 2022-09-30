@@ -1,7 +1,9 @@
 import 'package:walewein/models/graph/graph_node.dart';
 
-class Relation<X, Y> {
-  Relation({required this.nodes});
+class Relation {
+  Relation({required this.nodes, required this.xLabel, required this.yLabel});
 
-  List<GraphNode<X, Y>> nodes;
+  List<GraphNode> nodes;
+  String xLabel;
+  String yLabel;
 }

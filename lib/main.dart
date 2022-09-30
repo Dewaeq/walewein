@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/graph/graph_node.dart';
 import 'package:walewein/pages/home/home.dart';
 import 'package:walewein/shared/constants.dart';
 
+List<Graph> graphs = [];
+
 void main() {
+  var graph = Graph.electricity(
+    nodes: [
+      GraphNode(
+        x: DateTime.now(),
+        y: 150,
+        dateAdded: DateTime.now().subtract(const Duration(days: 10)),
+      ),
+      GraphNode(
+        x: DateTime.now(),
+        y: 250,
+        dateAdded: DateTime.now(),
+      ),
+    ],
+  );
+
+  graphs.add(graph);
+
   runApp(const MyApp());
 }
 

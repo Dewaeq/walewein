@@ -8,11 +8,13 @@ class ImageContainer extends StatefulWidget {
     required this.image,
     required this.recognizedText,
     required this.imageSize,
+    required this.onSelectText,
   });
 
   final Image image;
   final Size imageSize;
   final RecognizedText recognizedText;
+  final Function(String) onSelectText;
 
   @override
   State<ImageContainer> createState() => _ImageContainerState();
@@ -65,7 +67,7 @@ class _ImageContainerState extends State<ImageContainer> {
   Widget _textButton(String text) {
     return MaterialButton(
       onPressed: () {
-        _showBottomSheet(context, text);
+        widget.onSelectText(text);
       },
       color: Colors.green.withOpacity(.4),
       shape: const RoundedRectangleBorder(
@@ -91,50 +93,6 @@ class _ImageContainerState extends State<ImageContainer> {
           4,
       height: _getPositionedHeight(rect) + 4,
       child: child,
-    );
-  }
-
-  void _showBottomSheet(BuildContext context, String text) {
-    final theme = Theme.of(context);
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.green,
-      barrierColor: theme.primaryColor.withOpacity(.1),
-      builder: (context) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        height: MediaQuery.of(context).size.height * 0.6,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          color: theme.scaffoldBackgroundColor,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: theme.primaryColor,
-              ),
-            ),
-            SizedBox(
-              width: 30,
-              child: MaterialButton(
-                padding: EdgeInsets.zero,
-                onPressed: () => Navigator.of(context).maybePop(),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  Icons.close,
-                  color: theme.primaryColor,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

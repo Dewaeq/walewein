@@ -3,6 +3,7 @@ import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:walewein/shared/constants.dart';
 
 import 'components/image_container.dart';
 
@@ -21,100 +22,91 @@ class _AddEntryPageState extends State<AddEntryPage> {
   RecognizedText? _recognizedText;
   Size? _imageSize;
   File? _image;
+  String? _selectedText;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
-      body: CustomScrollView(
-        shrinkWrap: true,
-        slivers: [
-          SliverAppBar.large(
-            title: const Text("Add entry"),
-          ),
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: _galleryBody(),
-          ),
-        ],
+      body: GestureDetector(
+        onTap: () {
+          _bottomBarController.closeSheet();
+        },
+        child: CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            SliverAppBar.large(
+              title: const Text("Add entry"),
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: _galleryBody(),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomBarWithSheet(
         controller: _bottomBarController,
-        bottomBarTheme: const BottomBarTheme(
+        duration: const Duration(milliseconds: 200),
+        bottomBarTheme: BottomBarTheme(
           mainButtonPosition: MainButtonPosition.middle,
-          decoration: BoxDecoration(
-            color: Colors.white,
+          heightOpened: MediaQuery.of(context).size.height * 0.3,
+          decoration: const BoxDecoration(
+            color: kPrimaryColor,
             borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
           ),
-          itemIconColor: Colors.grey,
-          itemTextStyle: TextStyle(
-            color: Colors.grey,
+          itemIconColor: Colors.white,
+          selectedItemIconColor: Colors.white,
+          itemTextStyle: const TextStyle(
+            color: Colors.white,
             fontSize: 10.0,
           ),
-          selectedItemTextStyle: TextStyle(
+          selectedItemTextStyle: const TextStyle(
             color: Colors.blue,
             fontSize: 10.0,
           ),
         ),
         onSelectItem: (index) {
-          _bottomBarController.toggleSheet();
-          debugPrint('$index');
+          if (index == 0) {
+            _getImage(ImageSource.camera);
+          } else {
+            _getImage(ImageSource.gallery);
+          }
         },
         sheetChild: Center(
           child: Text(
-            "Another content",
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 20,
+            _selectedText ?? "",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 33,
               fontWeight: FontWeight.w900,
             ),
           ),
         ),
         items: const [
-          BottomBarWithSheetItem(icon: Icons.people),
-          BottomBarWithSheetItem(icon: Icons.shopping_cart),
-          BottomBarWithSheetItem(icon: Icons.settings),
-          BottomBarWithSheetItem(icon: Icons.favorite),
+          BottomBarWithSheetItem(icon: Icons.camera_alt),
+          BottomBarWithSheetItem(icon: Icons.image_search),
         ],
       ),
     );
   }
 
   Widget _galleryBody() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (_image != null && _recognizedText != null)
-          ImageContainer(
-            image: Image.file(_image!),
-            recognizedText: _recognizedText!,
-            imageSize: _imageSize!,
-          )
-        else
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 40),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: ElevatedButton(
-                    child: const Text('From Gallery'),
-                    onPressed: () => _getImage(ImageSource.gallery),
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: ElevatedButton(
-                    child: const Text('Take a picture'),
-                    onPressed: () => _getImage(ImageSource.camera),
-                  ),
-                ),
-                const SizedBox(height: 60),
-              ],
-            ),
-          ),
-      ],
+    if (_image == null || _recognizedText == null) {
+      return Container();
+    }
+
+    return Center(
+      child: ImageContainer(
+        image: Image.file(_image!),
+        recognizedText: _recognizedText!,
+        imageSize: _imageSize!,
+        onSelectText: (text) {
+          setState(() {
+            _selectedText = text;
+            _bottomBarController.openSheet();
+          });
+        },
+      ),
     );
   }
 
