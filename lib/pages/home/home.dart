@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:walewein/main.dart';
 import 'package:walewein/models/graph/graph_model.dart';
 import 'package:walewein/pages/add_graph/add_graph_page.dart';
-import 'package:walewein/pages/graph/graph_page.dart';
 import 'package:walewein/pages/home/components/graph_card.dart';
 import 'package:walewein/pages/home/components/header_with_search_box.dart';
 import 'package:walewein/pages/home/components/title_with_edit_button.dart';
 import 'package:walewein/shared/constants.dart';
+import 'package:walewein/shared/services/isar_service.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-  final String title;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final _isarService = IsarService();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -61,18 +60,26 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildGraphsList() {
     return Padding(
-      padding: const EdgeInsets.all(8),
-      child: GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 1,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        childAspectRatio: 3,
-        children: [
-          for (var graph in graphs) GraphCard(graph: graph),
-        ],
-      ),
+      padding: const EdgeInsets.all(8.0),
+      child: StreamBuilder<List<Graph>>(
+          stream: _isarService.listenGraphs(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Text(
+                "hi",
+              );
+            }
+            return Column(
+              children: [
+                for (var graph in snapshot.data!)
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    // height: MediaQuery.of(context).size.height * 0.17,
+                    child: GraphCard(graph: graph),
+                  )
+              ],
+            );
+          }),
     );
   }
 

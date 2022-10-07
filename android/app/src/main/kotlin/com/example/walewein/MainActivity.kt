@@ -1,4 +1,4 @@
-package com.example.walewein
+package com.quintax.walewein
 
 import io.flutter.embedding.android.FlutterActivity
 

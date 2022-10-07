@@ -1,9 +1,21 @@
+import 'package:isar/isar.dart';
 import 'package:walewein/models/graph/graph_node.dart';
 
-class Relation {
-  Relation({required this.nodes, required this.xLabel, required this.yLabel});
+part 'relation_model.g.dart';
 
-  List<GraphNode> nodes;
-  String xLabel;
-  String yLabel;
+@embedded
+class Relation {
+  late List<GraphNode> nodes;
+
+  late String xLabel;
+
+  late String yLabel;
+
+  Relation();
+
+  Relation.from({
+    required this.nodes,
+    required this.xLabel,
+    required this.yLabel,
+  });
 }

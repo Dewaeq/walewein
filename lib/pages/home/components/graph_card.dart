@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:walewein/models/graph/graph_model.dart';
 import 'package:walewein/pages/graph/graph_page.dart';
+import 'package:walewein/shared/services/graph_service.dart';
 
 class GraphCard extends StatelessWidget {
   const GraphCard({super.key, required this.graph});
@@ -30,12 +31,16 @@ class GraphCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _cardHeader(),
+                const SizedBox(height: 15),
                 _graphChanges(),
               ],
             ),
           ),
           Expanded(
-            child: Container(color: Colors.pink),
+            child: AspectRatio(
+              aspectRatio: 1.2,
+              child: ChartView(graph: graph, showLabels: false),
+            ),
           ),
         ],
       ),
@@ -45,8 +50,8 @@ class GraphCard extends StatelessWidget {
   Row _cardHeader() {
     return Row(
       children: [
-        const Icon(
-          Icons.list_alt,
+        SizedBox(
+          child: GraphService.graphTypeToIcon(graph.graphType, 17),
         ),
         const SizedBox(width: 15),
         Text(
@@ -61,52 +66,68 @@ class GraphCard extends StatelessWidget {
   }
 
   Widget _graphChanges() {
-    final relation = graph.lastChangedRelation();
+    final relation = GraphService.lastChangedRelation(graph);
+    final empty = relation == null || relation.nodes.isEmpty;
 
-    if (relation == null || relation.nodes.isEmpty) return Container();
+    var diff = 0.0;
+    var lastValue = 0.0;
+    var date = graph.dateCreated;
 
-    final length = relation.nodes.length;
-    final last = relation.nodes.last;
-    final previous = length >= 2 ? relation.nodes[length - 2] : last;
-    final diff = last.y - previous.y;
+    if (!empty) {
+      final length = relation.nodes.length;
+      final last = relation.nodes.last;
+      final previous = length >= 2 ? relation.nodes[length - 2] : last;
+
+      lastValue = last.y;
+      date = previous.dateAdded;
+      diff = last.y - previous.y;
+    }
+
+    if (diff > 5) {
+      diff = diff.roundToDouble();
+    } else {
+      diff = double.parse(diff.toStringAsFixed(4));
+    }
 
     final result = "${diff.isNegative ? "" : "+"}$diff";
     final color =
         diff.isNegative ? const Color(0xfff7564c) : const Color(0xff08bc50);
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
           children: [
             Text(
-              last.y.toString(),
+              lastValue.toString(),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color(0xff19224c),
                 fontSize: 32,
               ),
             ),
+            const SizedBox(width: 5),
+            Text(relation!.yLabel),
           ],
         ),
-        Text(relation.yLabel),
-        const SizedBox(width: 12),
-        Text(
-          result,
-          style: TextStyle(
-            fontSize: 16,
-            color: color,
-          ),
-        ),
-        const SizedBox(width: 5),
-        Flexible(
-          child: Text(
-            "from ${DateFormat("M/d/y").format(last.dateAdded)}",
-            style: const TextStyle(
-              fontSize: 16,
-              color: Color(0xff8e92a6),
+        Row(
+          children: [
+            Text(
+              result,
+              style: TextStyle(
+                fontSize: 16,
+                color: color,
+              ),
             ),
-          ),
+            const SizedBox(width: 5),
+            Text(
+              "from ${DateFormat("EEE, d MMM").format(date)}",
+              style: const TextStyle(
+                fontSize: 16,
+                color: Color(0xff8e92a6),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -114,7 +135,7 @@ class GraphCard extends StatelessWidget {
 
   _openGraph(BuildContext context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => GraphPage(graph: graph)),
+      MaterialPageRoute(builder: (context) => GraphPage(id: graph.id!)),
     );
   }
 }

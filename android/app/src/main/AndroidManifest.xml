@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.walewein">
+    package="com.quintax.walewein">
    <application
         android:label="walewein"
         android:name="${applicationName}"
