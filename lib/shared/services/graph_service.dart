@@ -158,12 +158,20 @@ class GraphService {
     final b = lastNode(relation)!;
 
     if (a == b) {
-      return a.y;
+      return 0;
     }
 
     return (b.y - a.y) /
         (b.x.millisecondsSinceEpoch - a.x.millisecondsSinceEpoch) *
         1000;
+  }
+
+  static GraphNode? relationMinY(Relation relation) {
+    if (relation.nodes.isEmpty) {
+      return null;
+    }
+
+    return relation.nodes.reduce((a, b) => a.y <= b.y ? a : b);
   }
 
   static GraphNode? maxY(Graph graph) {
@@ -187,7 +195,7 @@ class GraphService {
     for (final relation in graph.relations) {
       if (relation.nodes.isEmpty) continue;
 
-      final node = relation.nodes.reduce((a, b) => a.y <= b.y ? a : b);
+      final node = relationMinY(relation)!;
       if (result == null || node.y < result.y) {
         result = node;
       }

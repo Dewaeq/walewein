@@ -197,7 +197,8 @@ class _AddEntryPageState extends State<AddEntryPage> {
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now()
                           .subtract(const Duration(days: 365 * 10)),
-                      lastDate: DateTime.now(),
+                      lastDate:
+                          DateTime.now().add(const Duration(days: 365 * 10)),
                     ) ??
                     DateTime.now();
 

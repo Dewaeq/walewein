@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -68,6 +70,7 @@ class _GraphPageState extends State<GraphPage> {
                   const SizedBox(height: 15),
                   for (final relation in graph.relations)
                     _showRelation(relation),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
@@ -157,30 +160,19 @@ class ChartView extends StatelessWidget {
       }
     }
 
-    final firstNode = GraphService.firstNode(graph.relations.first)!;
-    final lastNode = GraphService.lastNode(graph.relations.first)!;
-
-    // change per second
-    final trend = (lastNode.y - firstNode.y) /
-        (lastNode.x.millisecondsSinceEpoch -
-            firstNode.x.millisecondsSinceEpoch) *
-        1000;
-    final trendPrediction = firstNode == lastNode
-        ? firstNode.y
-        : trend * maxX.difference(firstNode.x).inSeconds + minY.y;
-
-    debugPrint("${firstNode == lastNode}");
-
     Map<Relation, dynamic> trends = {};
+    double maxTrendPrediction = 0;
 
     for (final relation in graph.relations) {
       final trend = GraphService.trendPrediction(relation);
       if (trend != null) {
-        final prediction =
-            trend * maxX.difference(firstNode.x).inSeconds + minY.y;
+        final firstNode = GraphService.firstNode(relation)!;
+        final prediction = trend * maxX.difference(firstNode.x).inSeconds +
+            GraphService.relationMinY(relation)!.y;
+        maxTrendPrediction = max(prediction, maxTrendPrediction);
         trends[relation] = {
           "trendPrediction": prediction,
-          "lastNOde": GraphService.lastNode(relation),
+          "lastNode": GraphService.lastNode(relation),
         };
       }
     }
@@ -195,7 +187,7 @@ class ChartView extends StatelessWidget {
         LineChartData(
           minX: calculateX(minX),
           maxX: calculateX(maxX),
-          maxY: showPrediction ? trendPrediction * 1.1 : maxY.y * 1.05,
+          maxY: showPrediction ? maxTrendPrediction * 1.1 : maxY.y * 1.05,
           minY: minY.y * 0.8,
           titlesData: FlTitlesData(
             topTitles: AxisTitles(
@@ -215,7 +207,7 @@ class ChartView extends StatelessWidget {
               axisNameWidget: const Text("Date"),
               sideTitles: SideTitles(
                 showTitles: true,
-                interval: 0.20,
+                interval: 1,
                 getTitlesWidget: bottomTitleWidgets,
               ),
             ),
@@ -253,15 +245,7 @@ class ChartView extends StatelessWidget {
                   ),
                 ),
               ),
-            showPrediction
-                ? LineChartBarData(
-                    spots: [
-                      FlSpot(calculateX(lastNode.x), lastNode.y),
-                      FlSpot(calculateX(maxX), trendPrediction)
-                    ],
-                    color: Colors.pink,
-                  )
-                : LineChartBarData(),
+            ...buildPredictions(trends, maxX),
           ],
         ),
         swapAnimationDuration: const Duration(milliseconds: 300),
@@ -278,6 +262,22 @@ class ChartView extends StatelessWidget {
     }
 
     return spots;
+  }
+
+  List<LineChartBarData> buildPredictions(
+      Map<Relation, dynamic> trends, DateTime maxX) {
+    if (!showPrediction) return [];
+
+    return [
+      for (final k in trends.entries)
+        LineChartBarData(
+          spots: [
+            FlSpot(calculateX(k.value["lastNode"].x), k.value["lastNode"].y),
+            FlSpot(calculateX(maxX), k.value["trendPrediction"]),
+          ],
+          color: Colors.pink,
+        ),
+    ];
   }
 
   double calculateX(DateTime date) {
@@ -316,17 +316,20 @@ class ChartView extends StatelessWidget {
     );
 
     if (value > 12) {
-      value = value - 12;
+      value = value % 12;
     }
 
-    Widget text;
-    if (meta.max - meta.min < 1) {
-      text = Text(keyToDateString(value),
-          style: style, textAlign: TextAlign.center);
+    String content;
+
+    if ((meta.max - meta.min).abs() < 1) {
+      content = keyToDateString(value);
     } else {
-      text = Text(intToMonth(value.toInt()),
-          style: style, textAlign: TextAlign.center);
+      content = intToMonth(value.toInt());
     }
+
+    final text = Text(content, style: style, textAlign: TextAlign.center);
+
+    debugPrint(content);
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
