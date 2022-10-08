@@ -3,6 +3,7 @@ import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:walewein/models/graph/graph_node.dart';
 import 'package:walewein/shared/services/graph_service.dart';
 import 'package:walewein/shared/services/utils.dart';
@@ -28,8 +29,8 @@ class _AddEntryPageState extends State<AddEntryPage> {
   Size? _imageSize;
   File? _image;
   Relation? _selectedRelation;
+  DateTime _date = DateTime.now();
 
-  Map<Relation, String> values = {};
   Map<Relation, TextEditingController> controllers = {};
 
   @override
@@ -94,7 +95,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
           ),
           bottomBarTheme: BottomBarTheme(
             mainButtonPosition: MainButtonPosition.middle,
-            heightOpened: MediaQuery.of(context).size.height * 0.3,
+            heightOpened: MediaQuery.of(context).size.height * 0.35,
             decoration: const BoxDecoration(
               color: Color(0xff1e1e1e),
               borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
@@ -160,9 +161,9 @@ class _AddEntryPageState extends State<AddEntryPage> {
                     child: TextFormField(
                       controller: controllers[relation],
                       textAlign: TextAlign.left,
+                      keyboardType: TextInputType.number,
                       onFieldSubmitted: (value) {
                         controllers[relation]?.text = value.parse();
-                        setState(() => values[relation] = value.parse());
                       },
                       style: const TextStyle(
                         color: Colors.white,
@@ -182,6 +183,28 @@ class _AddEntryPageState extends State<AddEntryPage> {
                 ],
               ),
             ],
+            const SizedBox(height: 15),
+            Text(
+              DateFormat("EEEE d MMMM, yyyy").format(_date),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                _date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now()
+                          .subtract(const Duration(days: 365 * 10)),
+                      lastDate: DateTime.now(),
+                    ) ??
+                    DateTime.now();
+
+                setState(() {});
+              },
+              child: const Text("Change date"),
+            ),
           ],
         ),
       ),
@@ -229,10 +252,8 @@ class _AddEntryPageState extends State<AddEntryPage> {
     _bottomBarController.closeSheet();
 
     if (widget.graph.relations.length == 1) {
-      values[widget.graph.relations.first] = text;
       controllers[widget.graph.relations.first]?.text = text;
     } else if (_selectedRelation != null) {
-      values[_selectedRelation!] = text;
       controllers[_selectedRelation]?.text = text;
     }
 
@@ -243,11 +264,13 @@ class _AddEntryPageState extends State<AddEntryPage> {
   }
 
   void _save() async {
-    final now = DateTime.now();
-    for (final entry in values.entries) {
+    for (final entry in controllers.entries) {
       final relation = entry.key;
-      final value = entry.value;
-      final node = GraphNode.from(x: now, y: double.parse(value));
+      final value = entry.value.text.parse();
+      final node = GraphNode.from(
+        x: _date,
+        y: double.parse(value),
+      );
 
       await GraphService.addNode(widget.graph, relation, node);
     }

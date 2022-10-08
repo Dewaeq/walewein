@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Text(
-                "hi",
+                "Add your first graph",
               );
             }
             return Column(
@@ -74,7 +74,6 @@ class _HomePageState extends State<HomePage> {
                 for (var graph in snapshot.data!)
                   Container(
                     padding: const EdgeInsets.all(8.0),
-                    // height: MediaQuery.of(context).size.height * 0.17,
                     child: GraphCard(graph: graph),
                   )
               ],

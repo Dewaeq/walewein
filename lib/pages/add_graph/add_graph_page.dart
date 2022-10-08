@@ -130,11 +130,11 @@ class _AddGraphPageState extends State<AddGraphPage> {
     if (_page == numPages - 1) {
       final graph = GraphService.graphFromType(_selectedType!, _graphName);
       final isarService = IsarService();
-      isarService.saveGraph(graph).then(
-            (_) => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => GraphPage(id: graph.id!)),
-            ),
-          );
+      isarService.saveGraph(graph).then((_) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => GraphPage(id: graph.id!)),
+        );
+      });
     } else {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 200),

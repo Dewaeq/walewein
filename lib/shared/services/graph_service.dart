@@ -118,4 +118,97 @@ class GraphService {
     final isarService = IsarService();
     await isarService.saveGraph(graph);
   }
+
+  static GraphNode? firstNode(Relation relation) {
+    GraphNode? firstNode;
+    // for (final relation in graph.relations) {
+    if (relation.nodes.isNotEmpty) {
+      for (final node in relation.nodes) {
+        if (firstNode == null || node.x.isBefore(firstNode.x)) {
+          firstNode = node;
+        }
+      }
+    }
+    // }
+
+    return firstNode;
+  }
+
+  static GraphNode? lastNode(Relation relation) {
+    GraphNode? lastNode;
+    // for (final relation in graph.relations) {
+    if (relation.nodes.isNotEmpty) {
+      for (final node in relation.nodes) {
+        if (lastNode == null || node.x.isAfter(lastNode.x)) {
+          lastNode = node;
+        }
+      }
+    }
+    // }
+
+    return lastNode;
+  }
+
+  static double? trendPrediction(Relation relation) {
+    if (relation.nodes.isEmpty) {
+      return null;
+    }
+
+    final a = firstNode(relation)!;
+    final b = lastNode(relation)!;
+
+    if (a == b) {
+      return a.y;
+    }
+
+    return (b.y - a.y) /
+        (b.x.millisecondsSinceEpoch - a.x.millisecondsSinceEpoch) *
+        1000;
+  }
+
+  static GraphNode? maxY(Graph graph) {
+    GraphNode? result;
+
+    for (final relation in graph.relations) {
+      if (relation.nodes.isEmpty) continue;
+
+      final node = relation.nodes.reduce((a, b) => a.y >= b.y ? a : b);
+      if (result == null || node.y > result.y) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static GraphNode? minY(Graph graph) {
+    GraphNode? result;
+
+    for (final relation in graph.relations) {
+      if (relation.nodes.isEmpty) continue;
+
+      final node = relation.nodes.reduce((a, b) => a.y <= b.y ? a : b);
+      if (result == null || node.y < result.y) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static GraphNode maxX(Graph graph) {
+    final relation = graph.relations
+        .where((x) => x.nodes.isNotEmpty)
+        .reduce((a, b) => a.nodes.last.x.isAfter(b.nodes.last.x) ? a : b);
+
+    return relation.nodes.last;
+  }
+
+  static GraphNode minX(Graph graph) {
+    final relation = graph.relations
+        .where((x) => x.nodes.isNotEmpty)
+        .reduce((a, b) => a.nodes.first.x.isBefore(b.nodes.first.x) ? a : b);
+
+    return relation.nodes.first;
+  }
 }

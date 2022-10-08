@@ -39,7 +39,11 @@ class GraphCard extends StatelessWidget {
           Expanded(
             child: AspectRatio(
               aspectRatio: 1.2,
-              child: ChartView(graph: graph, showLabels: false),
+              child: ChartView(
+                graph: graph,
+                showLabels: false,
+                showDateMargin: false,
+              ),
             ),
           ),
         ],
@@ -80,18 +84,17 @@ class GraphCard extends StatelessWidget {
 
       lastValue = last.y;
       date = previous.dateAdded;
-      diff = last.y - previous.y;
+      diff = last.y / previous.y;
     }
 
     if (diff > 5) {
       diff = diff.roundToDouble();
     } else {
-      diff = double.parse(diff.toStringAsFixed(4));
+      diff = double.parse(diff.toStringAsFixed(2));
     }
 
-    final result = "${diff.isNegative ? "" : "+"}$diff";
-    final color =
-        diff.isNegative ? const Color(0xfff7564c) : const Color(0xff08bc50);
+    final result = "${diff < 1 ? "-" : "+"}$diff%";
+    final color = diff < 1 ? const Color(0xfff7564c) : const Color(0xff08bc50);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +124,7 @@ class GraphCard extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Text(
-              "from ${DateFormat("EEE, d MMM").format(date)}",
+              "sinds ${DateFormat("EEE, d MMM").format(date)}",
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0xff8e92a6),
