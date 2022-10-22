@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:walewein/shared/services/isar_service.dart';
-
+import 'package:walewein/shared/constants.dart';
 import '../../models/graph/graph_model.dart';
 import '../../models/graph/graph_node.dart';
 import '../../models/graph/relation_model.dart';
@@ -110,18 +109,9 @@ class GraphService {
     }
   }
 
-  static Future<void> addNode(
-      Graph graph, Relation relation, GraphNode node) async {
-    relation.nodes = relation.nodes.toList();
-    relation.nodes.add(node);
-
-    final isarService = IsarService();
-    await isarService.saveGraph(graph);
-  }
-
   static GraphNode? firstNode(Relation relation) {
     GraphNode? firstNode;
-    // for (final relation in graph.relations) {
+
     if (relation.nodes.isNotEmpty) {
       for (final node in relation.nodes) {
         if (firstNode == null || node.x.isBefore(firstNode.x)) {
@@ -129,7 +119,6 @@ class GraphService {
         }
       }
     }
-    // }
 
     return firstNode;
   }
@@ -218,5 +207,57 @@ class GraphService {
         .reduce((a, b) => a.nodes.first.x.isBefore(b.nodes.first.x) ? a : b);
 
     return relation.nodes.first;
+  }
+
+  /// Get the first note that should be displayed
+  static GraphNode? firstDisplayNode(Graph graph) {
+    final threshold = DateTime.now().subtract(maxDisplayDateAgo);
+    GraphNode? result;
+
+    for (final relation in graph.relations) {
+      final query = relation.nodes.where((node) => node.x.isAfter(threshold));
+      if (query.isEmpty) continue;
+
+      final node = query.first;
+      if (result == null || result.x.isAfter(node.x)) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static DisplayDateSpread getDateSpread(Graph graph, [DateTime? maxDate]) {
+    final firstDate = firstDisplayNode(graph)?.x;
+
+    if (firstDate == null) {
+      return DisplayDateSpread.year;
+    }
+
+    final lastDate = maxDate ?? maxX(graph).x;
+    final diff = lastDate.difference(firstDate).inDays;
+
+    if (diff > 60) {
+      return DisplayDateSpread.year;
+    } else if (diff > 7) {
+      return DisplayDateSpread.month;
+    } else if (diff > 1) {
+      return DisplayDateSpread.week;
+    }
+
+    return DisplayDateSpread.day;
+  }
+
+  static double bottomTitleInterval(DisplayDateSpread dateSpread) {
+    switch (dateSpread) {
+      case DisplayDateSpread.day:
+        return 1000 * 3600 / 2;
+      case DisplayDateSpread.week:
+        return 1000 * 3600 * 24;
+      case DisplayDateSpread.month:
+        return 1000 * 3600 * 24 * 5;
+      case DisplayDateSpread.year:
+        return 1000 * 3600 * 24 * 63;
+    }
   }
 }

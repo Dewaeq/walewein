@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
+import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/constants.dart';
 
 class TitleWithEditButton extends StatelessWidget {
@@ -35,7 +36,7 @@ class TitleWithEditButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 10),
+                defaultHalfWidthSizedBox,
                 Icon(
                   Icons.edit,
                   color: Colors.white,

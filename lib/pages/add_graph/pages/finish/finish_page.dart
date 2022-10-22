@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
 
 class FinishPage extends StatelessWidget {
@@ -16,7 +17,7 @@ class FinishPage extends StatelessWidget {
       children: [
         const Text("Create graph:"),
         Text(graphName ?? ""),
-        const SizedBox(height: 15),
+        defaultHeightSizedBox,
         const Text("With type:"),
         Text(GraphService.graphTypeToTitle(graphType)),
       ],

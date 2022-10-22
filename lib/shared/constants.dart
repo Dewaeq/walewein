@@ -5,3 +5,5 @@ const kTextColor = Color(0xff3c4046);
 const kBackgroundColor = Color(0xfff9f8fd);
 
 const kDefaultPadding = 20.0;
+
+const maxDisplayDateAgo = Duration(days: 93);

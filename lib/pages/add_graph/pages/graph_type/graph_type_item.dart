@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:walewein/shared/components/constants.dart';
 import '../../../../models/graph/graph_model.dart';
 import '../../../../shared/services/graph_service.dart';
 
@@ -22,14 +23,14 @@ class GraphTypeItem extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: InkWell(
         onTap: () => onSelect(),
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: defaultButtonBorderRadius,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           width: size.width * 0.95,
           height: size.height * 0.1,
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: defaultButtonBorderRadius,
             border: Border.all(
               color: isSelected
                   ? const Color(0xff434ae7)
@@ -39,7 +40,7 @@ class GraphTypeItem extends StatelessWidget {
           child: Row(
             children: [
               GraphService.graphTypeToIcon(graphType),
-              const SizedBox(width: 15),
+              defaultWidthSizedBox,
               Text(GraphService.graphTypeToTitle(graphType)),
               const Spacer(),
               AnimatedCrossFade(

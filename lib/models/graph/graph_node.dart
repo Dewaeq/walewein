@@ -4,11 +4,11 @@ part 'graph_node.g.dart';
 
 @embedded
 class GraphNode {
-  late final DateTime x;
+  late DateTime x;
 
-  late final double y;
+  late double y;
 
-  late final DateTime dateAdded;
+  late DateTime dateAdded;
 
   GraphNode();
 
@@ -18,5 +18,10 @@ class GraphNode {
     DateTime? dateAdded,
   }) {
     this.dateAdded = dateAdded ?? DateTime.now();
+  }
+
+  @override
+  String toString() {
+    return "GraphNode { x: $x, y: $y, dateAddex: $dateAdded}";
   }
 }

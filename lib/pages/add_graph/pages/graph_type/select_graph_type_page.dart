@@ -22,13 +22,14 @@ class SelectGraphTypePage extends StatelessWidget {
               color: Color.fromARGB(255, 158, 158, 163),
             ),
           ),
-          const SizedBox(height: 30),
+          const Spacer(),
           for (var type in GraphType.values)
             GraphTypeItem(
               graphType: type,
               isSelected: type == selectedType,
               onSelect: () => onSelect(type),
             ),
+          const Spacer(),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/widget_size.dart';
 
 class ImageContainer extends StatefulWidget {
@@ -70,12 +71,8 @@ class _ImageContainerState extends State<ImageContainer> {
         widget.onSelectText(text);
       },
       color: Colors.green.withOpacity(.4),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(
-            5,
-          ),
-        ),
+      shape: RoundedRectangleBorder(
+        borderRadius: defaultButtonBorderRadius,
       ),
     );
   }

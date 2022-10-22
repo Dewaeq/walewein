@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 extension WaleweinParse on String {
   String parse() {
@@ -23,19 +23,18 @@ extension WaleweinParse on String {
   }
 }
 
-String keyToDateString(double value) {
-  final month = value.floor().toInt();
-  var parts = (value - month.toDouble()) * 2592000;
-
-  final day = parts ~/ (24 * 3600);
-  parts -= day * 24 * 3600;
-
-  final hour = parts ~/ 3600;
-  parts -= hour * 3600;
-
-  final minute = parts ~/ 60;
-
-  return "$day/$month\n$hour:$minute";
+Future<DateTime> pickDate({
+  required BuildContext context,
+  required DateTime initialDate,
+  required DateTime defaultDate,
+}) async {
+  return await showDatePicker(
+        context: context,
+        initialDate: initialDate,
+        firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
+        lastDate: DateTime.now().add(const Duration(days: 9000)),
+      ) ??
+      defaultDate;
 }
 
 String intToMonth(int month) {

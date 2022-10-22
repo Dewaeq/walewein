@@ -71,3 +71,10 @@ enum GraphType {
   water,
   custom,
 }
+
+enum DisplayDateSpread {
+  day,
+  week,
+  month,
+  year,
+}

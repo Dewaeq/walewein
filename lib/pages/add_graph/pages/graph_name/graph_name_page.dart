@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
 class GraphNamePage extends StatelessWidget {
-  const GraphNamePage({super.key, required this.onSubmit, required this.value});
+  const GraphNamePage({
+    super.key,
+    required this.value,
+    required this.onChange,
+  });
 
-  final Function(String) onSubmit;
+  final Function(String) onChange;
   final String value;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text("Graph name"),
-          TextFormField(
-            initialValue: value,
-            onFieldSubmitted: onSubmit,
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        const Text("Graph name"),
+        TextFormField(
+          initialValue: value,
+          onChanged: onChange,
+        ),
+      ],
     );
   }
 }

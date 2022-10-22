@@ -2,7 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:walewein/models/graph/graph_model.dart';
 
 class IsarService {
-  late Future<Isar> db;
+  late final Future<Isar> db;
 
   IsarService() {
     db = openDB();
