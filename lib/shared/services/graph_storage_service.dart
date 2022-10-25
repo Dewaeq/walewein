@@ -1,6 +1,6 @@
-import '../../models/graph/graph_model.dart';
-import '../../models/graph/graph_node.dart';
-import '../../models/graph/relation_model.dart';
+import '../../models/data/graph_model.dart';
+import '../../models/data/graph_node.dart';
+import '../../models/data/relation_model.dart';
 import 'isar_service.dart';
 
 class GraphStorageService {

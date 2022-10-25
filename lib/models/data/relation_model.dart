@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:walewein/models/graph/graph_node.dart';
+import 'package:walewein/models/data/graph_node.dart';
 
 part 'relation_model.g.dart';
 

@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
 
 class IsarService {
   late final Future<Isar> db;

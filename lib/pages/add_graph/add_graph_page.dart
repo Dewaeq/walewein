@@ -14,57 +14,61 @@ class AddGraphPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder(
       viewModel: AddGraphViewModel(context),
-      view: (model) => WillPopScope(
-        onWillPop: model.willPop,
-        child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                if (model.page >= 1) {
-                  model.goToPreviousPage();
-                } else {
-                  Navigator.of(context).pop();
-                }
-              },
-              icon: const Icon(Icons.arrow_back),
+      view: _view,
+    );
+  }
+
+  WillPopScope _view(AddGraphViewModel model) {
+    return WillPopScope(
+      onWillPop: model.willPop,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              if (model.page >= 1) {
+                model.goToPreviousPage();
+              } else {
+                Navigator.of(model.context).pop();
+              }
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                controller: model.pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  SelectGraphTypePage(
+                    onSelect: model.onGraphType,
+                    selectedType: model.selectedType,
+                  ),
+                  GraphNamePage(
+                    onChange: model.onGraphName,
+                    value: model.graphName ?? "",
+                  ),
+                  FinishPage(
+                    graphName: model.graphName,
+                    graphType: model.selectedType,
+                  ),
+                ],
+              ),
             ),
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: PageView(
-                  controller: model.pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    SelectGraphTypePage(
-                      onSelect: model.onGraphType,
-                      selectedType: model.selectedType,
-                    ),
-                    GraphNamePage(
-                      onChange: model.onGraphName,
-                      value: model.graphName ?? "",
-                    ),
-                    FinishPage(
-                      graphName: model.graphName,
-                      graphType: model.selectedType,
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 25,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 25,
-                ),
-                child: _continueButton(model),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: BottomIndicator(
-                    numPages: AddGraphViewModel.numPages, page: model.page),
-              ),
-            ],
-          ),
+              child: _continueButton(model),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: BottomIndicator(
+                  numPages: AddGraphViewModel.numPages, page: model.page),
+            ),
+          ],
         ),
       ),
     );

@@ -7,3 +7,5 @@ const kBackgroundColor = Color(0xfff9f8fd);
 const kDefaultPadding = 20.0;
 
 const maxDisplayDateAgo = Duration(days: 93);
+
+final minDate = DateTime(0);

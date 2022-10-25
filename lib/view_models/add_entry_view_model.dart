@@ -1,16 +1,12 @@
-import 'dart:io';
-
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:walewein/models/image_result.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/services/image_processor.dart';
-
-import '../models/graph/graph_model.dart';
-import '../models/graph/graph_node.dart';
-import '../models/graph/relation_model.dart';
+import '../models/data/graph_model.dart';
+import '../models/data/graph_node.dart';
+import '../models/data/relation_model.dart';
 import '../shared/services/graph_storage_service.dart';
 import '../shared/utils.dart';
 
@@ -52,7 +48,7 @@ class AddEntryViewModel extends ViewModel {
     }
   }
 
-  bool readImage() => imageResult != null;
+  bool didReadImage() => imageResult != null;
 
   void selectText(String text) async {
     text = text.parse();

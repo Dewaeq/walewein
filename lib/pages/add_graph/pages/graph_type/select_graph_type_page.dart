@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
 
 import 'graph_type_item.dart';
 

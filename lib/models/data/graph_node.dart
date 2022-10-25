@@ -22,6 +22,6 @@ class GraphNode {
 
   @override
   String toString() {
-    return "GraphNode { x: $x, y: $y, dateAddex: $dateAdded}";
+    return "GraphNode { x: $x, y: $y, dateAdded: $dateAdded}";
   }
 }

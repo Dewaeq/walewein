@@ -1,3 +1,4 @@
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:walewein/pages/graph/components/relation_card.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
@@ -5,7 +6,7 @@ import 'package:walewein/view_models/graph_view_model.dart';
 import '../../shared/components/chart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/add_entry/add_entry_page.dart';
 import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
 import 'package:walewein/pages/home/home_page.dart';
@@ -15,15 +16,16 @@ class GraphPage extends StatelessWidget {
   const GraphPage({super.key, required this.id});
 
   final Id id;
-
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder(
       viewModel: GraphViewModel(id, context),
-      view: (model) {
-        return model.loaded ? _body(model, context) : _loadingScreen();
-      },
+      view: _view,
     );
+  }
+
+  Widget _view(GraphViewModel model) {
+    return model.loaded ? _body(model) : _loadingScreen();
   }
 
   Widget _loadingScreen() {
@@ -40,13 +42,13 @@ class GraphPage extends StatelessWidget {
     );
   }
 
-  Widget _body(GraphViewModel model, BuildContext context) {
+  Widget _body(GraphViewModel model) {
     return Scaffold(
       appBar: AppBar(
         title: Text(model.title),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(model.context).push(MaterialPageRoute(
               builder: (context) => const HomePage(),
             ));
           },
@@ -62,33 +64,56 @@ class GraphPage extends StatelessWidget {
                 vertical: 15,
                 horizontal: 10,
               ),
-              height: MediaQuery.of(context).size.height * 0.7,
+              height: model.size.height * 0.6,
               child: PageView(
+                controller: model.controller,
                 children: [
                   _buildPage(
                     "Current Usage",
-                    ChartView(graph: model.graph, showPrediction: false),
+                    Expanded(
+                      child: ChartViewV2(
+                        graph: model.graph,
+                        showLabels: true,
+                        showPredictions: false,
+                      ),
+                    ),
                   ),
                   _buildPage(
                     "Predicted Usage",
-                    ChartView(graph: model.graph, showPrediction: true),
+                    Expanded(
+                      child: ChartViewV2(
+                        graph: model.graph,
+                        showLabels: true,
+                        showPredictions: true,
+                      ),
+                    ),
                   ),
                 ],
               ),
+            ),
+            SmoothPageIndicator(
+              controller: model.controller,
+              count: 2,
+              effect: const WormEffect(
+                spacing: 12,
+                dotHeight: 11,
+                dotWidth: 40,
+                activeDotColor: kPrimaryColor,
+              ),
+              onDotClicked: model.goToPage,
             ),
             _buildRelationsList(model),
             const SizedBox(height: 100),
           ],
         ),
       ),
-      floatingActionButton: _buildFloatingActionButton(model.graph, context),
+      floatingActionButton: _buildFloatingActionButton(model),
     );
   }
 
-  FloatingActionButton _buildFloatingActionButton(
-      Graph graph, BuildContext context) {
+  FloatingActionButton _buildFloatingActionButton(GraphViewModel model) {
     return FloatingActionButton(
-      onPressed: () => _addEntry(graph, context),
+      onPressed: () => _addEntry(model.graph, model.context),
       backgroundColor: kPrimaryColor,
       tooltip: 'Add Entry',
       child: const Icon(Icons.add),
@@ -107,14 +132,13 @@ class GraphPage extends StatelessWidget {
 
   Widget _buildRelationsList(GraphViewModel model) {
     return Column(
-      children: model.graph.relations
-          .map(
-            (e) => RelationCard(
-              relation: e,
-              onNodePressed: model.onNodePressed,
-            ),
+      children: [
+        for (final relation in model.graph.relations)
+          RelationCard(
+            relation: relation,
+            onNodePressed: model.onNodePressed,
           )
-          .toList(),
+      ],
     );
   }
 

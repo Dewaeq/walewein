@@ -12,27 +12,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return ViewModelBuilder(
       viewModel: HomeViewModel(context),
-      view: (model) => Scaffold(
-        appBar: _buildAppBar(),
-        backgroundColor: kBackgroundColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              HeaderWithSearchBox(size: size),
-              TitleWithEditButton(
-                title: "Your graphs",
-                onPress: model.editGraphs,
-              ),
-              _buildGraphsList(model),
-              defaultHeightSizedBox,
-            ],
-          ),
+      view: _view,
+    );
+  }
+
+  Scaffold _view(HomeViewModel model) {
+    return Scaffold(
+      appBar: _buildAppBar(),
+      backgroundColor: kBackgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            HeaderWithSearchBox(size: model.size),
+            TitleWithEditButton(
+              title: "Your graphs",
+              onPress: model.editGraphs,
+            ),
+            _buildGraphsList(model),
+            defaultHeightSizedBox,
+          ],
         ),
-        floatingActionButton: _buildFloatingActionButton(model),
       ),
+      floatingActionButton: _buildFloatingActionButton(model),
     );
   }
 

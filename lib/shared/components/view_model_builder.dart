@@ -67,4 +67,6 @@ abstract class ViewModel<T> extends ChangeNotifier {
     loaded = true;
     notifyListeners();
   }
+
+  Size get size => MediaQuery.of(context).size;
 }

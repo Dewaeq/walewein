@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
 

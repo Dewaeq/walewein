@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:walewein/shared/constants.dart';
-import '../../models/graph/graph_model.dart';
-import '../../models/graph/graph_node.dart';
-import '../../models/graph/relation_model.dart';
+import '../../models/data/graph_model.dart';
+import '../../models/data/graph_node.dart';
+import '../../models/data/relation_model.dart';
 
 class GraphService {
   static Relation? lastChangedRelation(Graph graph) {
@@ -138,6 +138,7 @@ class GraphService {
     return lastNode;
   }
 
+  /// Predicted increase per second
   static double? trendPrediction(Relation relation) {
     if (relation.nodes.isEmpty) {
       return null;
@@ -209,6 +210,73 @@ class GraphService {
     return relation.nodes.first;
   }
 
+  static GraphNode? firstNodeV2(List<Relation> relations,
+      [DateTime? afterDate]) {
+    GraphNode? result;
+
+    for (final relation in relations) {
+      final query =
+          relation.nodes.where((node) => node.x.isAfter(afterDate ?? minDate));
+      if (query.isEmpty) continue;
+
+      final node = query.first;
+      if (result == null || node.x.isBefore(result.x)) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static GraphNode? lastNodeV2(List<Relation> relations) {
+    GraphNode? result;
+
+    for (final relation in relations) {
+      if (relation.nodes.isEmpty) continue;
+
+      final node = relation.nodes.last;
+      if (result == null || node.x.isAfter(result.x)) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static GraphNode? maxNode(List<Relation> relations) {
+    GraphNode? result;
+
+    for (final relation in relations) {
+      if (relation.nodes.isEmpty) continue;
+
+      final node = relation.nodes.reduce((a, b) => a.y >= b.y ? a : b);
+      if (result == null || node.y > result.y) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static GraphNode? minNode(List<Relation> relations) {
+    GraphNode? result;
+
+    for (final relation in relations) {
+      if (relation.nodes.isEmpty) continue;
+
+      final node = relation.nodes.reduce((a, b) => a.y <= b.y ? a : b);
+      if (result == null || node.y < result.y) {
+        result = node;
+      }
+    }
+
+    return result;
+  }
+
+  static List<GraphNode> nodesAfter(List<GraphNode> nodes, DateTime afterDate) {
+    return nodes.where((node) => node.x.isAfter(afterDate)).toList();
+  }
+
   /// Get the first note that should be displayed
   static GraphNode? firstDisplayNode(Graph graph) {
     final threshold = DateTime.now().subtract(maxDisplayDateAgo);
@@ -237,11 +305,15 @@ class GraphService {
     final lastDate = maxDate ?? maxX(graph).x;
     final diff = lastDate.difference(firstDate).inDays;
 
-    if (diff > 60) {
+    return daysToDateSpread(diff);
+  }
+
+  static DisplayDateSpread daysToDateSpread(int days) {
+    if (days > 95) {
       return DisplayDateSpread.year;
-    } else if (diff > 7) {
+    } else if (days > 7) {
       return DisplayDateSpread.month;
-    } else if (diff > 1) {
+    } else if (days > 1) {
       return DisplayDateSpread.week;
     }
 

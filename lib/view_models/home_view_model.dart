@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/add_graph/add_graph_page.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/services/isar_service.dart';
@@ -27,7 +27,7 @@ class HomeViewModel extends ViewModel<List<Graph>> {
   }
 
   @override
-  void setState([List<Graph>? model]) {
+  void setState([model]) {
     loaded = false;
     if (model == null) return;
 

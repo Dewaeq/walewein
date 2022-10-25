@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:walewein/models/graph/graph_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/graph/graph_page.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
@@ -58,10 +58,10 @@ class GraphCard extends StatelessWidget {
               ),
               child: AspectRatio(
                 aspectRatio: 1.3,
-                child: ChartView(
+                child: ChartViewV2(
                   graph: graph,
                   showLabels: false,
-                  showDateMargin: false,
+                  showPredictions: false,
                 ),
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walewein/shared/components/constants.dart';
-import '../../../../models/graph/graph_model.dart';
+import '../../../../models/data/graph_model.dart';
 import '../../../../shared/services/graph_service.dart';
 
 class GraphTypeItem extends StatelessWidget {

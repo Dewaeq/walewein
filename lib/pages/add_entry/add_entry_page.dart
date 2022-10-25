@@ -6,7 +6,7 @@ import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/help_button.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/view_models/add_entry_view_model.dart';
-import '../../models/graph/graph_model.dart';
+import '../../models/data/graph_model.dart';
 import 'components/image_container.dart';
 
 class AddEntryPage extends StatelessWidget {
@@ -18,83 +18,91 @@ class AddEntryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder(
       viewModel: AddEntryViewModel(graph, context),
-      view: (model) => Scaffold(
-        backgroundColor: const Color(0xff111111),
-        floatingActionButton: FloatingActionButton(
-          onPressed: model.save,
-          child: const Icon(Icons.done_rounded),
-        ),
-        body: GestureDetector(
-          onTap: model.bottomBarController.closeSheet,
-          child: CustomScrollView(
-            shrinkWrap: true,
-            slivers: [
-              SliverAppBar.large(
-                title: const Text(
-                  "Add entry",
-                  style: TextStyle(color: Color(0xff43a345)),
-                ),
-                leading: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  color: Colors.white,
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                actions: const [
-                  HelpButton(
-                    content: "content",
-                    iconColor: Colors.white,
-                  ),
-                ],
-                backgroundColor: const Color(0xff111111),
+      view: _view,
+    );
+  }
+
+  Scaffold _view(AddEntryViewModel model) {
+    return Scaffold(
+      backgroundColor: const Color(0xff111111),
+      floatingActionButton: FloatingActionButton(
+        onPressed: model.save,
+        child: const Icon(Icons.done_rounded),
+      ),
+      body: GestureDetector(
+        onTap: model.bottomBarController.closeSheet,
+        child: CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            SliverAppBar.large(
+              title: const Text(
+                "Add entry",
+                style: TextStyle(color: Color(0xff43a345)),
               ),
-              SliverToBoxAdapter(
-                child: _galleryBody(model),
-              ),
-            ],
-          ),
-        ),
-        bottomSheet: Container(
-          color: const Color(0xff111111),
-          child: BottomBarWithSheet(
-            controller: model.bottomBarController,
-            curve: Curves.fastOutSlowIn,
-            mainActionButtonTheme: const MainActionButtonTheme(
-              color: Color(0xff43a345),
-            ),
-            bottomBarTheme: BottomBarTheme(
-              mainButtonPosition: MainButtonPosition.middle,
-              heightOpened: MediaQuery.of(context).size.height * 0.35,
-              decoration: const BoxDecoration(
-                color: Color(0xff1e1e1e),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-              ),
-              itemIconColor: Colors.white,
-              selectedItemIconColor: Colors.white,
-              itemTextStyle: const TextStyle(
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(model.context).pop();
+                },
                 color: Colors.white,
-                fontSize: 10.0,
+                icon: const Icon(Icons.arrow_back),
               ),
-              selectedItemTextStyle: const TextStyle(
-                color: Colors.blue,
-                fontSize: 10.0,
-              ),
+              actions: const [
+                HelpButton(
+                  content: "content",
+                  iconColor: Colors.white,
+                ),
+              ],
+              backgroundColor: const Color(0xff111111),
             ),
-            onSelectItem: model.getImage,
-            sheetChild: _inputs(model),
-            items: const [
-              BottomBarWithSheetItem(icon: Icons.camera_alt),
-              BottomBarWithSheetItem(icon: Icons.image_search),
-            ],
+            SliverToBoxAdapter(
+              child: _galleryBody(model),
+            ),
+          ],
+        ),
+      ),
+      bottomSheet: _buildBottomSheet(model),
+    );
+  }
+
+  Container _buildBottomSheet(AddEntryViewModel model) {
+    return Container(
+      color: const Color(0xff111111),
+      child: BottomBarWithSheet(
+        controller: model.bottomBarController,
+        curve: Curves.fastOutSlowIn,
+        mainActionButtonTheme: const MainActionButtonTheme(
+          color: Color(0xff43a345),
+        ),
+        bottomBarTheme: BottomBarTheme(
+          mainButtonPosition: MainButtonPosition.middle,
+          heightOpened: model.size.height * 0.35,
+          decoration: const BoxDecoration(
+            color: Color(0xff1e1e1e),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          ),
+          itemIconColor: Colors.white,
+          selectedItemIconColor: Colors.white,
+          itemTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: 10.0,
+          ),
+          selectedItemTextStyle: const TextStyle(
+            color: Colors.blue,
+            fontSize: 10.0,
           ),
         ),
+        onSelectItem: model.getImage,
+        sheetChild: _inputs(model),
+        items: const [
+          BottomBarWithSheetItem(icon: Icons.camera_alt),
+          BottomBarWithSheetItem(icon: Icons.image_search),
+        ],
       ),
     );
   }
 
   Widget _galleryBody(AddEntryViewModel model) {
-    if (!model.readImage()) {
+    if (!model.didReadImage()) {
       return Container();
     }
 

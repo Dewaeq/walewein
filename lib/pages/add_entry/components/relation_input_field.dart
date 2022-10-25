@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:walewein/models/graph/relation_model.dart';
+import 'package:walewein/models/data/relation_model.dart';
 
 class RelationInputField extends StatelessWidget {
   const RelationInputField({

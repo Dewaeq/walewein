@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:walewein/models/graph/graph_node.dart';
+import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
 import 'package:walewein/shared/components/help_button.dart';
 import 'package:walewein/shared/constants.dart';
-import '../../../models/graph/relation_model.dart';
+import '../../../models/data/relation_model.dart';
 import '../../../shared/components/constants.dart';
 
 class RelationCard extends StatelessWidget {

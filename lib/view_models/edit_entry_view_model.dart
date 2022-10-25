@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:walewein/models/graph/graph_node.dart';
+import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/utils.dart';
 
-import '../models/graph/graph_model.dart';
-import '../models/graph/relation_model.dart';
+import '../models/data/graph_model.dart';
+import '../models/data/relation_model.dart';
 import '../shared/services/graph_storage_service.dart';
 
 class EditEntryViewModel extends ViewModel<GraphNode> {
@@ -29,7 +29,7 @@ class EditEntryViewModel extends ViewModel<GraphNode> {
   }
 
   @override
-  void setState([GraphNode? model]) {
+  void setState([model]) {
     loaded = false;
 
     title = relation.yLabel;

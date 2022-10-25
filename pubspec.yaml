@@ -23,7 +23,8 @@ dependencies:
   fl_chart: ^0.55.2
   isar: *isar_version
   isar_flutter_libs: *isar_version # contains Isar Core
-  provider:
+  provider: ^6.0.4
+  smooth_page_indicator: ^1.0.0+2
   
 
 dev_dependencies:
