@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/shared/constants.dart';
 import '../../models/data/graph_model.dart';
@@ -43,6 +44,9 @@ class GraphService {
       case GraphType.water:
         graph = Graph.water();
         break;
+      case GraphType.firePlace:
+        graph = Graph.firePlace();
+        break;
       default:
         throw Exception("Graph type not found!");
     }
@@ -63,32 +67,38 @@ class GraphService {
         return Icons.electrical_services;
       case GraphType.water:
         return Icons.water;
+      case GraphType.firePlace:
+        return CupertinoIcons.flame_fill;
       default:
         return Icons.list_alt;
     }
   }
 
-  static Widget graphTypeToIcon(GraphType graphType, [double radius = 20]) {
-    color() {
-      switch (graphType) {
-        case GraphType.gas:
-          return Colors.green;
-        case GraphType.electricityDouble:
-        case GraphType.electricity:
-          return const Color(0xffff8c32);
-        case GraphType.water:
-          return const Color(0xff146beb);
-        default:
-          return const Color(0xffaaaaaa);
-      }
+  static Color graphTypeToColor(GraphType graphType) {
+    switch (graphType) {
+      case GraphType.gas:
+        return Colors.green;
+      case GraphType.electricityDouble:
+      case GraphType.electricity:
+        return const Color(0xffff8c32);
+      case GraphType.water:
+        return const Color(0xff146beb);
+      case GraphType.firePlace:
+        return const Color(0xffcf1b04);
+      default:
+        return const Color(0xffaaaaaa);
     }
+  }
+
+  static Widget graphTypeToIcon(GraphType graphType, [double radius = 20]) {
+    final color = graphTypeToColor(graphType);
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: color().withOpacity(0.2),
+      backgroundColor: color.withOpacity(0.2),
       child: Icon(
         graphTypeToIconData(graphType),
-        color: color(),
+        color: color,
         size: radius * 1.2,
       ),
     );
@@ -104,38 +114,11 @@ class GraphService {
         return "Elektriciteit";
       case GraphType.water:
         return "Water";
+      case GraphType.firePlace:
+        return "Haardvuur";
       default:
         return "Custom";
     }
-  }
-
-  static GraphNode? firstNode(Relation relation) {
-    GraphNode? firstNode;
-
-    if (relation.nodes.isNotEmpty) {
-      for (final node in relation.nodes) {
-        if (firstNode == null || node.x.isBefore(firstNode.x)) {
-          firstNode = node;
-        }
-      }
-    }
-
-    return firstNode;
-  }
-
-  static GraphNode? lastNode(Relation relation) {
-    GraphNode? lastNode;
-    // for (final relation in graph.relations) {
-    if (relation.nodes.isNotEmpty) {
-      for (final node in relation.nodes) {
-        if (lastNode == null || node.x.isAfter(lastNode.x)) {
-          lastNode = node;
-        }
-      }
-    }
-    // }
-
-    return lastNode;
   }
 
   /// Predicted increase per second
@@ -144,8 +127,8 @@ class GraphService {
       return null;
     }
 
-    final a = firstNode(relation)!;
-    final b = lastNode(relation)!;
+    final a = firstNodeV2([relation])!;
+    final b = lastNodeV2([relation])!;
 
     if (a == b) {
       return 0;
@@ -162,52 +145,6 @@ class GraphService {
     }
 
     return relation.nodes.reduce((a, b) => a.y <= b.y ? a : b);
-  }
-
-  static GraphNode? maxY(Graph graph) {
-    GraphNode? result;
-
-    for (final relation in graph.relations) {
-      if (relation.nodes.isEmpty) continue;
-
-      final node = relation.nodes.reduce((a, b) => a.y >= b.y ? a : b);
-      if (result == null || node.y > result.y) {
-        result = node;
-      }
-    }
-
-    return result;
-  }
-
-  static GraphNode? minY(Graph graph) {
-    GraphNode? result;
-
-    for (final relation in graph.relations) {
-      if (relation.nodes.isEmpty) continue;
-
-      final node = relationMinY(relation)!;
-      if (result == null || node.y < result.y) {
-        result = node;
-      }
-    }
-
-    return result;
-  }
-
-  static GraphNode maxX(Graph graph) {
-    final relation = graph.relations
-        .where((x) => x.nodes.isNotEmpty)
-        .reduce((a, b) => a.nodes.last.x.isAfter(b.nodes.last.x) ? a : b);
-
-    return relation.nodes.last;
-  }
-
-  static GraphNode minX(Graph graph) {
-    final relation = graph.relations
-        .where((x) => x.nodes.isNotEmpty)
-        .reduce((a, b) => a.nodes.first.x.isBefore(b.nodes.first.x) ? a : b);
-
-    return relation.nodes.first;
   }
 
   static GraphNode? firstNodeV2(List<Relation> relations,
@@ -277,37 +214,6 @@ class GraphService {
     return nodes.where((node) => node.x.isAfter(afterDate)).toList();
   }
 
-  /// Get the first note that should be displayed
-  static GraphNode? firstDisplayNode(Graph graph) {
-    final threshold = DateTime.now().subtract(maxDisplayDateAgo);
-    GraphNode? result;
-
-    for (final relation in graph.relations) {
-      final query = relation.nodes.where((node) => node.x.isAfter(threshold));
-      if (query.isEmpty) continue;
-
-      final node = query.first;
-      if (result == null || result.x.isAfter(node.x)) {
-        result = node;
-      }
-    }
-
-    return result;
-  }
-
-  static DisplayDateSpread getDateSpread(Graph graph, [DateTime? maxDate]) {
-    final firstDate = firstDisplayNode(graph)?.x;
-
-    if (firstDate == null) {
-      return DisplayDateSpread.year;
-    }
-
-    final lastDate = maxDate ?? maxX(graph).x;
-    final diff = lastDate.difference(firstDate).inDays;
-
-    return daysToDateSpread(diff);
-  }
-
   static DisplayDateSpread daysToDateSpread(int days) {
     if (days > 95) {
       return DisplayDateSpread.year;
@@ -318,18 +224,5 @@ class GraphService {
     }
 
     return DisplayDateSpread.day;
-  }
-
-  static double bottomTitleInterval(DisplayDateSpread dateSpread) {
-    switch (dateSpread) {
-      case DisplayDateSpread.day:
-        return 1000 * 3600 / 2;
-      case DisplayDateSpread.week:
-        return 1000 * 3600 * 24;
-      case DisplayDateSpread.month:
-        return 1000 * 3600 * 24 * 5;
-      case DisplayDateSpread.year:
-        return 1000 * 3600 * 24 * 63;
-    }
   }
 }

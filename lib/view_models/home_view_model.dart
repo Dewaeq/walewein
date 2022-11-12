@@ -27,7 +27,7 @@ class HomeViewModel extends ViewModel<List<Graph>> {
   }
 
   @override
-  void setState([model]) {
+  void setState([model]) async {
     loaded = false;
     if (model == null) return;
 

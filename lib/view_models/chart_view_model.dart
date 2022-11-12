@@ -194,10 +194,10 @@ class ChartViewModel extends ViewModel<Graph> {
       final trend = GraphService.trendPrediction(relation);
       if (trend == null) continue;
 
-      final firstNode = GraphService.firstNode(relation)!;
+      final firstNode = GraphService.firstNodeV2([relation])!;
+      final offset = GraphService.relationMinY(relation)!.y;
       final prediction =
-          trend * predictionDate.difference(firstNode.x).inSeconds +
-              GraphService.relationMinY(relation)!.y;
+          trend * predictionDate.difference(firstNode.x).inSeconds + offset;
 
       maxTrendPrediction = max(maxTrendPrediction, prediction);
       trends[relation] = TrendPrediction(predictionDate, prediction);

@@ -62,6 +62,15 @@ class Graph {
       Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m^3"),
     ];
   }
+
+  Graph.firePlace({List<GraphNode> nodes = const []}) {
+    name = "Fireplace";
+    graphType = GraphType.firePlace;
+    dateCreated = DateTime.now();
+    relations = [
+      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "kg"),
+    ];
+  }
 }
 
 enum GraphType {
@@ -69,6 +78,7 @@ enum GraphType {
   electricity,
   electricityDouble,
   water,
+  firePlace,
   custom,
 }
 
