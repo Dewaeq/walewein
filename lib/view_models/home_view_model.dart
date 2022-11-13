@@ -9,6 +9,8 @@ class HomeViewModel extends ViewModel<List<Graph>> {
   HomeViewModel(super.context);
 
   late List<Graph> graphs;
+  late Map<Graph, bool> selectedGraphs;
+  bool isSelecting = false;
 
   late final StreamSubscription<List<Graph>> _subscription;
   final isarService = IsarService();
@@ -33,6 +35,11 @@ class HomeViewModel extends ViewModel<List<Graph>> {
 
     graphs = model;
 
+    selectedGraphs = {};
+    for (final graph in graphs) {
+      selectedGraphs[graph] = false;
+    }
+
     super.setState(model);
   }
 
@@ -42,5 +49,34 @@ class HomeViewModel extends ViewModel<List<Graph>> {
     );
   }
 
-  void editGraphs() {}
+  void editGraphs() {
+    isSelecting = !isSelecting;
+    selectedGraphs = selectedGraphs.map((key, value) => MapEntry(key, false));
+
+    notifyListeners();
+  }
+
+  void select(Graph graph) {
+    isSelecting = true;
+    selectedGraphs[graph] = !selectedGraphs[graph]!;
+
+    if (selectedGraphs.entries.every((x) => !x.value)) {
+      isSelecting = false;
+      selectedGraphs = selectedGraphs.map((key, value) => MapEntry(key, false));
+    }
+
+    notifyListeners();
+  }
+
+  Future<void> deleteSelectedGraphs() async {
+    debugPrint("hi");
+    for (final entry in selectedGraphs.entries) {
+      if (!entry.value) continue;
+
+      await isarService.removeGraph(entry.key.id!);
+    }
+
+    isSelecting = false;
+    notifyListeners();
+  }
 }

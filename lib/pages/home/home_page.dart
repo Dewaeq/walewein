@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
             priceContainer(model),
             TitleWithEditButton(
               title: "Your graphs",
+              isEditing: model.isSelecting,
               onPress: model.editGraphs,
             ),
             _buildGraphsList(model),
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: model.size.height * 0.2 - 27,
+            height: model.size.height * 0.2 - 40,
             padding: const EdgeInsets.only(
               left: kDefaultPadding,
               right: kDefaultPadding,
@@ -109,28 +110,25 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Container(
-                color: Colors.transparent,
-                child: Column(
-                  children: [
-                    const Text(
-                      "Costs this month",
-                      style: TextStyle(
-                        color: kTextColor,
-                        fontSize: 16,
-                      ),
+              child: Column(
+                children: [
+                  const Text(
+                    "Costs this month",
+                    style: TextStyle(
+                      color: kTextColor,
+                      fontSize: 16,
                     ),
-                    defaultHalfHeightSizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _priceCard(model.graphs[0]),
-                        _priceCard(model.graphs[1]),
-                        _priceCard(model.graphs[2]),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                  defaultHalfHeightSizedBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _priceCard(model.graphs[0]),
+                      _priceCard(model.graphs[1]),
+                      _priceCard(model.graphs[2]),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -166,10 +164,24 @@ class HomePage extends StatelessWidget {
 
   FloatingActionButton _buildFloatingActionButton(HomeViewModel model) {
     return FloatingActionButton(
-      onPressed: model.addGraph,
-      backgroundColor: kPrimaryColor,
-      tooltip: 'Add Graph',
-      child: const Icon(Icons.add),
+      onPressed:
+          model.isSelecting ? model.deleteSelectedGraphs : model.addGraph,
+      backgroundColor: model.isSelecting ? Colors.red : kPrimaryColor,
+      tooltip: model.isSelecting ? 'Delete Selected' : 'Add Graph',
+      child: Stack(
+        children: [
+          AnimatedScale(
+            duration: const Duration(milliseconds: 300),
+            scale: model.isSelecting ? 0 : 1,
+            child: const Icon(Icons.add),
+          ),
+          AnimatedScale(
+            duration: const Duration(milliseconds: 300),
+            scale: model.isSelecting ? 1 : 0,
+            child: const Icon(Icons.delete),
+          ),
+        ],
+      ),
     );
   }
 
@@ -190,10 +202,6 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildGraphsList(HomeViewModel model) {
-    if (!model.loaded) {
-      return const Text("Add your first graph");
-    }
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -201,7 +209,12 @@ class HomePage extends StatelessWidget {
           for (final graph in model.graphs)
             Container(
               padding: const EdgeInsets.all(8.0),
-              child: GraphCard(graph: graph),
+              child: GraphCard(
+                graph: graph,
+                isSelecting: model.isSelecting,
+                isSelected: model.selectedGraphs[graph]!,
+                onSelect: () => model.select(graph),
+              ),
             ),
         ],
       ),

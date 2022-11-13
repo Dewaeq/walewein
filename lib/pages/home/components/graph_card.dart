@@ -2,20 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/graph/graph_page.dart';
+import 'package:walewein/shared/components/cross_fade.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
 import 'package:walewein/shared/components/chart_view.dart';
 import '../../../shared/components/constants.dart';
 
 class GraphCard extends StatelessWidget {
-  const GraphCard({super.key, required this.graph});
+  const GraphCard({
+    super.key,
+    required this.graph,
+    required this.isSelecting,
+    required this.isSelected,
+    required this.onSelect,
+  });
 
   final Graph graph;
+  final bool isSelecting;
+  final bool isSelected;
+  final Function() onSelect;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () => _openGraph(context),
+      onPressed: () => isSelecting ? onSelect() : _openGraph(context),
+      onLongPress: onSelect,
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: defaultButtonBorderRadius,
@@ -23,7 +34,7 @@ class GraphCard extends StatelessWidget {
           color: Color(0x33000000),
         ),
       ),
-      color: Colors.white,
+      color: isSelected ? const Color(0xffacc2cd) : Colors.white,
       elevation: 0,
       child: Row(
         children: [
@@ -47,21 +58,23 @@ class GraphCard extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: Container(
-              margin: const EdgeInsets.only(right: kDefaultPadding / 2),
-              padding: const EdgeInsets.all(5),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(18),
+            child: IgnorePointer(
+              child: Container(
+                margin: const EdgeInsets.only(right: kDefaultPadding / 2),
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(18),
+                  ),
+                  color: Color(0xff232d37),
                 ),
-                color: Color(0xff232d37),
-              ),
-              child: AspectRatio(
-                aspectRatio: 1.3,
-                child: ChartViewV2(
-                  graph: graph,
-                  showLabels: false,
-                  showPredictions: false,
+                child: AspectRatio(
+                  aspectRatio: 1.3,
+                  child: ChartViewV2(
+                    graph: graph,
+                    showLabels: false,
+                    showPredictions: false,
+                  ),
                 ),
               ),
             ),
@@ -74,8 +87,13 @@ class GraphCard extends StatelessWidget {
   Row _cardHeader() {
     return Row(
       children: [
-        SizedBox(
-          child: GraphService.graphTypeToIcon(graph.graphType, 17),
+        AnimatedCrossFade(
+          firstChild: GraphService.graphTypeToIcon(graph.graphType, 17),
+          secondChild: SelectableCheckMark(selected: isSelected, iconSize: 34),
+          crossFadeState: isSelecting
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
+          duration: const Duration(milliseconds: 300),
         ),
         defaultHalfWidthSizedBox,
         Text(

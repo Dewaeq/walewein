@@ -46,14 +46,6 @@ class GraphPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(model.title),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(model.context).push(MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ));
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(

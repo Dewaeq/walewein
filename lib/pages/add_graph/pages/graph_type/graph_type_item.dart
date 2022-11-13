@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walewein/shared/components/constants.dart';
+import 'package:walewein/shared/components/cross_fade.dart';
 import '../../../../models/data/graph_model.dart';
 import '../../../../shared/services/graph_service.dart';
 
@@ -43,20 +44,7 @@ class GraphTypeItem extends StatelessWidget {
               defaultWidthSizedBox,
               Text(GraphService.graphTypeToTitle(graphType)),
               const Spacer(),
-              AnimatedCrossFade(
-                crossFadeState: isSelected
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 300),
-                firstChild: const Icon(
-                  Icons.check_circle,
-                  color: Color(0xff434ae7),
-                ),
-                secondChild: const Icon(
-                  Icons.circle_outlined,
-                  color: Color(0xff434ae7),
-                ),
-              ),
+              SelectableCheckMark(selected: isSelected),
             ],
           ),
         ),

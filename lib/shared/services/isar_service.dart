@@ -15,7 +15,7 @@ class IsarService {
 
   Future<void> removeGraph(Id id) async {
     final isar = await db;
-    await isar.graphs.delete(id);
+    await isar.writeTxn(() async => await isar.graphs.delete(id));
   }
 
   Future<void> removeAllGraphs() async {

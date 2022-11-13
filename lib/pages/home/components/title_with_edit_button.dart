@@ -7,10 +7,12 @@ class TitleWithEditButton extends StatelessWidget {
   const TitleWithEditButton({
     Key? key,
     required this.title,
+    required this.isEditing,
     required this.onPress,
   }) : super(key: key);
 
   final String title;
+  final bool isEditing;
   final Function onPress;
 
   @override
@@ -23,26 +25,38 @@ class TitleWithEditButton extends StatelessWidget {
           const Spacer(),
           MaterialButton(
             onPressed: () => onPress(),
-            color: kPrimaryColor,
+            color: isEditing ? Colors.red : kPrimaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Row(
-              children: const [
-                Text(
-                  "Edit",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
+            child: isEditing
+                ? Row(
+                    children: const [
+                      Text(
+                        "Done",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: const [
+                      Text(
+                        "Edit",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                      defaultHalfWidthSizedBox,
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                    ],
                   ),
-                ),
-                defaultHalfWidthSizedBox,
-                Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-              ],
-            ),
           ),
         ],
       ),
