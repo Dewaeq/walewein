@@ -1,29 +1,37 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:walewein/shared/components/constants.dart';
+import 'package:walewein/shared/components/temp.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/view_models/chart_view_model.dart';
 import '../../models/data/graph_model.dart';
 import '../constants.dart';
 
-class ChartViewV2 extends StatelessWidget {
-  ChartViewV2({
+enum ChartViewType {
+  usage,
+  predictions,
+  monthlyUsage,
+}
+
+class ChartView extends StatelessWidget {
+  ChartView({
     Key? key,
     required this.graph,
     required this.showLabels,
-    required this.showPredictions,
+    required this.chartType,
   }) : super(key: key ?? UniqueKey());
 
   final Graph graph;
   final bool showLabels;
-  final bool showPredictions;
+  final ChartViewType chartType;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: showLabels ? const EdgeInsets.all(kDefaultPadding) : null,
       child: ViewModelBuilder(
-        viewModel: ChartViewModel(context, graph, showLabels, showPredictions),
+        viewModel: ChartViewModel(context, graph, showLabels, chartType),
         view: _view,
       ),
     );
@@ -38,11 +46,18 @@ class ChartViewV2 extends StatelessWidget {
       );
     }
 
+    if (chartType == ChartViewType.monthlyUsage) {
+      return _buildBarChart(model);
+    }
+    if (chartType == ChartViewType.predictions) {
+      return const BarChartSample1();
+    }
+
     if (model.showLabels) {
       return _buildChartWithLabels(model);
     }
 
-    return _buildChart(model);
+    return _buildLineChart(model);
   }
 
   Widget _buildChartWithLabels(ChartViewModel model) {
@@ -63,7 +78,7 @@ class ChartViewV2 extends StatelessWidget {
               ),
               defaultHalfWidthSizedBox,
               Expanded(
-                child: _buildChart(model),
+                child: _buildLineChart(model),
               ),
             ],
           ),
@@ -82,7 +97,7 @@ class ChartViewV2 extends StatelessWidget {
     );
   }
 
-  Widget _buildChart(ChartViewModel model) {
+  Widget _buildLineChart(ChartViewModel model) {
     return LineChart(
       LineChartData(
         minX: model.chartRange.minX,
@@ -121,6 +136,82 @@ class ChartViewV2 extends StatelessWidget {
     );
   }
 
+  Widget _buildBarChart(ChartViewModel model) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xff81e5cd),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: BarChart(
+        BarChartData(
+          titlesData: FlTitlesData(
+            show: true,
+            rightTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            topTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: false),
+            ),
+            bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: true,
+                getTitlesWidget: getTitles,
+                reservedSize: 38,
+              ),
+            ),
+            leftTitles: AxisTitles(
+              sideTitles: SideTitles(
+                showTitles: false,
+              ),
+            ),
+          ),
+          borderData: FlBorderData(
+            show: false,
+          ),
+          barGroups: model.monthlyUsages
+              .map(
+                (e) => BarChartGroupData(x: e[0], barRods: [
+                  BarChartRodData(
+                    toY: e[1].toDouble(),
+                    color: Colors.white,
+                    width: 22,
+                    borderSide: const BorderSide(color: Colors.white, width: 0),
+                    backDrawRodData: BackgroundBarChartRodData(
+                      show: true,
+                      toY: 40,
+                      color: const Color(0xff72d8bf),
+                    ),
+                  ),
+                ]),
+              )
+              .toList(),
+          gridData: FlGridData(show: false),
+        ),
+      ),
+    );
+  }
+
+  Widget getTitles(double value, TitleMeta meta) {
+    final date = DateTime(0, value.toInt());
+    final content = DateFormat("MMM").format(date);
+
+    final text = Text(
+      content,
+      style: const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+    );
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16,
+      child: text,
+    );
+  }
+
   FlDotData dotData([Color color = kPrimaryColor]) {
     return FlDotData(
       show: showLabels,
@@ -135,7 +226,7 @@ class ChartViewV2 extends StatelessWidget {
   }
 
   List<LineChartBarData> _buildPredictions(ChartViewModel model) {
-    if (!model.showPredictions) return [];
+    if (model.chartType != ChartViewType.predictions) return [];
 
     return [
       for (final entry in model.trends.entries)

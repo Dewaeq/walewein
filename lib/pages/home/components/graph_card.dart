@@ -70,10 +70,10 @@ class GraphCard extends StatelessWidget {
                 ),
                 child: AspectRatio(
                   aspectRatio: 1.3,
-                  child: ChartViewV2(
+                  child: ChartView(
                     graph: graph,
                     showLabels: false,
-                    showPredictions: false,
+                    chartType: ChartViewType.usage,
                   ),
                 ),
               ),

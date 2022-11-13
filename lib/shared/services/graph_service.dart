@@ -224,4 +224,32 @@ class GraphService {
 
     return DisplayDateSpread.day;
   }
+
+  static double interpolate(List<GraphNode> nodes, int x) {
+    final data = nodes
+        .map((e) => DataPoint((e.x.millisecondsSinceEpoch) / 1000, e.y))
+        .toList();
+    double result = 0;
+
+    for (int i = 0; i < data.length; i++) {
+      double term = nodes[i].y;
+
+      for (int j = 0; j < data.length; j++) {
+        if (i == j) continue;
+
+        term *= (x - data[j].x) / (data[i].x - data[j].x);
+      }
+
+      result += term;
+    }
+
+    return result;
+  }
+}
+
+class DataPoint {
+  final double x;
+  final double y;
+
+  const DataPoint(this.x, this.y);
 }

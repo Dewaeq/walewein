@@ -9,7 +9,6 @@ import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/add_entry/add_entry_page.dart';
 import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
-import 'package:walewein/pages/home/home_page.dart';
 import 'package:walewein/shared/constants.dart';
 
 class GraphPage extends StatelessWidget {
@@ -61,31 +60,26 @@ class GraphPage extends StatelessWidget {
                 controller: model.controller,
                 children: [
                   _buildPage(
+                    model.graph,
                     "Current Usage",
-                    Expanded(
-                      child: ChartViewV2(
-                        graph: model.graph,
-                        showLabels: true,
-                        showPredictions: false,
-                      ),
-                    ),
+                    ChartViewType.usage,
                   ),
                   _buildPage(
+                    model.graph,
                     "Predicted Usage",
-                    Expanded(
-                      child: ChartViewV2(
-                        graph: model.graph,
-                        showLabels: true,
-                        showPredictions: true,
-                      ),
-                    ),
+                    ChartViewType.predictions,
+                  ),
+                  _buildPage(
+                    model.graph,
+                    "Monthly Usage",
+                    ChartViewType.monthlyUsage,
                   ),
                 ],
               ),
             ),
             SmoothPageIndicator(
               controller: model.controller,
-              count: 2,
+              count: 3,
               effect: const WormEffect(
                 spacing: 12,
                 dotHeight: 11,
@@ -112,12 +106,18 @@ class GraphPage extends StatelessWidget {
     );
   }
 
-  Widget _buildPage(String title, Widget chart) {
+  Widget _buildPage(Graph graph, String title, ChartViewType chartType) {
     return Column(
       children: [
         TextWithCustomUnderline(text: title),
         defaultHeightSizedBox,
-        chart,
+        Expanded(
+          child: ChartView(
+            graph: graph,
+            showLabels: true,
+            chartType: chartType,
+          ),
+        ),
       ],
     );
   }

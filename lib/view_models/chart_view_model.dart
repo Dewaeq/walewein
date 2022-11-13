@@ -8,6 +8,7 @@ import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
 import 'package:walewein/models/trend_prediction.dart';
+import 'package:walewein/shared/components/chart_view.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
@@ -17,12 +18,12 @@ class ChartViewModel extends ViewModel<Graph> {
     super.context,
     this.graph,
     this.showLabels,
-    this.showPredictions,
+    this.chartType,
   );
 
   Graph graph;
   final bool showLabels;
-  final bool showPredictions;
+  final ChartViewType chartType;
 
   final afterDate = DateTime.now().subtract(maxDisplayDateAgo);
   final predictionDate = DateTime.now().add(const Duration(days: 93));
@@ -36,6 +37,7 @@ class ChartViewModel extends ViewModel<Graph> {
   late ChartRange chartRange;
   late DisplayDateSpread dateSpread;
   Map<Relation, TrendPrediction> trends = {};
+  late List<List<int>> monthlyUsages;
 
   @override
   Future<void> init() {
@@ -56,6 +58,7 @@ class ChartViewModel extends ViewModel<Graph> {
     setChartRange();
     setDateSpread();
     setPredictions();
+    setMonthlyUsage();
 
     super.setState();
   }
@@ -123,8 +126,8 @@ class ChartViewModel extends ViewModel<Graph> {
 
       labels.add(dateLabelFromDateSpread(date));
 
-      if (showPredictions && i == steps - 2 ||
-          !showPredictions && i == steps - 1) {
+      if ((chartType == ChartViewType.predictions && i == steps - 2) ||
+          (chartType != ChartViewType.predictions && i == steps - 1)) {
         labels.add(dateLabelFromDateSpread(lastNode.x));
       }
     }
@@ -171,7 +174,7 @@ class ChartViewModel extends ViewModel<Graph> {
   void setChartRange() {
     chartRange = ChartRange(
       firstNode.x.millisecondsSinceEpoch.toDouble(),
-      showPredictions
+      chartType == ChartViewType.predictions
           ? predictionDate.millisecondsSinceEpoch.toDouble()
           : lastNode.x.millisecondsSinceEpoch.toDouble(),
       minNode.y * 0.8,
@@ -187,7 +190,7 @@ class ChartViewModel extends ViewModel<Graph> {
   }
 
   void setPredictions() {
-    if (!showPredictions) return;
+    if (chartType != ChartViewType.predictions) return;
     double maxTrendPrediction = 0;
 
     for (final relation in chartRelations) {
@@ -205,5 +208,27 @@ class ChartViewModel extends ViewModel<Graph> {
 
     chartRange.maxY = maxTrendPrediction * 1.1;
     chartRange.maxX = predictionDate.millisecondsSinceEpoch.toDouble();
+  }
+
+  void setMonthlyUsage() {
+    monthlyUsages = [];
+    final year = DateTime.now().year;
+    final month = DateTime.now().month;
+    final nodes = graph.relations.first.nodes;
+    final monthsAgo = DateTime.now().difference(nodes.first.x).inDays ~/ 30 - 1;
+
+    final firstDate = min(monthsAgo, 3);
+
+    for (int i = firstDate; i > 0; i--) {
+      final start =
+          (DateTime(year, month - i, 1).millisecondsSinceEpoch) ~/ 1000;
+      final end =
+          (DateTime(year, month - i, 30).millisecondsSinceEpoch) ~/ 1000;
+
+      final startUsage = GraphService.interpolate(nodes, start);
+      final endUsage = GraphService.interpolate(nodes, end);
+
+      monthlyUsages.add([month - i, (endUsage - startUsage).toInt()]);
+    }
   }
 }
