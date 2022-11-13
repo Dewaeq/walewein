@@ -161,9 +161,9 @@ class ChartViewModel extends ViewModel<Graph> {
   }
 
   void setNodes() {
-    firstNode = GraphService.firstNodeV2(chartRelations, afterDate) ??
-        GraphService.firstNodeV2(chartRelations)!;
-    lastNode = GraphService.lastNodeV2(chartRelations)!;
+    firstNode = GraphService.firstNode(chartRelations, afterDate) ??
+        GraphService.firstNode(chartRelations)!;
+    lastNode = GraphService.lastNode(chartRelations)!;
     minNode = GraphService.minNode(chartRelations)!;
     maxNode = GraphService.maxNode(chartRelations)!;
   }
@@ -194,7 +194,7 @@ class ChartViewModel extends ViewModel<Graph> {
       final trend = GraphService.trendPrediction(relation);
       if (trend == null) continue;
 
-      final firstNode = GraphService.firstNodeV2([relation])!;
+      final firstNode = GraphService.firstNode([relation])!;
       final offset = GraphService.relationMinY(relation)!.y;
       final prediction =
           trend * predictionDate.difference(firstNode.x).inSeconds + offset;

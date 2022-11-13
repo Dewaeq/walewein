@@ -127,8 +127,8 @@ class GraphService {
       return null;
     }
 
-    final a = firstNodeV2([relation])!;
-    final b = lastNodeV2([relation])!;
+    final a = firstNode([relation])!;
+    final b = lastNode([relation])!;
 
     if (a == b) {
       return 0;
@@ -147,8 +147,7 @@ class GraphService {
     return relation.nodes.reduce((a, b) => a.y <= b.y ? a : b);
   }
 
-  static GraphNode? firstNodeV2(List<Relation> relations,
-      [DateTime? afterDate]) {
+  static GraphNode? firstNode(List<Relation> relations, [DateTime? afterDate]) {
     GraphNode? result;
 
     for (final relation in relations) {
@@ -165,7 +164,7 @@ class GraphService {
     return result;
   }
 
-  static GraphNode? lastNodeV2(List<Relation> relations) {
+  static GraphNode? lastNode(List<Relation> relations) {
     GraphNode? result;
 
     for (final relation in relations) {
