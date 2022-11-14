@@ -4,8 +4,8 @@ import 'package:walewein/pages/add_graph/pages/graph_name/graph_name_page.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/view_models/add_graph_view_model.dart';
-import 'components/bottom_indicator.dart';
-import 'pages/graph_type/select_graph_type_page.dart';
+import 'package:walewein/pages/add_graph/components/bottom_indicator.dart';
+import 'package:walewein/pages/add_graph/pages/graph_type/select_graph_type_page.dart';
 
 class AddGraphPage extends StatelessWidget {
   const AddGraphPage({super.key});

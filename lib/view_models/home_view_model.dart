@@ -69,7 +69,6 @@ class HomeViewModel extends ViewModel<List<Graph>> {
   }
 
   Future<void> deleteSelectedGraphs() async {
-    debugPrint("hi");
     for (final entry in selectedGraphs.entries) {
       if (!entry.value) continue;
 

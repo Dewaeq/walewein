@@ -25,6 +25,7 @@ dependencies:
   isar_flutter_libs: *isar_version # contains Isar Core
   provider: ^6.0.4
   smooth_page_indicator: ^1.0.0+2
+  equations: ^4.1.0
   
 
 dev_dependencies:

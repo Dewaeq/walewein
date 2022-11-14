@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'constants.dart';
+import 'package:walewein/shared/components/constants.dart';
 
 class SimpleTextButton extends StatelessWidget {
   const SimpleTextButton({

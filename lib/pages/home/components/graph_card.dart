@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/graph/graph_page.dart';
+import 'package:walewein/shared/components/charts/chart_view.dart';
+import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/cross_fade.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
-import 'package:walewein/shared/components/chart_view.dart';
-import '../../../shared/components/constants.dart';
 
 class GraphCard extends StatelessWidget {
   const GraphCard({
@@ -60,14 +60,7 @@ class GraphCard extends StatelessWidget {
             flex: 2,
             child: IgnorePointer(
               child: Container(
-                margin: const EdgeInsets.only(right: kDefaultPadding / 2),
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18),
-                  ),
-                  color: Color(0xff232d37),
-                ),
+                padding: const EdgeInsets.only(right: 15, top: 10, bottom: 10),
                 child: AspectRatio(
                   aspectRatio: 1.3,
                   child: ChartView(

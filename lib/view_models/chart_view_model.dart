@@ -8,7 +8,7 @@ import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
 import 'package:walewein/models/trend_prediction.dart';
-import 'package:walewein/shared/components/chart_view.dart';
+import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
@@ -37,7 +37,9 @@ class ChartViewModel extends ViewModel<Graph> {
   late ChartRange chartRange;
   late DisplayDateSpread dateSpread;
   Map<Relation, TrendPrediction> trends = {};
-  late List<List<int>> monthlyUsages;
+  late List<BarDataPoint> monthlyUsages;
+  late double maxMonthlyUsage;
+  double selectedPointIndex = -1;
 
   @override
   Future<void> init() {
@@ -80,14 +82,12 @@ class ChartViewModel extends ViewModel<Graph> {
       verticalInterval: vInterval,
       getDrawingHorizontalLine: (value) {
         return FlLine(
-          color: Colors.grey.withOpacity(0.3),
-          dashArray: [10, 5],
+          color: const Color(0xff72d8bf),
         );
       },
       getDrawingVerticalLine: (value) {
         return FlLine(
-          color: Colors.grey.withOpacity(0.3),
-          dashArray: [10, 5],
+          color: const Color(0xff72d8bf),
         );
       },
     );
@@ -109,7 +109,7 @@ class ChartViewModel extends ViewModel<Graph> {
 
     for (var i = 0; chartRange.maxY - i * stepSize > chartRange.minY; i++) {
       final value = chartRange.maxY - (i * stepSize);
-      labels.add(NumberFormat.compact(locale: "en_GB").format(value));
+      labels.add(NumberFormat.compact(locale: "en_GB").format(value.round()));
     }
 
     return labels;
@@ -212,23 +212,55 @@ class ChartViewModel extends ViewModel<Graph> {
 
   void setMonthlyUsage() {
     monthlyUsages = [];
+    maxMonthlyUsage = 0;
+
     final year = DateTime.now().year;
     final month = DateTime.now().month;
     final nodes = graph.relations.first.nodes;
-    final monthsAgo = DateTime.now().difference(nodes.first.x).inDays ~/ 30 - 1;
+    final minX = nodes.first.x.millisecondsSinceEpoch;
 
-    final firstDate = min(monthsAgo, 3);
-
-    for (int i = firstDate; i > 0; i--) {
+    for (int i = 4; i >= 0; i--) {
       final start =
-          (DateTime(year, month - i, 1).millisecondsSinceEpoch) ~/ 1000;
+          (DateTime(year, month - i, 1).millisecondsSinceEpoch - minX) /
+              millisInDay;
       final end =
-          (DateTime(year, month - i, 30).millisecondsSinceEpoch) ~/ 1000;
+          (DateTime(year, month - i, 30).millisecondsSinceEpoch - minX) /
+              millisInDay;
 
       final startUsage = GraphService.interpolate(nodes, start);
       final endUsage = GraphService.interpolate(nodes, end);
+      final usage = (endUsage - startUsage).abs().roundToDouble();
 
-      monthlyUsages.add([month - i, (endUsage - startUsage).toInt()]);
+      maxMonthlyUsage = max(maxMonthlyUsage, usage);
+      monthlyUsages.add(BarDataPoint(month - i, usage));
     }
   }
+
+  void selectBar(int index) {
+    monthlyUsages[index].isSelected = true;
+    notifyListeners();
+  }
+
+  void unSelectBar() {
+    monthlyUsages = monthlyUsages.map((e) => e..isSelected = false).toList();
+    notifyListeners();
+  }
+
+  void selectPoint(double yValue) {
+    selectedPointIndex = yValue;
+    notifyListeners();
+  }
+
+  void unSelectPoint() {
+    selectedPointIndex = -1;
+    notifyListeners();
+  }
+}
+
+class BarDataPoint {
+  final int x;
+  final double y;
+  bool isSelected;
+
+  BarDataPoint(this.x, this.y, [this.isSelected = false]);
 }

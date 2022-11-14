@@ -5,8 +5,8 @@ import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/services/isar_service.dart';
-import '../models/data/graph_model.dart';
-import '../pages/graph/components/edit_entry_modal.dart';
+import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/pages/graph/components/edit_entry_modal.dart';
 
 class GraphViewModel extends ViewModel<Graph> {
   GraphViewModel(this.id, BuildContext context) : super(context);

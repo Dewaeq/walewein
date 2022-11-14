@@ -1,9 +1,10 @@
+import 'package:equations/equations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/shared/constants.dart';
-import '../../models/data/graph_model.dart';
-import '../../models/data/graph_node.dart';
-import '../../models/data/relation_model.dart';
+import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/models/data/graph_node.dart';
+import 'package:walewein/models/data/relation_model.dart';
 
 class GraphService {
   static Relation? lastChangedRelation(Graph graph) {
@@ -225,25 +226,18 @@ class GraphService {
     return DisplayDateSpread.day;
   }
 
-  static double interpolate(List<GraphNode> nodes, int x) {
+  static double interpolate(List<GraphNode> nodes, double x) {
+    final minX = nodes.first.x.millisecondsSinceEpoch;
     final data = nodes
-        .map((e) => DataPoint((e.x.millisecondsSinceEpoch) / 1000, e.y))
+        .map((e) => DataPoint(
+            (e.x.millisecondsSinceEpoch - minX) / (1000 * 3600 * 24), e.y))
         .toList();
-    double result = 0;
 
-    for (int i = 0; i < data.length; i++) {
-      double term = nodes[i].y;
+    final interpolation = SplineInterpolation(
+      nodes: data.map((e) => InterpolationNode(x: e.x, y: e.y)).toList(),
+    );
 
-      for (int j = 0; j < data.length; j++) {
-        if (i == j) continue;
-
-        term *= (x - data[j].x) / (data[i].x - data[j].x);
-      }
-
-      result += term;
-    }
-
-    return result;
+    return interpolation.compute(x);
   }
 }
 

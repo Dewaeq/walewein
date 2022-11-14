@@ -204,6 +204,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  equations:
+    dependency: "direct main"
+    description:
+      name: equations
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -282,6 +289,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fraction:
+    dependency: transitive
+    description:
+      name: fraction
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.4"
   frontend_server_client:
     dependency: transitive
     description:

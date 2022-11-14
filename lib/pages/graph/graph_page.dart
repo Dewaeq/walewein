@@ -1,14 +1,13 @@
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:walewein/pages/graph/components/relation_card.dart';
+import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/view_models/graph_view_model.dart';
-import '../../shared/components/chart_view.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/add_entry/add_entry_page.dart';
-import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
 import 'package:walewein/shared/constants.dart';
 
 class GraphPage extends StatelessWidget {
@@ -49,16 +48,22 @@ class GraphPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 50),
+            defaultHeightSizedBox,
             Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 10,
+              padding: const EdgeInsets.only(
+                bottom: 15,
+                left: 10,
+                right: 10,
               ),
-              height: model.size.height * 0.6,
+              height: model.size.height * 0.55,
               child: PageView(
                 controller: model.controller,
                 children: [
+                  _buildPage(
+                    model.graph,
+                    "Monthly usage",
+                    ChartViewType.monthlyUsage,
+                  ),
                   _buildPage(
                     model.graph,
                     "Current Usage",
@@ -68,11 +73,6 @@ class GraphPage extends StatelessWidget {
                     model.graph,
                     "Predicted Usage",
                     ChartViewType.predictions,
-                  ),
-                  _buildPage(
-                    model.graph,
-                    "Monthly Usage",
-                    ChartViewType.monthlyUsage,
                   ),
                 ],
               ),
@@ -107,19 +107,7 @@ class GraphPage extends StatelessWidget {
   }
 
   Widget _buildPage(Graph graph, String title, ChartViewType chartType) {
-    return Column(
-      children: [
-        TextWithCustomUnderline(text: title),
-        defaultHeightSizedBox,
-        Expanded(
-          child: ChartView(
-            graph: graph,
-            showLabels: true,
-            chartType: chartType,
-          ),
-        ),
-      ],
-    );
+    return ChartView(graph: graph, showLabels: true, chartType: chartType);
   }
 
   Widget _buildRelationsList(GraphViewModel model) {

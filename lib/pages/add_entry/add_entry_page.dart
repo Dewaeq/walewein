@@ -6,8 +6,8 @@ import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/help_button.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/view_models/add_entry_view_model.dart';
-import '../../models/data/graph_model.dart';
-import 'components/image_container.dart';
+import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/pages/add_entry/components/image_container.dart';
 
 class AddEntryPage extends StatelessWidget {
   const AddEntryPage({super.key, required this.graph});

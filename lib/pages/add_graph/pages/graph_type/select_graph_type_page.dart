@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
-
-import 'graph_type_item.dart';
+import 'package:walewein/pages/add_graph/pages/graph_type/graph_type_item.dart';
 
 class SelectGraphTypePage extends StatelessWidget {
   const SelectGraphTypePage(

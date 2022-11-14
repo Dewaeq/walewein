@@ -4,10 +4,9 @@ import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/simple_text_button.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/view_models/edit_entry_view_model.dart';
-
-import '../../../models/data/graph_model.dart';
-import '../../../models/data/graph_node.dart';
-import '../../../shared/constants.dart';
+import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/models/data/graph_node.dart';
+import 'package:walewein/shared/constants.dart';
 
 class EditEntryModal extends StatelessWidget {
   final GraphNode node;
