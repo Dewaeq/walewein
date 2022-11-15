@@ -219,6 +219,8 @@ class ChartViewModel extends ViewModel<Graph> {
     final nodes = graph.relations.first.nodes;
     final minX = nodes.first.x.millisecondsSinceEpoch;
 
+    if (nodes.length < 2) return;
+
     for (int i = 4; i >= 0; i--) {
       final start =
           (DateTime(year, month - i, 1).millisecondsSinceEpoch - minX) /

@@ -46,21 +46,39 @@ class BarChartView extends StatelessWidget {
           height: 38,
         ),
         Expanded(
-          child: BarChart(
-            BarChartData(
-              titlesData: titlesData(),
-              borderData: FlBorderData(
-                show: false,
-              ),
-              barTouchData: barTouchData(model),
-              barGroups: model.monthlyUsages
-                  .map((data) => barData(model, data))
-                  .toList(),
-              gridData: FlGridData(show: false),
-            ),
-          ),
+          child: model.monthlyUsages.isEmpty
+              ? Center(child: _notEnoughEntries())
+              : _buildBarChart(),
         ),
       ],
+    );
+  }
+
+  Text _notEnoughEntries() {
+    debugPrint("hi");
+    return const Text(
+      "Add at least two entries to enable monthly usage tracking",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  BarChart _buildBarChart() {
+    return BarChart(
+      BarChartData(
+        titlesData: titlesData(),
+        borderData: FlBorderData(
+          show: false,
+        ),
+        barTouchData: barTouchData(model),
+        barGroups:
+            model.monthlyUsages.map((data) => barData(model, data)).toList(),
+        gridData: FlGridData(show: false),
+      ),
     );
   }
 
@@ -112,7 +130,7 @@ class BarChartView extends StatelessWidget {
       ),
       children: <TextSpan>[
         TextSpan(
-          text: (rod.toY - model.maxMonthlyUsage * 0.05).toString(),
+          text: (rod.toY - model.maxMonthlyUsage * 0.05).round().toString(),
           style: const TextStyle(
             color: Colors.yellow,
             fontSize: 16,
