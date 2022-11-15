@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/models/data/price_model.dart';
 
 class IsarService {
   late final Future<Isar> db;
@@ -49,9 +50,33 @@ class IsarService {
     yield* isar.graphs.where().watch(fireImmediately: true);
   }
 
+  Future<void> savePrice(Price price) async {
+    final isar = await db;
+    await isar.writeTxn(() async => await isar.prices.put(price));
+  }
+
+  Future<Price> getPrice(GraphType type) async {
+    final isar = await db;
+
+    final price = await isar.prices.filter().graphTypeEqualTo(type).findFirst();
+    if (price == null) return defaultPrices[type]!;
+
+    return price;
+  }
+
+  Future<List<Price>> getAllPrices() async {
+    final isar = await db;
+    return await isar.prices.where().findAll();
+  }
+
+  Stream<List<Price>> listenPrices([bool fireImmediately = true]) async* {
+    final isar = await db;
+    yield* isar.prices.where().watch(fireImmediately: fireImmediately);
+  }
+
   Future<Isar> openDB() async {
     if (Isar.instanceNames.isEmpty) {
-      return await Isar.open([GraphSchema]);
+      return await Isar.open([GraphSchema, PriceSchema]);
     } else {
       return Future.value(Isar.getInstance());
     }

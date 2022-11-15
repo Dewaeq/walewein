@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/pages/graph/graph_page.dart';
 import 'package:walewein/pages/home/components/drawer.dart';
 import 'package:walewein/pages/home/components/graph_card.dart';
 import 'package:walewein/pages/home/components/title_with_edit_button.dart';
@@ -32,7 +33,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       backgroundColor: kBackgroundColor,
-      drawer: const HomeDrawer(),
+      drawer: HomeDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -122,11 +123,10 @@ class HomePage extends StatelessWidget {
                   defaultHalfHeightSizedBox,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _priceCard(model.graphs[0]),
-                      _priceCard(model.graphs[1]),
-                      _priceCard(model.graphs[2]),
-                    ],
+                    children: model.graphs
+                        .take(3)
+                        .map((e) => _priceCard(model, e))
+                        .toList(),
                   ),
                 ],
               ),
@@ -137,12 +137,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _priceCard(Graph graph) {
+  Widget _priceCard(HomeViewModel model, Graph graph) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: RawMaterialButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(model.context).push(
+              MaterialPageRoute(builder: (context) => GraphPage(id: graph.id!)),
+            );
+          },
           fillColor: Colors.grey.shade100,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -154,7 +158,7 @@ class HomePage extends StatelessWidget {
             children: [
               GraphService.graphTypeToIcon(graph.graphType, 14),
               defaultHalfWidthSizedBox,
-              const Text("€ 15"),
+              Text('€ ${model.graphPrice(graph)}'),
             ],
           ),
         ),

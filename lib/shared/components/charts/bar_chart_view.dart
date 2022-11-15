@@ -55,7 +55,6 @@ class BarChartView extends StatelessWidget {
   }
 
   Text _notEnoughEntries() {
-    debugPrint("hi");
     return const Text(
       "Add at least two entries to enable monthly usage tracking",
       textAlign: TextAlign.center,

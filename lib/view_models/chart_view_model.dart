@@ -104,7 +104,7 @@ class ChartViewModel extends ViewModel<Graph> {
   }
 
   List<String> yLabels() {
-    final stepSize = (chartRange.maxY - maxNode.y) / 2;
+    final stepSize = (chartRange.maxY - maxNode.y) / 1.5;
     List<String> labels = [];
 
     for (var i = 0; chartRange.maxY - i * stepSize > chartRange.minY; i++) {
@@ -217,17 +217,14 @@ class ChartViewModel extends ViewModel<Graph> {
     final year = DateTime.now().year;
     final month = DateTime.now().month;
     final nodes = graph.relations.first.nodes;
-    final minX = nodes.first.x.millisecondsSinceEpoch;
 
     if (nodes.length < 2) return;
 
     for (int i = 4; i >= 0; i--) {
       final start =
-          (DateTime(year, month - i, 1).millisecondsSinceEpoch - minX) /
-              millisInDay;
+          DateTime(year, month - i, 1).millisecondsSinceEpoch / millisInDay;
       final end =
-          (DateTime(year, month - i, 30).millisecondsSinceEpoch - minX) /
-              millisInDay;
+          DateTime(year, month - i, 30).millisecondsSinceEpoch / millisInDay;
 
       final startUsage = GraphService.interpolate(nodes, start);
       final endUsage = GraphService.interpolate(nodes, end);

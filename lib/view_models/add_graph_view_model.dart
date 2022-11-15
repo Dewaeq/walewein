@@ -61,7 +61,7 @@ class AddGraphViewModel extends ViewModel {
     final isarService = IsarService();
 
     isarService.saveGraph(graph).then((_) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => GraphPage(id: graph.id!)),
       );
     });

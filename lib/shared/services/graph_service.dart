@@ -227,10 +227,8 @@ class GraphService {
   }
 
   static double interpolate(List<GraphNode> nodes, double x) {
-    final minX = nodes.first.x.millisecondsSinceEpoch;
     final data = nodes
-        .map((e) => DataPoint(
-            (e.x.millisecondsSinceEpoch - minX) / (1000 * 3600 * 24), e.y))
+        .map((e) => DataPoint((e.x.millisecondsSinceEpoch) / millisInDay, e.y))
         .toList();
 
     final interpolation = SplineInterpolation(
