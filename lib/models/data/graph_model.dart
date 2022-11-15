@@ -24,7 +24,7 @@ class Graph {
     graphType = GraphType.gas;
     dateCreated = DateTime.now();
     relations = [
-      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m^3"),
+      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m³"),
     ];
   }
 
@@ -59,7 +59,7 @@ class Graph {
     graphType = GraphType.water;
     dateCreated = DateTime.now();
     relations = [
-      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m^3"),
+      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m³"),
     ];
   }
 
