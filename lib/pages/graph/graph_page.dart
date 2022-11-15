@@ -61,17 +61,14 @@ class GraphPage extends StatelessWidget {
                 children: [
                   _buildPage(
                     model.graph,
-                    "Monthly usage",
                     ChartViewType.monthlyUsage,
                   ),
                   _buildPage(
                     model.graph,
-                    "Current Usage",
                     ChartViewType.cumulativeUsage,
                   ),
                   _buildPage(
                     model.graph,
-                    "Predicted Usage",
                     ChartViewType.predictions,
                   ),
                 ],
@@ -106,8 +103,12 @@ class GraphPage extends StatelessWidget {
     );
   }
 
-  Widget _buildPage(Graph graph, String title, ChartViewType chartType) {
-    return ChartView(graph: graph, showLabels: true, chartType: chartType);
+  Widget _buildPage(Graph graph, ChartViewType chartType) {
+    return ChartView(
+      graph: graph,
+      showLabels: true,
+      chartType: chartType,
+    );
   }
 
   Widget _buildRelationsList(GraphViewModel model) {
