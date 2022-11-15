@@ -66,7 +66,7 @@ class GraphCard extends StatelessWidget {
                   child: ChartView(
                     graph: graph,
                     showLabels: false,
-                    chartType: ChartViewType.usage,
+                    chartType: ChartViewType.cumulativeUsage,
                   ),
                 ),
               ),

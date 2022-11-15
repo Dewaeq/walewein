@@ -67,7 +67,7 @@ class GraphPage extends StatelessWidget {
                   _buildPage(
                     model.graph,
                     "Current Usage",
-                    ChartViewType.usage,
+                    ChartViewType.cumulativeUsage,
                   ),
                   _buildPage(
                     model.graph,

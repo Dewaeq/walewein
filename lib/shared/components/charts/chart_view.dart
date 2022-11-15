@@ -7,7 +7,7 @@ import 'package:walewein/shared/constants.dart';
 import 'package:walewein/view_models/chart_view_model.dart';
 
 enum ChartViewType {
-  usage,
+  cumulativeUsage,
   predictions,
   monthlyUsage,
 }

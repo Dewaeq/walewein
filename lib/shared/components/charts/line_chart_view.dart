@@ -78,8 +78,10 @@ class LineChartView extends StatelessWidget {
               isCurved: true,
               color:
                   model.selectedPointIndex >= 0 ? Colors.yellow : Colors.white,
-              spots: model.buildSpots(relation)
-                ..addAll(_buildPredictions(model)),
+              spots: [
+                ...model.buildSpots(relation),
+                ..._buildPredictions(model),
+              ],
               dotData: dotData(),
               belowBarData: BarAreaData(
                 show: false,
