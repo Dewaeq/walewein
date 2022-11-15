@@ -21,27 +21,66 @@ class BarChartView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
-          Text(
-            title!,
-            style: const TextStyle(
-              color: kGraphTitleColor,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (title != null)
+                  Text(
+                    title!,
+                    style: const TextStyle(
+                      color: kGraphTitleColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                const SizedBox(
+                  height: 4,
+                ),
+                if (subtitle != null)
+                  Text(
+                    subtitle!,
+                    style: const TextStyle(
+                      color: kGraphTextColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ],
             ),
-          ),
-        const SizedBox(
-          height: 4,
+            Container(
+              decoration: const BoxDecoration(
+                color: Color(0xff72d8bf),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                onPressed: model.toggleCosts,
+                icon: Stack(
+                  children: [
+                    AnimatedScale(
+                      duration: const Duration(milliseconds: 300),
+                      scale: model.showCosts ? 0 : 1,
+                      child: const Icon(
+                        Icons.calendar_month,
+                        color: kGraphTitleColor,
+                      ),
+                    ),
+                    AnimatedScale(
+                      duration: const Duration(milliseconds: 300),
+                      scale: model.showCosts ? 1 : 0,
+                      child: const Icon(
+                        Icons.price_change,
+                        color: kGraphTitleColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-        if (subtitle != null)
-          Text(
-            subtitle!,
-            style: const TextStyle(
-              color: kGraphTextColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
         const SizedBox(
           height: 38,
         ),
@@ -119,6 +158,10 @@ class BarChartView extends StatelessWidget {
       ChartViewModel model, BarChartGroupData group, BarChartRodData rod) {
     final date = DateTime(0, group.x);
     final month = DateFormat("MMMM").format(date);
+    final prefix = model.showCosts ? '€ ' : '';
+    final suffix =
+        model.showCosts ? '' : ' ${model.graph.relations.first.yLabel}';
+    final content = (rod.toY - model.maxMonthlyUsage * 0.05).round().toString();
 
     return BarTooltipItem(
       '$month\n',
@@ -129,7 +172,7 @@ class BarChartView extends StatelessWidget {
       ),
       children: <TextSpan>[
         TextSpan(
-          text: (rod.toY - model.maxMonthlyUsage * 0.05).round().toString(),
+          text: prefix + content + suffix,
           style: const TextStyle(
             color: Colors.yellow,
             fontSize: 16,
@@ -156,16 +199,19 @@ class BarChartView extends StatelessWidget {
       x: data.x,
       barRods: [
         BarChartRodData(
-          toY: data.y.toDouble() +
-              (data.isSelected ? model.maxMonthlyUsage * 0.05 : 0),
-          color: data.isSelected ? Colors.yellow : Colors.white,
+          toY: (data.y.toDouble() +
+                  (data.isSelected ? model.maxMonthlyUsage * 0.05 : 0)) *
+              (model.showCosts ? model.price.price : 1),
+          color: data.isSelected ? Colors.yellow : model.graphColor,
           width: 22,
           borderSide: data.isSelected
               ? const BorderSide(color: Colors.yellow)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: model.maxMonthlyUsage * 1.1,
+            toY: model.maxMonthlyUsage *
+                1.1 *
+                (model.showCosts ? model.price.price : 1),
             color: const Color(0xff72d8bf),
           ),
         ),

@@ -186,6 +186,7 @@ class LineChartView extends StatelessWidget {
 
           final spot = spots[0];
           final date = DateTime.fromMillisecondsSinceEpoch(spot.x.toInt());
+          final suffix = ' ${model.graph.relations.first.yLabel}';
 
           items[0] = LineTooltipItem(
               '${DateFormat('d MMMM').format(date)}\n',
@@ -196,7 +197,7 @@ class LineChartView extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                  text: spot.y.round().toString(),
+                  text: spot.y.round().toString() + suffix,
                   style: const TextStyle(
                     color: Colors.yellow,
                     fontSize: 16,

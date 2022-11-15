@@ -6,12 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:walewein/models/chart_range.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/graph_node.dart';
+import 'package:walewein/models/data/price_model.dart';
 import 'package:walewein/models/data/relation_model.dart';
 import 'package:walewein/models/trend_prediction.dart';
 import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/services/isar_service.dart';
 
 class ChartViewModel extends ViewModel<Graph> {
   ChartViewModel(
@@ -27,6 +29,7 @@ class ChartViewModel extends ViewModel<Graph> {
 
   final afterDate = DateTime.now().subtract(maxDisplayDateAgo);
   final predictionDate = DateTime.now().add(const Duration(days: 93));
+  final isarService = IsarService();
 
   /// relations containing only nodes after [afterDate]
   late List<Relation> chartRelations;
@@ -40,6 +43,9 @@ class ChartViewModel extends ViewModel<Graph> {
   late List<BarDataPoint> monthlyUsages;
   late double maxMonthlyUsage;
   double selectedPointIndex = -1;
+  bool showCosts = false;
+  late final Price price;
+  Color graphColor = Colors.white;
 
   @override
   Future<void> init() {
@@ -48,12 +54,14 @@ class ChartViewModel extends ViewModel<Graph> {
   }
 
   @override
-  void setState([model]) {
+  void setState([model]) async {
     loaded = false;
 
     if (isGraphEmpty()) {
       return;
     }
+
+    price = await isarService.getPrice(graph.graphType);
 
     setRelations();
     setNodes();
@@ -235,6 +243,24 @@ class ChartViewModel extends ViewModel<Graph> {
     }
   }
 
+  void toggleCosts() async {
+    showCosts = !showCosts;
+
+    for (int i = 0; i < monthlyUsages.length; i++) {
+      monthlyUsages[i].y /= 2;
+    }
+
+    graphColor = Colors.yellow;
+    notifyListeners();
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    setMonthlyUsage();
+    graphColor = Colors.white;
+
+    notifyListeners();
+  }
+
   void selectBar(int index) {
     monthlyUsages[index].isSelected = true;
     notifyListeners();
@@ -257,8 +283,8 @@ class ChartViewModel extends ViewModel<Graph> {
 }
 
 class BarDataPoint {
-  final int x;
-  final double y;
+  int x;
+  double y;
   bool isSelected;
 
   BarDataPoint(this.x, this.y, [this.isSelected = false]);
