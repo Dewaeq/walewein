@@ -68,25 +68,11 @@ class NodeTile extends StatelessWidget {
             color: Colors.grey[200]!,
           ),
         ),
-        leading: Text(DateFormat("d MMM yyyy, HH:mm").format(node.x)),
+        leading: Text(DateFormat("d MMMM yyyy").format(node.x)),
         trailing: Text(node.y.toString()),
         enableFeedback: true,
         onTap: () {},
         onLongPress: () => onPressed(node),
-        /* onLongPress: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-            ),
-            builder: (context) => EditEntryModal(
-              node: node,
-              relation: relation,
-              graph: graph,
-            ),
-          );
-        }, */
       ),
     );
   }
