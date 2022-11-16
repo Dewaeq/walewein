@@ -161,7 +161,7 @@ class BarChartView extends StatelessWidget {
     final prefix = model.showCosts ? '€ ' : '';
     final suffix =
         model.showCosts ? '' : ' ${model.graph.relations.first.yLabel}';
-    final content = (rod.toY - model.maxMonthlyUsage * 0.05).round().toString();
+    final content = model.toolTipValue(rod.toY);
 
     return BarTooltipItem(
       '$month\n',
@@ -199,9 +199,7 @@ class BarChartView extends StatelessWidget {
       x: data.x,
       barRods: [
         BarChartRodData(
-          toY: (data.y.toDouble() +
-                  (data.isSelected ? model.maxMonthlyUsage * 0.05 : 0)) *
-              (model.showCosts ? model.price.price : 1),
+          toY: model.barHeight(data),
           color: data.isSelected ? Colors.yellow : model.graphColor,
           width: 22,
           borderSide: data.isSelected
@@ -209,9 +207,7 @@ class BarChartView extends StatelessWidget {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: model.maxMonthlyUsage *
-                1.1 *
-                (model.showCosts ? model.price.price : 1),
+            toY: model.barBackgroundHeight(),
             color: const Color(0xff72d8bf),
           ),
         ),

@@ -158,6 +158,25 @@ class ChartViewModel extends ViewModel<Graph> {
     }
   }
 
+  double barHeight(BarDataPoint data) {
+    final offset = data.isSelected ? maxMonthlyUsage * 0.05 : 0;
+    final priceMultiplier = showCosts ? price.price : 1;
+
+    return (data.y + offset) * priceMultiplier;
+  }
+
+  double barBackgroundHeight() {
+    return maxMonthlyUsage * 1.1 * (showCosts ? price.price : 1);
+  }
+
+  String toolTipValue(double y) {
+    final offset = maxMonthlyUsage * 0.05;
+    final priceMultiplier = showCosts ? price.price : 1;
+
+    final value = y - offset * priceMultiplier;
+    return value.round().toString();
+  }
+
   void setRelations() {
     chartRelations = [];
     for (final relation in graph.relations) {
