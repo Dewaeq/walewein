@@ -12,10 +12,12 @@ Full list of supported units:
 # Gallery
 
 ### Home page
-<img src="images/Home.png" width="40%">
+<img src="https://github.com/Dewaeq/walewein/blob/master/images/Home.png?raw=true" width="40%">
+
 
 ### Track your monthly usage
-<img src="images/Graph.png" width="40%">
+<img src="https://github.com/Dewaeq/walewein/blob/master/images/Graph.png?raw=true" width="40%">
+
 
 ### Read data directly from your meter!
-<img src="images/AddEntry.png" width="40%">
+<img src="https://github.com/Dewaeq/walewein/blob/master/images/AddEntry.png?raw=true" width="40%">
