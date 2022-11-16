@@ -25,6 +25,22 @@ class LineChartView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildTitles(),
+        if (title != null || subtitle != null)
+          const SizedBox(
+            height: 38,
+          ),
+        Expanded(
+          child: showLabels ? _buildChartWithLabels() : _buildLineChart(),
+        ),
+      ],
+    );
+  }
+
+  Column _buildTitles() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         if (title != null)
           Text(
             title!,
@@ -47,13 +63,6 @@ class LineChartView extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-        if (title != null || subtitle != null)
-          const SizedBox(
-            height: 38,
-          ),
-        Expanded(
-          child: showLabels ? _buildChartWithLabels() : _buildLineChart(),
-        ),
       ],
     );
   }

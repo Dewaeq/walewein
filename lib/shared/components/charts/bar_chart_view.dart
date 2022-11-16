@@ -24,61 +24,8 @@ class BarChartView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (title != null)
-                  Text(
-                    title!,
-                    style: const TextStyle(
-                      color: kGraphTitleColor,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                const SizedBox(
-                  height: 4,
-                ),
-                if (subtitle != null)
-                  Text(
-                    subtitle!,
-                    style: const TextStyle(
-                      color: kGraphTextColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-              ],
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                color: Color(0xff72d8bf),
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: model.toggleCosts,
-                icon: Stack(
-                  children: [
-                    AnimatedScale(
-                      duration: const Duration(milliseconds: 300),
-                      scale: model.showCosts ? 0 : 1,
-                      child: const Icon(
-                        Icons.calendar_month,
-                        color: kGraphTitleColor,
-                      ),
-                    ),
-                    AnimatedScale(
-                      duration: const Duration(milliseconds: 300),
-                      scale: model.showCosts ? 1 : 0,
-                      child: const Icon(
-                        Icons.price_change,
-                        color: kGraphTitleColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            _buildTitles(),
+            _buildCostsButton(),
           ],
         ),
         const SizedBox(
@@ -90,6 +37,67 @@ class BarChartView extends StatelessWidget {
               : _buildBarChart(),
         ),
       ],
+    );
+  }
+
+  Column _buildTitles() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (title != null)
+          Text(
+            title!,
+            style: const TextStyle(
+              color: kGraphTitleColor,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        const SizedBox(
+          height: 4,
+        ),
+        if (subtitle != null)
+          Text(
+            subtitle!,
+            style: const TextStyle(
+              color: kGraphTextColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Container _buildCostsButton() {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xff72d8bf),
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        onPressed: model.toggleCosts,
+        icon: Stack(
+          children: [
+            AnimatedScale(
+              duration: const Duration(milliseconds: 300),
+              scale: model.showCosts ? 0 : 1,
+              child: const Icon(
+                Icons.calendar_month,
+                color: kGraphTitleColor,
+              ),
+            ),
+            AnimatedScale(
+              duration: const Duration(milliseconds: 300),
+              scale: model.showCosts ? 1 : 0,
+              child: const Icon(
+                Icons.price_change,
+                color: kGraphTitleColor,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
