@@ -30,10 +30,17 @@ class _WidgetSizeState extends State<WidgetSize> {
 
   void postFrameCallback(_) {
     var context = widgetKey.currentContext;
-    if (context == null) return;
+    if (context == null) {
+      SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
+      return;
+    }
 
     var newSize = context.size;
-    if (oldSize == newSize) return;
+
+    if (oldSize == newSize || newSize == const Size(0, 0)) {
+      SchedulerBinding.instance.addPostFrameCallback(postFrameCallback);
+      return;
+    }
 
     oldSize = newSize;
     widget.onChange(newSize!);

@@ -55,14 +55,16 @@ class _ImageContainerState extends State<ImageContainer> {
   }
 
   List<Widget> _texts(Size size) {
-    if (_imageWidgetSize == null) return [];
-    return [
-      for (var i in widget.recognizedText.blocks)
-        _positioned(
-          rect: i.boundingBox,
-          child: _textButton(i.text),
-        ),
-    ];
+    if (_imageWidgetSize == null) {
+      return [];
+    }
+
+    final texts = widget.recognizedText.blocks
+        .map((block) => _positioned(
+            rect: block.boundingBox, child: _textButton(block.text)))
+        .toList();
+
+    return texts;
   }
 
   Widget _textButton(String text) {

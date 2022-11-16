@@ -92,6 +92,9 @@ class AddEntryViewModel extends ViewModel {
     for (final entry in controllers.entries) {
       final relation = entry.key;
       final value = entry.value.text.parse();
+
+      if (value.isEmpty) continue;
+
       final node = GraphNode.from(
         x: date,
         y: double.parse(value),
