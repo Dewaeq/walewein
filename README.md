@@ -13,5 +13,5 @@ Full list of supported units:
 
 Home Page              |  Track your monthly usage                   | Read data directly from your meter!
 -----------------------|---------------------------------------------|---------------------------------------
-<img src="https://github.com/Dewaeq/walewein/blob/master/images/Home.png?raw=true" width="50%">  |  <img src="https://github.com/Dewaeq/walewein/blob/master/images/Graph.png?raw=true" width="50%">  |  <img src="https://github.com/Dewaeq/walewein/blob/master/images/AddEntry.png?raw=true" width="50%">
+<img src="https://github.com/Dewaeq/walewein/blob/master/images/Home.png?raw=true">  |  <img src="https://github.com/Dewaeq/walewein/blob/master/images/Graph.png?raw=true">  |  <img src="https://github.com/Dewaeq/walewein/blob/master/images/AddEntry.png?raw=true">
 
