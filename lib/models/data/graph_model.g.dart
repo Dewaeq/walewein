@@ -145,7 +145,6 @@ const _GraphgraphTypeEnumValueMap = {
   'electricityDouble': 2,
   'water': 3,
   'firePlace': 4,
-  'custom': 5,
 };
 const _GraphgraphTypeValueEnumMap = {
   0: GraphType.gas,
@@ -153,7 +152,6 @@ const _GraphgraphTypeValueEnumMap = {
   2: GraphType.electricityDouble,
   3: GraphType.water,
   4: GraphType.firePlace,
-  5: GraphType.custom,
 };
 
 Id _graphGetId(Graph object) {

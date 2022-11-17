@@ -7,7 +7,7 @@ import 'package:walewein/pages/home/components/title_with_edit_button.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
-import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/utils.dart';
 import 'package:walewein/view_models/home_view_model.dart';
 
 class HomePage extends StatelessWidget {
@@ -168,7 +168,7 @@ class HomePage extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              GraphService.graphTypeToIcon(graph.graphType, 14),
+              graphTypeToIcon(graph.graphType, 14),
               defaultHalfWidthSizedBox,
               Text('€ ${model.graphPrice(graph)}'),
             ],

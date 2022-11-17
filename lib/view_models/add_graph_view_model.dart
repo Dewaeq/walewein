@@ -4,6 +4,7 @@ import 'package:walewein/pages/graph/graph_page.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/services/graph_service.dart';
 import 'package:walewein/shared/services/storage_service.dart';
+import 'package:walewein/shared/utils.dart';
 
 class AddGraphViewModel extends ViewModel {
   static const numPages = 3;
@@ -69,7 +70,7 @@ class AddGraphViewModel extends ViewModel {
 
   void onGraphType(GraphType type) {
     selectedType = type;
-    graphName = GraphService.graphTypeToTitle(type);
+    graphName = graphTypeToString(type);
 
     notifyListeners();
   }

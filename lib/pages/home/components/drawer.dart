@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
 import 'package:walewein/shared/constants.dart';
-import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/extensions.dart';
 import 'package:walewein/shared/services/storage_service.dart';
 import 'package:walewein/shared/utils.dart';
 
@@ -63,44 +63,48 @@ class HomeDrawer extends StatelessWidget {
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) => _buildAboutListTile(snapshot),
               ),
-              Container(
-                padding: const EdgeInsets.all(12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        Scaffold.of(context).closeDrawer();
-                      },
-                      color: kPrimaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: const Text(
-                        "CLOSE",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () {},
-                      shape: const CircleBorder(),
-                      minWidth: 0,
-                      color: kPrimaryColor,
-                      child: const Icon(
-                        Icons.language,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                  ],
-                ),
-              )
+              _buildFooter(context)
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _buildFooter(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          MaterialButton(
+            onPressed: () {
+              Scaffold.of(context).closeDrawer();
+            },
+            color: kPrimaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: const Text(
+              "CLOSE",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {},
+            shape: const CircleBorder(),
+            minWidth: 0,
+            color: kPrimaryColor,
+            child: const Icon(
+              Icons.language,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -159,9 +163,10 @@ class HomeDrawer extends StatelessWidget {
 
   Widget _buildPriceListTile(context, GraphType type) {
     final value = prices.firstWhere((x) => x.graphType == type);
-    final unit = GraphService.unityType(type);
+    final unit = unityTypeToString(type);
 
-    final title = 'Edit ${type.name} price';
+    final typeName = graphTypeToUnitString(type);
+    final title = 'Edit $typeName price';
 
     return ListTile(
       title: Text(title),

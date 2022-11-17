@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
+import 'package:walewein/shared/extensions.dart';
 import 'package:walewein/shared/utils.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/relation_model.dart';

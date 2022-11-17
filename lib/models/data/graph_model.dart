@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
-import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/utils.dart';
 
 part 'graph_model.g.dart';
 
@@ -28,7 +28,7 @@ class Graph {
       Relation.from(
         nodes: nodes,
         xLabel: "Datum",
-        yLabel: GraphService.unityType(graphType),
+        yLabel: unityTypeToString(graphType),
       ),
     ];
   }
@@ -41,7 +41,7 @@ class Graph {
       Relation.from(
         nodes: nodes,
         xLabel: "Datum",
-        yLabel: GraphService.unityType(graphType),
+        yLabel: unityTypeToString(graphType),
       ),
     ];
   }
@@ -57,12 +57,12 @@ class Graph {
       Relation.from(
         nodes: dayNodes,
         xLabel: "Datum (overdag)",
-        yLabel: '${GraphService.unityType(graphType)} (dag)',
+        yLabel: '${unityTypeToString(graphType)} (dag)',
       ),
       Relation.from(
         nodes: nightNodes,
         xLabel: "Datum ('s nachts')",
-        yLabel: '${GraphService.unityType(graphType)} (nacht)',
+        yLabel: '${unityTypeToString(graphType)} (nacht)',
       ),
     ];
   }
@@ -75,7 +75,7 @@ class Graph {
       Relation.from(
         nodes: nodes,
         xLabel: "Datum",
-        yLabel: GraphService.unityType(graphType),
+        yLabel: unityTypeToString(graphType),
       ),
     ];
   }
@@ -88,7 +88,7 @@ class Graph {
       Relation.from(
         nodes: nodes,
         xLabel: "Datum",
-        yLabel: GraphService.unityType(graphType),
+        yLabel: unityTypeToString(graphType),
       ),
     ];
   }
@@ -100,7 +100,6 @@ enum GraphType {
   electricityDouble,
   water,
   firePlace,
-  custom,
 }
 
 enum DisplayDateSpread {

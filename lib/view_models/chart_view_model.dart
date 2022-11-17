@@ -14,6 +14,7 @@ import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
 import 'package:walewein/shared/services/storage_service.dart';
+import 'package:walewein/shared/utils.dart';
 
 class ChartViewModel extends ViewModel<Graph> {
   ChartViewModel(
@@ -213,7 +214,7 @@ class ChartViewModel extends ViewModel<Graph> {
     final maxDate =
         DateTime.fromMillisecondsSinceEpoch(chartRange.maxX.toInt());
     dateSpread =
-        GraphService.daysToDateSpread(maxDate.difference(firstNode.x).inDays);
+        daysToDisplayDateSpread(maxDate.difference(firstNode.x).inDays);
   }
 
   void setPredictions() {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:walewein/models/image_result.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
+import 'package:walewein/shared/extensions.dart';
 import 'package:walewein/shared/services/image_processor.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/graph_node.dart';

@@ -7,6 +7,7 @@ import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/cross_fade.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/utils.dart';
 
 class GraphCard extends StatelessWidget {
   const GraphCard({
@@ -81,7 +82,7 @@ class GraphCard extends StatelessWidget {
     return Row(
       children: [
         AnimatedCrossFade(
-          firstChild: GraphService.graphTypeToIcon(graph.graphType, 17),
+          firstChild: graphTypeToIcon(graph.graphType, 17),
           secondChild: SelectableCheckMark(selected: isSelected, iconSize: 34),
           crossFadeState: isSelecting
               ? CrossFadeState.showSecond

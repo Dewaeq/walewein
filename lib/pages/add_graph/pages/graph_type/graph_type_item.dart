@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/cross_fade.dart';
 import 'package:walewein/models/data/graph_model.dart';
-import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/utils.dart';
 
 class GraphTypeItem extends StatelessWidget {
   const GraphTypeItem({
@@ -40,9 +40,9 @@ class GraphTypeItem extends StatelessWidget {
           ),
           child: Row(
             children: [
-              GraphService.graphTypeToIcon(graphType),
+              graphTypeToIcon(graphType),
               defaultWidthSizedBox,
-              Text(GraphService.graphTypeToTitle(graphType)),
+              Text(graphTypeToString(graphType)),
               const Spacer(),
               SelectableCheckMark(selected: isSelected),
             ],
