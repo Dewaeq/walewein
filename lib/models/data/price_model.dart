@@ -26,7 +26,7 @@ final defaultPrices = {
 
   /// Per kWh
   /// Use this value for night tariff
-  GraphType.electricityDouble: Price.from(GraphType.electricity, 43),
+  GraphType.electricityDouble: Price.from(GraphType.electricityDouble, 43),
 
   /// Per m^3
   GraphType.water: Price.from(GraphType.water, 50),
