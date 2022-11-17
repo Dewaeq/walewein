@@ -6,7 +6,7 @@ import 'package:walewein/pages/add_graph/add_graph_page.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
-import 'package:walewein/shared/services/isar_service.dart';
+import 'package:walewein/shared/services/storage_service.dart';
 
 class HomeViewModel extends ViewModel<List<Graph>> {
   HomeViewModel(super.context);
@@ -18,14 +18,14 @@ class HomeViewModel extends ViewModel<List<Graph>> {
 
   late final StreamSubscription<List<Graph>> _graphSubscription;
   late final StreamSubscription<List<Price>> _priceSubscription;
-  final isarService = IsarService();
+  final storage = StorageService();
 
   @override
   Future<void> init() async {
-    final graphSream = isarService.listenGraphs();
-    final priceStream = isarService.listenPrices(false);
+    final graphSream = storage.listenGraphs();
+    final priceStream = storage.listenPrices(false);
 
-    prices = await isarService.getAllPrices();
+    prices = await storage.getAllPrices();
 
     _graphSubscription = graphSream.listen((event) => setState(event));
     _priceSubscription = priceStream.listen((event) => setPrices(event));
@@ -87,7 +87,7 @@ class HomeViewModel extends ViewModel<List<Graph>> {
     for (final entry in selectedGraphs.entries) {
       if (!entry.value) continue;
 
-      await isarService.removeGraph(entry.key.id!);
+      await storage.removeGraph(entry.key.id!);
     }
 
     isSelecting = false;

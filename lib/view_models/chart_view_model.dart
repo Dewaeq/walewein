@@ -13,7 +13,7 @@ import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
-import 'package:walewein/shared/services/isar_service.dart';
+import 'package:walewein/shared/services/storage_service.dart';
 
 class ChartViewModel extends ViewModel<Graph> {
   ChartViewModel(
@@ -29,7 +29,7 @@ class ChartViewModel extends ViewModel<Graph> {
 
   final afterDate = DateTime.now().subtract(maxDisplayDateAgo);
   final predictionDate = DateTime.now().add(const Duration(days: 93));
-  final isarService = IsarService();
+  final storage = StorageService();
 
   /// relations containing only nodes after [afterDate]
   late List<Relation> chartRelations;
@@ -61,7 +61,7 @@ class ChartViewModel extends ViewModel<Graph> {
       return;
     }
 
-    price = (await isarService.getPrice(graph.graphType))!;
+    price = (await storage.getPrice(graph.graphType))!;
 
     setRelations();
     setNodes();

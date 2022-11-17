@@ -1,7 +1,7 @@
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
-import 'package:walewein/shared/services/isar_service.dart';
+import 'package:walewein/shared/services/storage_service.dart';
 
 class GraphStorageService {
   static Future<void> addNode(
@@ -11,8 +11,8 @@ class GraphStorageService {
 
     sortNodes(graph);
 
-    final isarService = IsarService();
-    await isarService.saveGraph(graph);
+    final storage = StorageService();
+    await storage.saveGraph(graph);
   }
 
   static Future<void> editNode(
@@ -32,8 +32,8 @@ class GraphStorageService {
 
     sortNodes(graph);
 
-    final isar = IsarService();
-    await isar.saveGraph(graph);
+    final storage = StorageService();
+    await storage.saveGraph(graph);
   }
 
   static Future<void> removeNode(
@@ -46,8 +46,8 @@ class GraphStorageService {
 
     sortNodes(graph);
 
-    final isarService = IsarService();
-    await isarService.saveGraph(graph);
+    final storage = StorageService();
+    await storage.saveGraph(graph);
   }
 
   static void sortNodes(Graph graph) {

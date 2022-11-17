@@ -2,10 +2,10 @@ import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
 
-class IsarService {
+class StorageService {
   late final Future<Isar> db;
 
-  IsarService() {
+  StorageService() {
     db = openDB();
   }
 

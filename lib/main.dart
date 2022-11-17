@@ -6,14 +6,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:walewein/pages/home/home_page.dart';
 import 'package:walewein/shared/constants.dart';
-import 'package:walewein/shared/services/isar_service.dart';
+import 'package:walewein/shared/services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterDisplayMode.setHighRefreshRate();
 
-  final isar = IsarService();
-  await isar.initPrices();
+  final storage = StorageService();
+  await storage.initPrices();
 
   await initializeDateFormatting("nl_BE", null);
   Intl.defaultLocale = "nl_BE";

@@ -4,7 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
-import 'package:walewein/shared/services/isar_service.dart';
+import 'package:walewein/shared/services/storage_service.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/graph/components/edit_entry_modal.dart';
 
@@ -20,11 +20,11 @@ class GraphViewModel extends ViewModel<Graph> {
   late List<Key> chartViewKeys;
 
   late final StreamSubscription<Graph?> _subscription;
-  final isarService = IsarService();
+  final storage = StorageService();
 
   @override
   Future<void> init() async {
-    final stream = isarService.listenGraph(id.toInt());
+    final stream = storage.listenGraph(id.toInt());
     _subscription = stream.listen((event) {
       if (event == null) {
         return;

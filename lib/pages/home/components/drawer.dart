@@ -6,7 +6,7 @@ import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
-import 'package:walewein/shared/services/isar_service.dart';
+import 'package:walewein/shared/services/storage_service.dart';
 import 'package:walewein/shared/utils.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -17,7 +17,7 @@ class HomeDrawer extends StatelessWidget {
 
   final List<Price> prices;
 
-  final isar = IsarService();
+  final storage = StorageService();
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +196,7 @@ class HomeDrawer extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 value.price = double.parse(controller.text.parse());
-                await isar.savePrice(value);
+                await storage.savePrice(value);
 
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context);
