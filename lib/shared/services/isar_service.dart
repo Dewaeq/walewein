@@ -50,16 +50,24 @@ class IsarService {
     yield* isar.graphs.where().watch(fireImmediately: true);
   }
 
+  Future<void> initPrices() async {
+    for (final entry in defaultPrices.entries) {
+      final price = await getPrice(entry.key);
+      if (price != null) continue;
+
+      await savePrice(entry.value);
+    }
+  }
+
   Future<void> savePrice(Price price) async {
     final isar = await db;
     await isar.writeTxn(() async => await isar.prices.put(price));
   }
 
-  Future<Price> getPrice(GraphType type) async {
+  Future<Price?> getPrice(GraphType type) async {
     final isar = await db;
 
     final price = await isar.prices.filter().graphTypeEqualTo(type).findFirst();
-    if (price == null) return defaultPrices[type]!;
 
     return price;
   }
