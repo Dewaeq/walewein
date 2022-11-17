@@ -156,19 +156,22 @@ class BarChartView extends StatelessWidget {
     return BarTouchData(
       touchTooltipData: BarTouchTooltipData(
         tooltipBgColor: Colors.blueGrey,
-        getTooltipItem: (g, _, r, __) => getTooltipItem(model, g, r),
+        getTooltipItem: (g, _, r, __) =>
+            getTooltipItem(model, g, r as ViewBarDataPoint),
       ),
       touchCallback: (e, r) => touchCallBack(model, e, r),
     );
   }
 
   BarTooltipItem? getTooltipItem(
-      ChartViewModel model, BarChartGroupData group, BarChartRodData rod) {
+    ChartViewModel model,
+    BarChartGroupData group,
+    ViewBarDataPoint rod,
+  ) {
     final date = DateTime(0, group.x);
     final month = DateFormat("MMMM").format(date);
     final prefix = model.showCosts ? '€ ' : '';
-    final suffix =
-        model.showCosts ? '' : ' ${model.graph.relations.first.yLabel}';
+    final suffix = model.showCosts ? '' : ' ${rod.relation.yLabel}';
     final content = model.toolTipValue(rod.toY);
 
     return BarTooltipItem(
@@ -206,7 +209,8 @@ class BarChartView extends StatelessWidget {
     return BarChartGroupData(
       x: data.x,
       barRods: [
-        BarChartRodData(
+        ViewBarDataPoint(
+          relation: data.relation,
           toY: model.barHeight(data),
           color: data.isSelected ? Colors.yellow : model.graphColor,
           width: 22,

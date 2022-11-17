@@ -89,7 +89,11 @@ class LineChartView extends StatelessWidget {
                   model.selectedPointIndex >= 0 ? Colors.yellow : Colors.white,
               spots: [
                 ...model.buildSpots(relation),
-                ..._buildPredictions(model),
+                if (model.chartType == ChartViewType.predictions)
+                  FlSpot(
+                    model.trends[relation]!.x.millisecondsSinceEpoch.toDouble(),
+                    model.trends[relation]!.y,
+                  ),
               ],
               dotData: dotData(),
               belowBarData: BarAreaData(
@@ -193,43 +197,33 @@ class LineChartView extends StatelessWidget {
         getTooltipItems: (spots) {
           List<LineTooltipItem?> items = List.filled(spots.length, null);
 
-          final spot = spots[0];
-          final date = DateTime.fromMillisecondsSinceEpoch(spot.x.toInt());
-          final suffix = ' ${model.graph.relations.first.yLabel}';
+          for (int i = 0; i < spots.length; i++) {
+            final spot = spots[i];
+            final date = DateTime.fromMillisecondsSinceEpoch(spot.x.toInt());
+            final suffix = ' ${model.graph.relations[i].yLabel}';
 
-          items[0] = LineTooltipItem(
-              '${DateFormat('d MMMM').format(date)}\n',
-              const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-              children: [
-                TextSpan(
-                  text: spot.y.round().toString() + suffix,
-                  style: const TextStyle(
-                    color: Colors.yellow,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+            items[i] = LineTooltipItem(
+                i == 0 ? '${DateFormat('d MMMM').format(date)}\n' : '',
+                const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
-              ]);
+                children: [
+                  TextSpan(
+                    text: spot.y.round().toString() + suffix,
+                    style: const TextStyle(
+                      color: Colors.yellow,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ]);
+          }
 
           return items;
         },
       ),
     );
-  }
-
-  List<FlSpot> _buildPredictions(ChartViewModel model) {
-    if (model.chartType != ChartViewType.predictions) return [];
-
-    return [
-      for (final entry in model.trends.entries)
-        FlSpot(
-          entry.value.x.millisecondsSinceEpoch.toDouble(),
-          entry.value.y,
-        ),
-    ];
   }
 }

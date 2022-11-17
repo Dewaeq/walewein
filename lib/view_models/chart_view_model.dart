@@ -61,7 +61,7 @@ class ChartViewModel extends ViewModel<Graph> {
       return;
     }
 
-    price = await isarService.getPrice(graph.graphType);
+    price = (await isarService.getPrice(graph.graphType))!;
 
     setRelations();
     setNodes();
@@ -243,23 +243,28 @@ class ChartViewModel extends ViewModel<Graph> {
 
     final year = DateTime.now().year;
     final month = DateTime.now().month;
-    final nodes = graph.relations.first.nodes;
 
-    if (nodes.length < 2) return;
+    for (final relation in graph.relations) {
+      final nodes = relation.nodes;
 
-    for (int i = 4; i >= 0; i--) {
-      final start =
-          DateTime(year, month - i, 1).millisecondsSinceEpoch / millisInDay;
-      final end =
-          DateTime(year, month - i, 30).millisecondsSinceEpoch / millisInDay;
+      if (nodes.length < 2) return;
 
-      final startUsage = GraphService.interpolate(nodes, start);
-      final endUsage = GraphService.interpolate(nodes, end);
-      final usage = (endUsage - startUsage).abs().roundToDouble();
+      for (int i = 4; i >= 0; i--) {
+        final start =
+            DateTime(year, month - i, 1).millisecondsSinceEpoch / millisInDay;
+        final end =
+            DateTime(year, month - i, 30).millisecondsSinceEpoch / millisInDay;
 
-      maxMonthlyUsage = max(maxMonthlyUsage, usage);
-      monthlyUsages.add(BarDataPoint(month - i, usage));
+        final startUsage = GraphService.interpolate(nodes, start);
+        final endUsage = GraphService.interpolate(nodes, end);
+        final usage = (endUsage - startUsage).abs().roundToDouble();
+
+        maxMonthlyUsage = max(maxMonthlyUsage, usage);
+        monthlyUsages.add(BarDataPoint(month - i, usage, relation));
+      }
     }
+
+    monthlyUsages.sort((a, b) => a.x.compareTo(b.x));
   }
 
   void toggleCosts() async {
@@ -305,6 +310,20 @@ class BarDataPoint {
   int x;
   double y;
   bool isSelected;
+  Relation relation;
 
-  BarDataPoint(this.x, this.y, [this.isSelected = false]);
+  BarDataPoint(this.x, this.y, this.relation, [this.isSelected = false]);
+}
+
+class ViewBarDataPoint extends BarChartRodData {
+  final Relation relation;
+
+  ViewBarDataPoint({
+    required this.relation,
+    required super.toY,
+    super.color,
+    super.width,
+    super.backDrawRodData,
+    super.borderSide,
+  });
 }
