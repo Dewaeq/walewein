@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walewein/models/data/graph_model.dart';
+import 'package:walewein/models/data/price_model.dart';
 import 'package:walewein/shared/constants.dart';
+import 'package:walewein/shared/services/graph_service.dart';
 import 'package:walewein/shared/services/isar_service.dart';
 import 'package:walewein/shared/utils.dart';
 
 class HomeDrawer extends StatelessWidget {
   HomeDrawer({
     Key? key,
+    required this.prices,
   }) : super(key: key);
+
+  final List<Price> prices;
 
   final isar = IsarService();
 
@@ -45,20 +50,13 @@ class HomeDrawer extends StatelessWidget {
                 ),
               ),
               _buildPriceListTile(context, GraphType.gas),
-              const Divider(
-                indent: kDefaultPadding,
-                endIndent: kDefaultPadding,
-              ),
+              divider(),
               _buildPriceListTile(context, GraphType.electricity),
-              const Divider(
-                indent: kDefaultPadding,
-                endIndent: kDefaultPadding,
-              ),
+              divider(),
+              _buildPriceListTile(context, GraphType.electricityDouble),
+              divider(),
               _buildPriceListTile(context, GraphType.water),
-              const Divider(
-                indent: kDefaultPadding,
-                endIndent: kDefaultPadding,
-              ),
+              divider(),
               _buildPriceListTile(context, GraphType.firePlace),
               const Spacer(),
               FutureBuilder(
@@ -107,6 +105,14 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
+  Widget divider() {
+    return const Divider(
+      indent: kDefaultPadding,
+      endIndent: kDefaultPadding,
+      thickness: 0.8,
+    );
+  }
+
   Widget _buildAboutListTile(AsyncSnapshot<PackageInfo> snapshot) {
     if (!snapshot.hasData) return Container();
 
@@ -152,10 +158,14 @@ class HomeDrawer extends StatelessWidget {
   }
 
   Widget _buildPriceListTile(context, GraphType type) {
+    final value = prices.firstWhere((x) => x.graphType == type);
+    final unit = GraphService.unityType(type);
+
     final title = 'Edit ${type.name} price';
 
     return ListTile(
       title: Text(title),
+      subtitle: Text('€ ${value.price.toStringAsFixed(2)}/$unit'),
       onTap: () => _showPriceDialog(context, type, title),
     );
   }
@@ -165,8 +175,9 @@ class HomeDrawer extends StatelessWidget {
     GraphType type,
     String title,
   ) async {
-    final value = await isar.getPrice(type);
-    final controller = TextEditingController(text: value.price.toString());
+    final value = prices.firstWhere((x) => x.graphType == type);
+    final controller =
+        TextEditingController(text: value.price.toStringAsFixed(2));
 
     showDialog(
       context: context,

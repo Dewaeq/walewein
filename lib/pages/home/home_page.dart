@@ -33,11 +33,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       backgroundColor: kBackgroundColor,
-      drawer: HomeDrawer(),
+      drawer: HomeDrawer(prices: model.prices),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            priceContainer(model),
+            _buildTopBar(model),
             TitleWithEditButton(
               title: "Your graphs",
               isEditing: model.isSelecting,
@@ -52,43 +52,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget priceContainer(HomeViewModel model) {
+  Widget _buildTopBar(HomeViewModel model) {
     return Container(
       margin: const EdgeInsets.only(bottom: kDefaultPadding * 2.5),
       height: model.size.height * 0.2,
       child: Stack(
         children: [
-          Container(
-            height: model.size.height * 0.2 - 40,
-            padding: const EdgeInsets.only(
-              left: kDefaultPadding,
-              right: kDefaultPadding,
-              bottom: 36 + kDefaultPadding,
-            ),
-            decoration: const BoxDecoration(
-              color: kPrimaryColor,
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(36),
-              ),
-            ),
-            child: Row(
-              children: [
-                Text(
-                  "Hello!",
-                  style: Theme.of(model.context).textTheme.headline5?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-                const Spacer(),
-                const Icon(
-                  size: 38,
-                  Icons.graphic_eq,
-                  color: Colors.white,
-                ),
-              ],
-            ),
-          ),
+          _buildHeader(model),
           Positioned(
             bottom: 0,
             left: 0,
@@ -116,11 +86,19 @@ class HomePage extends StatelessWidget {
                   const Text(
                     "Costs this month",
                     style: TextStyle(
-                      color: kTextColor,
+                      color: kSubTextColor,
                       fontSize: 16,
                     ),
                   ),
                   defaultHalfHeightSizedBox,
+                  if (model.graphs.isEmpty)
+                    const Text(
+                      'You need to create a graph first',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: model.graphs
@@ -131,6 +109,40 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildHeader(HomeViewModel model) {
+    return Container(
+      height: model.size.height * 0.2 - 40,
+      padding: const EdgeInsets.only(
+        left: kDefaultPadding,
+        right: kDefaultPadding,
+        bottom: 36 + kDefaultPadding,
+      ),
+      decoration: const BoxDecoration(
+        color: kPrimaryColor,
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(36),
+        ),
+      ),
+      child: Row(
+        children: [
+          Text(
+            "Hello!",
+            style: Theme.of(model.context).textTheme.headline5?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const Spacer(),
+          const Icon(
+            size: 38,
+            Icons.graphic_eq,
+            color: Colors.white,
           ),
         ],
       ),
