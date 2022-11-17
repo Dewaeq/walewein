@@ -237,6 +237,23 @@ class GraphService {
 
     return interpolation.compute(x);
   }
+
+  static String unityType(GraphType graphType) {
+    switch (graphType) {
+      case GraphType.gas:
+        return 'm³';
+      case GraphType.electricityDouble:
+        return 'kWh';
+      case GraphType.electricity:
+        return 'kWh';
+      case GraphType.water:
+        return 'm³';
+      case GraphType.firePlace:
+        return 'kg';
+      default:
+        throw Exception("Graph type not found!");
+    }
+  }
 }
 
 class DataPoint {

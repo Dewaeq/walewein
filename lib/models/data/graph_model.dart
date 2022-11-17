@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
+import 'package:walewein/shared/services/graph_service.dart';
 
 part 'graph_model.g.dart';
 
@@ -24,7 +25,11 @@ class Graph {
     graphType = GraphType.gas;
     dateCreated = DateTime.now();
     relations = [
-      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m³"),
+      Relation.from(
+        nodes: nodes,
+        xLabel: "Datum",
+        yLabel: GraphService.unityType(graphType),
+      ),
     ];
   }
 
@@ -33,7 +38,11 @@ class Graph {
     graphType = GraphType.electricity;
     dateCreated = DateTime.now();
     relations = [
-      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "kWh"),
+      Relation.from(
+        nodes: nodes,
+        xLabel: "Datum",
+        yLabel: GraphService.unityType(graphType),
+      ),
     ];
   }
 
@@ -46,11 +55,15 @@ class Graph {
     dateCreated = DateTime.now();
     relations = [
       Relation.from(
-          nodes: dayNodes, xLabel: "Datum (overdag)", yLabel: "kWh (dag)"),
+        nodes: dayNodes,
+        xLabel: "Datum (overdag)",
+        yLabel: '${GraphService.unityType(graphType)} (dag)',
+      ),
       Relation.from(
-          nodes: nightNodes,
-          xLabel: "Datum ('s nachts')",
-          yLabel: "kWh (nacht)"),
+        nodes: nightNodes,
+        xLabel: "Datum ('s nachts')",
+        yLabel: '${GraphService.unityType(graphType)} (nacht)',
+      ),
     ];
   }
 
@@ -59,7 +72,11 @@ class Graph {
     graphType = GraphType.water;
     dateCreated = DateTime.now();
     relations = [
-      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "m³"),
+      Relation.from(
+        nodes: nodes,
+        xLabel: "Datum",
+        yLabel: GraphService.unityType(graphType),
+      ),
     ];
   }
 
@@ -68,7 +85,11 @@ class Graph {
     graphType = GraphType.firePlace;
     dateCreated = DateTime.now();
     relations = [
-      Relation.from(nodes: nodes, xLabel: "Datum", yLabel: "kg"),
+      Relation.from(
+        nodes: nodes,
+        xLabel: "Datum",
+        yLabel: GraphService.unityType(graphType),
+      ),
     ];
   }
 }
