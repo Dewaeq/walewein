@@ -85,6 +85,8 @@ class GraphPage extends StatelessWidget {
               ),
               onDotClicked: model.goToPage,
             ),
+            defaultHeightSizedBox,
+            defaultHeightSizedBox,
             _buildRelationsList(model),
             const SizedBox(height: 100),
           ],
@@ -112,14 +114,18 @@ class GraphPage extends StatelessWidget {
   }
 
   Widget _buildRelationsList(GraphViewModel model) {
+    List<Widget> children = [];
+
+    for (final relation in model.graph.relations) {
+      children.add(RelationCard(
+        relation: relation,
+        onNodePressed: model.onNodePressed,
+      ));
+      children.add(defaultHeightSizedBox);
+    }
+
     return Column(
-      children: [
-        for (final relation in model.graph.relations)
-          RelationCard(
-            relation: relation,
-            onNodePressed: model.onNodePressed,
-          )
-      ],
+      children: children,
     );
   }
 
