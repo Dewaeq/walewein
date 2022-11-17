@@ -89,11 +89,13 @@ class GraphCard extends StatelessWidget {
           duration: const Duration(milliseconds: 300),
         ),
         defaultHalfWidthSizedBox,
-        Text(
-          graph.name,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
+        Flexible(
+          child: Text(
+            graph.name,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],
