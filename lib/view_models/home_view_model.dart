@@ -107,10 +107,10 @@ class HomeViewModel extends ViewModel<List<Graph>> {
       if (relation.nodes.length < 2) continue;
 
       final currentUsage = GraphService.interpolate(relation.nodes, currentVal);
-
       final startUsage = GraphService.interpolate(relation.nodes, startVal);
+      final usage = (currentUsage - startUsage).roundToDouble();
 
-      result += ((currentUsage - startUsage) * price.price).round();
+      result += (usage * price.price).round();
     }
 
     return result;
