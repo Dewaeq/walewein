@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
+import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/services/isar_service.dart';
 import 'package:walewein/models/data/graph_model.dart';
@@ -15,6 +15,9 @@ class GraphViewModel extends ViewModel<Graph> {
   String title = "";
   late Graph graph;
   final controller = PageController();
+
+  /// Generate a new key everytime [graph] changes, to update the charts
+  late List<Key> chartViewKeys;
 
   late final StreamSubscription<Graph?> _subscription;
   final isarService = IsarService();
@@ -43,6 +46,9 @@ class GraphViewModel extends ViewModel<Graph> {
 
     graph = model;
     title = model.name;
+
+    final numKeys = ChartViewType.values.length;
+    chartViewKeys = List.generate(numKeys, (_) => UniqueKey());
 
     super.setState();
   }

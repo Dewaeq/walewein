@@ -14,6 +14,7 @@ class GraphPage extends StatelessWidget {
   const GraphPage({super.key, required this.id});
 
   final Id id;
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder(
@@ -60,14 +61,17 @@ class GraphPage extends StatelessWidget {
                 controller: model.controller,
                 children: [
                   _buildPage(
+                    model,
                     model.graph,
                     ChartViewType.monthlyUsage,
                   ),
                   _buildPage(
+                    model,
                     model.graph,
                     ChartViewType.cumulativeUsage,
                   ),
                   _buildPage(
+                    model,
                     model.graph,
                     ChartViewType.predictions,
                   ),
@@ -105,8 +109,10 @@ class GraphPage extends StatelessWidget {
     );
   }
 
-  Widget _buildPage(Graph graph, ChartViewType chartType) {
+  Widget _buildPage(
+      GraphViewModel model, Graph graph, ChartViewType chartType) {
     return ChartView(
+      key: model.chartViewKeys[chartType.index],
       graph: graph,
       showLabels: true,
       chartType: chartType,

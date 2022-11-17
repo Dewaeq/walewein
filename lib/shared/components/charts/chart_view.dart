@@ -13,12 +13,12 @@ enum ChartViewType {
 }
 
 class ChartView extends StatelessWidget {
-  ChartView({
-    Key? key,
+  const ChartView({
+    super.key,
     required this.graph,
     required this.showLabels,
     required this.chartType,
-  }) : super(key: key ?? UniqueKey());
+  });
 
   final Graph graph;
   final bool showLabels;
