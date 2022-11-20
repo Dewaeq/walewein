@@ -223,7 +223,7 @@ class LineChartView extends StatelessWidget {
                   node.x.millisecondsSinceEpoch == spot.x && node.y == spot.y),
               orElse: () => model.graph.relations.first,
             );
-            final suffix = ' ${relation.yLabel}';
+            final suffix = ' ${relation.yLabel.tr()}';
 
             items[i] = LineTooltipItem(
                 i == 0 ? '${DateFormat('d MMMM').format(date)}\n' : '',

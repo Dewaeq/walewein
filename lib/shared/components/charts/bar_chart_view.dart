@@ -167,7 +167,7 @@ class BarChartView extends StatelessWidget {
     final date = DateTime(0, group.x);
     final month = DateFormat('MMMM').format(date);
     final prefix = model.showCosts ? '€ ' : '';
-    final suffix = model.showCosts ? '' : ' ${rod.relation.yLabel}';
+    final suffix = model.showCosts ? '' : ' ${rod.relation.yLabel.tr()}';
     final content = model.toolTipValue(rod.toY);
 
     return BarTooltipItem(

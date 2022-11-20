@@ -54,6 +54,18 @@
         "day": "dag",
         "night": "nacht"
     },
+    "xLabels": {
+        "electricityDay": "Datum (dag)",
+        "electricityNight": "Datum (nacht)"
+    },
+    "yLabels": {
+        "gas": "m³",
+        "electricity": "kWh",
+        "electricityDay": "kWh (dag)",
+        "electricityNight": "kWh (nacht)",
+        "water": "m³",
+        "firePlace": "kg"
+    },
     "GraphType": {
         "gas": "Gas",
         "water": "Water",

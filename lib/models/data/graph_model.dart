@@ -28,8 +28,8 @@ class Graph {
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: 'general.date'.tr(),
-        yLabel: unityTypeToString(graphType),
+        xLabel: 'general.date',
+        yLabel: 'yLabels.gas',
       ),
     ];
   }
@@ -40,8 +40,8 @@ class Graph {
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: 'general.date'.tr(),
-        yLabel: unityTypeToString(graphType),
+        xLabel: 'general.date',
+        yLabel: 'yLabels.electricity',
       ),
     ];
   }
@@ -58,13 +58,13 @@ class Graph {
     relations = [
       Relation.from(
         nodes: dayNodes,
-        xLabel: '${'general.date'.tr()} (${'general.day'.tr()})',
-        yLabel: '${unityTypeToString(graphType)} (${'general.day'.tr()})',
+        xLabel: 'xLabels.electricityDay',
+        yLabel: 'yLabels.electricityDay',
       ),
       Relation.from(
         nodes: nightNodes,
-        xLabel: '${'general.date'.tr()} (${'general.night'.tr()})',
-        yLabel: '${unityTypeToString(graphType)} (${'general.night'.tr()})',
+        xLabel: 'xLabels.electricityNight',
+        yLabel: 'yLabels.electricityNight',
       ),
     ];
   }
@@ -75,8 +75,8 @@ class Graph {
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: 'general.date'.tr(),
-        yLabel: unityTypeToString(graphType),
+        xLabel: 'general.date',
+        yLabel: 'yLabels.water',
       ),
     ];
   }
@@ -87,8 +87,8 @@ class Graph {
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: 'general.date'.tr(),
-        yLabel: unityTypeToString(graphType),
+        xLabel: 'general.date',
+        yLabel: 'yLabels.firePlace',
       ),
     ];
   }
@@ -100,6 +100,20 @@ enum GraphType {
   electricityDouble,
   water,
   firePlace,
+}
+
+enum RelationXLabel {
+  date,
+  dateDay,
+  dateNight,
+}
+
+enum RelationYLabel {
+  gas,
+  water,
+  firePlace,
+  electricity,
+  electricityDouble,
 }
 
 enum DisplayDateSpread {

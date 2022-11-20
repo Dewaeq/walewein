@@ -25,9 +25,9 @@ class RelationCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              TextWithCustomUnderline(text: relation.xLabel),
+              TextWithCustomUnderline(text: relation.xLabel.tr()),
               const Spacer(),
-              TextWithCustomUnderline(text: relation.yLabel),
+              TextWithCustomUnderline(text: relation.yLabel.tr()),
               HelpButton(
                 content: 'graph.tileHelpText'.tr(),
               ),

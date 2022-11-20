@@ -41,7 +41,7 @@ class RelationInputField extends StatelessWidget {
         ),
       ),
       Text(
-        relation.yLabel,
+        relation.yLabel.tr(),
         style: const TextStyle(
           color: Colors.white,
           fontSize: 22,

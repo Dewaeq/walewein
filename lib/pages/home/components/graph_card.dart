@@ -145,7 +145,7 @@ class GraphCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5),
-            Text(relation!.yLabel),
+            Text(relation!.yLabel.tr()),
           ],
         ),
         Row(

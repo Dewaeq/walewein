@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
@@ -32,7 +33,7 @@ class EditEntryViewModel extends ViewModel<GraphNode> {
   void setState([model]) {
     loaded = false;
 
-    title = relation.yLabel;
+    title = relation.yLabel.tr();
     date = node.x;
     controller.text = node.y.toString();
 

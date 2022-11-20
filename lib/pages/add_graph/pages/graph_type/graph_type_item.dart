@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/cross_fade.dart';
@@ -42,7 +43,7 @@ class GraphTypeItem extends StatelessWidget {
             children: [
               graphTypeToIcon(graphType),
               defaultWidthSizedBox,
-              Text(graphTypeToString(graphType)),
+              Text('$graphType'.tr()),
               const Spacer(),
               SelectableCheckMark(selected: isSelected),
             ],
