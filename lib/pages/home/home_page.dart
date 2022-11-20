@@ -225,14 +225,15 @@ class HomePage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          for (final graph in model.graphs)
+          for (int i = 0; i < model.graphs.length; i++)
             Container(
               padding: const EdgeInsets.all(8.0),
               child: GraphCard(
-                graph: graph,
+                key: model.chartViewKeys[i],
+                graph: model.graphs[i],
                 isSelecting: model.isSelecting,
-                isSelected: model.selectedGraphs[graph]!,
-                onSelect: () => model.select(graph),
+                isSelected: model.selectedGraphs[model.graphs[i]]!,
+                onSelect: () => model.select(model.graphs[i]),
               ),
             ),
         ],

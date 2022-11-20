@@ -18,6 +18,9 @@ class HomeViewModel extends ViewModel<List<Graph>> {
   List<Price> prices = [];
   bool isSelecting = false;
 
+  /// Generate a new key everytime [graph] changes, to update the charts
+  late List<Key> chartViewKeys;
+
   late final StreamSubscription<List<Graph>> _graphSubscription;
   late final StreamSubscription<List<Price>> _priceSubscription;
   final storage = StorageService();
@@ -53,6 +56,9 @@ class HomeViewModel extends ViewModel<List<Graph>> {
     for (final graph in graphs) {
       selectedGraphs[graph] = false;
     }
+
+    final numKeys = graphs.length;
+    chartViewKeys = List.generate(numKeys, (_) => UniqueKey());
 
     super.setState(model);
   }
