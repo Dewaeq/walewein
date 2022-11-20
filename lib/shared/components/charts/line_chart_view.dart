@@ -180,7 +180,7 @@ class LineChartView extends StatelessWidget {
         return FlDotCirclePainter(
           strokeColor: Colors.transparent,
           color:
-              model.selectedPointIndex >= 0 && p0.y != model.selectedPointIndex
+              model.selectedPointIndex >= 0 && p0.x != model.selectedPointIndex
                   ? Colors.yellow
                   : color ?? kGraphTextColor,
           radius: 4.5,
@@ -206,7 +206,7 @@ class LineChartView extends StatelessWidget {
           model.unSelectPoint();
           return;
         }
-        model.selectPoint(lineTouchResponse.lineBarSpots!.first.y);
+        model.selectPoint(lineTouchResponse.lineBarSpots!.first.x);
       },
       touchTooltipData: LineTouchTooltipData(
         tooltipBgColor: Colors.blueGrey,
@@ -216,7 +216,11 @@ class LineChartView extends StatelessWidget {
           for (int i = 0; i < spots.length; i++) {
             final spot = spots[i];
             final date = DateTime.fromMillisecondsSinceEpoch(spot.x.toInt());
-            final suffix = ' ${model.graph.relations[i].yLabel}';
+            final relation = model.graph.relations.firstWhere((relation) =>
+                relation.nodes.any((node) =>
+                    node.x.millisecondsSinceEpoch == spot.x &&
+                    node.y == spot.y));
+            final suffix = ' ${relation.yLabel}';
 
             items[i] = LineTooltipItem(
                 i == 0 ? '${DateFormat('d MMMM').format(date)}\n' : '',

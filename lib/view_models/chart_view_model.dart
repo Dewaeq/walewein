@@ -296,8 +296,8 @@ class ChartViewModel extends ViewModel<Graph> {
     notifyListeners();
   }
 
-  void selectPoint(double yValue) {
-    selectedPointIndex = yValue;
+  void selectPoint(double xValue) {
+    selectedPointIndex = xValue;
     notifyListeners();
   }
 
