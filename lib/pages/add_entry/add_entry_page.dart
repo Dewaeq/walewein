@@ -107,11 +107,19 @@ class AddEntryPage extends StatelessWidget {
       return Container();
     }
 
+    final width = MediaQuery.of(model.context).size.width;
+
+    final k = model.imageResult!.imageSize.width / width;
+    final height = model.imageResult!.imageSize.height / k;
+
+    final imageWidgetSize = Size(width, height);
+
     return Center(
       child: ImageContainer(
         image: Image.file(model.imageResult!.image),
-        recognizedText: model.imageResult!.recognizedText,
+        imageWidgetSize: imageWidgetSize,
         imageSize: model.imageResult!.imageSize,
+        recognizedText: model.imageResult!.recognizedText,
         onSelectText: model.selectText,
       ),
     );

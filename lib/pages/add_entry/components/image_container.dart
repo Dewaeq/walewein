@@ -1,28 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:walewein/shared/components/constants.dart';
-import 'package:walewein/shared/components/widget_size.dart';
 
-class ImageContainer extends StatefulWidget {
+class ImageContainer extends StatelessWidget {
   const ImageContainer({
     super.key,
     required this.image,
-    required this.recognizedText,
+    required this.imageWidgetSize,
     required this.imageSize,
+    required this.recognizedText,
     required this.onSelectText,
   });
 
   final Image image;
   final Size imageSize;
+  final Size imageWidgetSize;
   final RecognizedText recognizedText;
   final Function(String) onSelectText;
-
-  @override
-  State<ImageContainer> createState() => _ImageContainerState();
-}
-
-class _ImageContainerState extends State<ImageContainer> {
-  Size? _imageWidgetSize;
 
   @override
   Widget build(BuildContext context) {
@@ -31,35 +25,22 @@ class _ImageContainerState extends State<ImageContainer> {
       decoration: const BoxDecoration(
         color: Colors.pink,
       ),
-      child: _buildOverlay(size),
+      child: _buildOverlay(context, size),
     );
   }
 
-  Widget _buildOverlay(Size size) {
+  Widget _buildOverlay(BuildContext context, Size size) {
     return Stack(
       fit: StackFit.loose,
       children: [
-        WidgetSize(
-          child: Image(
-            image: widget.image.image,
-          ),
-          onChange: (size) {
-            setState(() {
-              _imageWidgetSize = size;
-            });
-          },
-        ),
-        ..._texts(size),
+        Image(image: image.image),
+        ..._texts(context, size),
       ],
     );
   }
 
-  List<Widget> _texts(Size size) {
-    if (_imageWidgetSize == null) {
-      return [];
-    }
-
-    final texts = widget.recognizedText.blocks
+  List<Widget> _texts(BuildContext context, Size size) {
+    final texts = recognizedText.blocks
         .map((block) => _positioned(
             rect: block.boundingBox, child: _textButton(block.text)))
         .toList();
@@ -70,7 +51,7 @@ class _ImageContainerState extends State<ImageContainer> {
   Widget _textButton(String text) {
     return MaterialButton(
       onPressed: () {
-        widget.onSelectText(text);
+        onSelectText(text);
       },
       color: Colors.green.withOpacity(.4),
       shape: RoundedRectangleBorder(
@@ -81,14 +62,10 @@ class _ImageContainerState extends State<ImageContainer> {
 
   Widget _positioned({required Rect rect, required Widget child}) {
     return Positioned(
-      top: _map(rect.top, 0, widget.imageSize.height, 0,
-              _imageWidgetSize!.height) -
-          2,
-      left: _map(rect.left, 0, widget.imageSize.width, 0,
-              _imageWidgetSize!.width) -
-          2,
-      width: _map(rect.right - rect.left, 0, widget.imageSize.width, 0,
-              _imageWidgetSize!.width) +
+      top: _map(rect.top, 0, imageSize.height, 0, imageWidgetSize.height) - 2,
+      left: _map(rect.left, 0, imageSize.width, 0, imageWidgetSize.width) - 2,
+      width: _map(rect.right - rect.left, 0, imageSize.width, 0,
+              imageWidgetSize.width) +
           4,
       height: _getPositionedHeight(rect) + 4,
       child: child,
@@ -96,8 +73,8 @@ class _ImageContainerState extends State<ImageContainer> {
   }
 
   double _getPositionedHeight(Rect rect) {
-    var height = _map(rect.bottom - rect.top, 0, widget.imageSize.width, 0,
-        _imageWidgetSize!.width);
+    var height = _map(
+        rect.bottom - rect.top, 0, imageSize.width, 0, imageWidgetSize.width);
 
     if (height < 20) {
       height = 20;
