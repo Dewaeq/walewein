@@ -46,6 +46,9 @@ class Graph {
     ];
   }
 
+  /// **IMPORTANT**
+  ///
+  /// First relation should always be daytime usage and the second nighttime
   Graph.electricityDouble({
     List<GraphNode> dayNodes = const [],
     List<GraphNode> nightNodes = const [],

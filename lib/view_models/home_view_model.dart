@@ -108,14 +108,21 @@ class HomeViewModel extends ViewModel<List<Graph>> {
         DateTime(now.year, now.month, 1).millisecondsSinceEpoch / millisInDay;
     final price = prices.firstWhere((e) => e.graphType == graph.graphType);
 
-    for (final relation in graph.relations) {
+    for (int i = 0; i < graph.relations.length; i++) {
+      final relation = graph.relations[i];
       if (relation.nodes.length < 2) continue;
 
       final currentUsage = GraphService.interpolate(relation.nodes, currentVal);
       final startUsage = GraphService.interpolate(relation.nodes, startVal);
       final usage = (currentUsage - startUsage).roundToDouble();
 
-      result += (usage * price.price).round();
+      if (i == 0 && graph.graphType == GraphType.electricityDouble) {
+        final dayPrice =
+            prices.firstWhere((e) => e.graphType == GraphType.electricity);
+        result += (usage * dayPrice.price).round();
+      } else {
+        result += (usage * price.price).round();
+      }
     }
 
     return result;
