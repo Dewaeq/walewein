@@ -29,6 +29,9 @@ class AddEntryViewModel extends ViewModel {
     for (final relation in graph.relations) {
       controllers[relation] = TextEditingController();
     }
+
+    Future.delayed(const Duration(milliseconds: 400))
+        .then((_) => bottomBarController.openSheet());
   }
 
   @override
