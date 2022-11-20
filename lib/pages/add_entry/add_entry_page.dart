@@ -32,7 +32,6 @@ class AddEntryPage extends StatelessWidget {
       body: GestureDetector(
         onTap: model.bottomBarController.closeSheet,
         child: CustomScrollView(
-          shrinkWrap: true,
           slivers: [
             SliverAppBar.large(
               title: Text(
@@ -114,14 +113,12 @@ class AddEntryPage extends StatelessWidget {
 
     final imageWidgetSize = Size(width, height);
 
-    return Center(
-      child: ImageContainer(
-        image: Image.file(model.imageResult!.image),
-        imageWidgetSize: imageWidgetSize,
-        imageSize: model.imageResult!.imageSize,
-        recognizedText: model.imageResult!.recognizedText,
-        onSelectText: model.selectText,
-      ),
+    return ImageContainer(
+      image: Image.file(model.imageResult!.image),
+      imageWidgetSize: imageWidgetSize,
+      imageSize: model.imageResult!.imageSize,
+      recognizedText: model.imageResult!.recognizedText,
+      onSelectText: model.selectText,
     );
   }
 

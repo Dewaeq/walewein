@@ -31,9 +31,12 @@ class ImageContainer extends StatelessWidget {
 
   Widget _buildOverlay(BuildContext context, Size size) {
     return Stack(
-      fit: StackFit.loose,
+      fit: StackFit.passthrough,
       children: [
-        Image(image: image.image),
+        Image(
+          image: image.image,
+          fit: BoxFit.fitWidth,
+        ),
         ..._texts(context, size),
       ],
     );
