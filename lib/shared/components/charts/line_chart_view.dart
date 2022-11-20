@@ -175,14 +175,16 @@ class LineChartView extends StatelessWidget {
 
   FlDotData dotData([Color? color]) {
     return FlDotData(
-      show: showLabels,
-      getDotPainter: (p0, p1, p2, p3) {
+      show: true,
+      getDotPainter: (spot, _, __, ___) {
         return FlDotCirclePainter(
           strokeColor: Colors.transparent,
-          color:
-              model.selectedPointIndex >= 0 && p0.x != model.selectedPointIndex
+          color: showLabels
+              ? model.selectedPointIndex >= 0 &&
+                      spot.x != model.selectedPointIndex
                   ? Colors.yellow
-                  : color ?? kGraphTextColor,
+                  : color ?? kGraphTextColor
+              : Colors.white,
           radius: 4.5,
         );
       },
@@ -216,10 +218,11 @@ class LineChartView extends StatelessWidget {
           for (int i = 0; i < spots.length; i++) {
             final spot = spots[i];
             final date = DateTime.fromMillisecondsSinceEpoch(spot.x.toInt());
-            final relation = model.graph.relations.firstWhere((relation) =>
-                relation.nodes.any((node) =>
-                    node.x.millisecondsSinceEpoch == spot.x &&
-                    node.y == spot.y));
+            final relation = model.graph.relations.firstWhere(
+              (relation) => relation.nodes.any((node) =>
+                  node.x.millisecondsSinceEpoch == spot.x && node.y == spot.y),
+              orElse: () => model.graph.relations.first,
+            );
             final suffix = ' ${relation.yLabel}';
 
             items[i] = LineTooltipItem(
