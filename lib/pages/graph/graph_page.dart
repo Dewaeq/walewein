@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:walewein/pages/graph/components/relation_card.dart';
 import 'package:walewein/shared/components/charts/chart_view.dart';
@@ -35,7 +36,7 @@ class GraphPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: kPrimaryColor,
-        tooltip: 'Add Entry',
+        tooltip: 'general.addEntry'.tr(),
         child: const Icon(Icons.add),
       ),
     );
@@ -104,7 +105,7 @@ class GraphPage extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () => _addEntry(model.graph, model.context),
       backgroundColor: kPrimaryColor,
-      tooltip: 'Add Entry',
+      tooltip: 'general.addEntry'.tr(),
       child: const Icon(Icons.add),
     );
   }

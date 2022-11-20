@@ -1,0 +1,63 @@
+{
+    "home": {
+        "greeting": "Hallo",
+        "costs": "Kosten deze maand",
+        "createGraphFirst": "Maak eerst een grafiek aan",
+        "graphs": "Jouw grafieken",
+        "addGraph": "Maak grafiek",
+        "changeSince": "Sinds {}"
+    },
+    "settings": {
+        "packageName": "Pakket naam",
+        "buildNumber": "Build nummer",
+        "installSource": "Installatiebron",
+        "unknown": "Onbekend",
+        "editPrice": "Bewerk {} prijs"
+    },
+    "addGraph": {
+        "description": "Selecteer een van onze vooraf samengestelde grafiektypes",
+        "graphName": "Naam grafiek:",
+        "createGraph": "Maak grafiek:",
+        "withType": "Met type:"
+    },
+    "graph": {
+        "tileHelpText": "Druk lang op een waarde om ze te bewerken of te verwijderen",
+        "readFromImage": "Lees van afbeelding"
+    },
+    "chart": {
+        "addEntryFirst": "Voeg een waarde toe om deze functie te gebruiken",
+        "monthlyUsage": "Maandelijks verbruik",
+        "monthlyUsageEstimated": "Schatting van hoeveel je maandelijks verbruikt",
+        "predictedUsage": "Voorspeld verbruik",
+        "predictedUsageEstimated": "Gebaseerd op trends uit het verleden",
+        "cumulativeUsage": "Cumulatief verbruik",
+        "cumulativeUsageLimit": "Beperkt tot vier maanden",
+        "atLeastTwoEntries": "Voeg ten minste twee waarden toe om deze functie te gebruiken"
+    },
+    "general": {
+        "addEntry": "Waarde toevoegen",
+        "editDate": "Datum bewerken",
+        "settings": "Instellingen",
+        "help": "Help",
+        "edit": "Bewerken",
+        "close": "Sluiten",
+        "cancel": "Annuleer",
+        "ok": "Ok",
+        "done": "Klaar",
+        "save": "Opslaan",
+        "delete": "Verwijderen",
+        "deleteSelection": "Verwijder selectie",
+        "finish": "Voltooien",
+        "continue": "Verder",
+        "date": "Datum",
+        "day": "dag",
+        "night": "nacht"
+    },
+    "GraphType": {
+        "gas": "Gas",
+        "water": "Water",
+        "electricity": "Elektriciteit",
+        "electricityDouble": "Elektriciteit (dubbele meter)",
+        "firePlace": "Kachel"
+    }
+}

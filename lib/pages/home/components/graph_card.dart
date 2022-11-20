@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/graph/graph_page.dart';
 import 'package:walewein/shared/components/charts/chart_view.dart';
@@ -92,7 +92,7 @@ class GraphCard extends StatelessWidget {
         defaultHalfWidthSizedBox,
         Flexible(
           child: Text(
-            graph.name,
+            graph.name ?? '${graph.graphType}'.tr(),
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -128,7 +128,7 @@ class GraphCard extends StatelessWidget {
       diff = double.parse(diff.toStringAsFixed(2));
     }
 
-    final result = "${diff < 1 ? "-" : "+"}$diff%";
+    final result = '${diff < 1 ? '-' : '+'}$diff%';
     final color = diff < 1 ? const Color(0xfff7564c) : const Color(0xff08bc50);
 
     return Column(
@@ -159,7 +159,8 @@ class GraphCard extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Text(
-              "sinds ${DateFormat("EEE, d MMM").format(date)}",
+              'home.changeSince'
+                  .tr(args: [DateFormat('EEE, d MMM').format(date)]),
               style: const TextStyle(
                 fontSize: 16,
                 color: Color(0xff8e92a6),

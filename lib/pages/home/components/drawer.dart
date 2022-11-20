@@ -1,9 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
+import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/extensions.dart';
 import 'package:walewein/shared/services/storage_service.dart';
@@ -30,8 +32,8 @@ class HomeDrawer extends StatelessWidget {
         child: Drawer(
           child: Column(
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
+              DrawerHeader(
+                decoration: const BoxDecoration(
                   color: kPrimaryColor,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(25),
@@ -40,8 +42,8 @@ class HomeDrawer extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: Text(
-                    "Settings",
-                    style: TextStyle(
+                    'general.settings'.tr(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -49,16 +51,23 @@ class HomeDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              _buildPriceListTile(context, GraphType.gas),
-              divider(),
-              _buildPriceListTile(context, GraphType.electricity),
-              divider(),
-              _buildPriceListTile(context, GraphType.electricityDouble),
-              divider(),
-              _buildPriceListTile(context, GraphType.water),
-              divider(),
-              _buildPriceListTile(context, GraphType.firePlace),
-              const Spacer(),
+              Flexible(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    _buildPriceListTile(context, GraphType.gas),
+                    divider(),
+                    _buildPriceListTile(context, GraphType.electricity),
+                    divider(),
+                    _buildPriceListTile(context, GraphType.electricityDouble),
+                    divider(),
+                    _buildPriceListTile(context, GraphType.water),
+                    divider(),
+                    _buildPriceListTile(context, GraphType.firePlace),
+                  ],
+                ),
+              ),
+              defaultHeightSizedBox,
               FutureBuilder(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) => _buildAboutListTile(snapshot),
@@ -85,9 +94,9 @@ class HomeDrawer extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            child: const Text(
-              "CLOSE",
-              style: TextStyle(
+            child: Text(
+              'general.close'.tr().toUpperCase(),
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
               ),
@@ -130,16 +139,16 @@ class HomeDrawer extends StatelessWidget {
       ),
       aboutBoxChildren: [
         ListTile(
-          title: const Text('Package name'),
+          title: Text('settings.packageName'.tr()),
           subtitle: Text(packageInfo.packageName),
         ),
         ListTile(
-          title: const Text('Build number'),
+          title: Text('settings.buildNumber'.tr()),
           subtitle: Text(packageInfo.buildNumber),
         ),
         ListTile(
-          title: const Text('Install source'),
-          subtitle: Text(packageInfo.installerStore ?? "Unknown"),
+          title: Text('settings.installSource'.tr()),
+          subtitle: Text(packageInfo.installerStore ?? 'settings.unknown'.tr()),
         ),
         ListTile(
           title: Text.rich(
@@ -166,7 +175,7 @@ class HomeDrawer extends StatelessWidget {
     final unit = unityTypeToString(type);
 
     final typeName = graphTypeToUnitString(type);
-    final title = 'Edit $typeName price';
+    final title = 'settings.editPrice'.tr(args: [typeName]);
 
     return ListTile(
       title: Text(title),
@@ -195,8 +204,8 @@ class HomeDrawer extends StatelessWidget {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, "Cancel"),
-              child: const Text("Cancel"),
+              onPressed: () => Navigator.pop(context, 'general.cancel'.tr()),
+              child: Text('general.cancel'.tr()),
             ),
             TextButton(
               onPressed: () async {
@@ -206,7 +215,7 @@ class HomeDrawer extends StatelessWidget {
                 // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },
-              child: const Text("OK"),
+              child: Text('general.ok'.tr()),
             ),
           ],
         );

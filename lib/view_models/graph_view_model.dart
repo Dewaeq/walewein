@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
@@ -12,7 +13,7 @@ class GraphViewModel extends ViewModel<Graph> {
   GraphViewModel(this.id, BuildContext context) : super(context);
 
   final Id id;
-  String title = "";
+  String title = '';
   late Graph graph;
   final controller = PageController();
 
@@ -45,7 +46,8 @@ class GraphViewModel extends ViewModel<Graph> {
     if (model == null) return;
 
     graph = model;
-    title = model.name;
+
+    title = model.name ?? '${model.graphType}'.tr();
 
     final numKeys = ChartViewType.values.length;
     chartViewKeys = List.generate(numKeys, (_) => UniqueKey());

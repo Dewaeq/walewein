@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class GraphNamePage extends StatelessWidget {
@@ -14,7 +15,7 @@ class GraphNamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("Graph name"),
+        Text('addGraph.graphName'.tr()),
         TextFormField(
           initialValue: value,
           onChanged: onChange,

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/view_models/chart_view_model.dart';
 
@@ -24,7 +24,7 @@ class BarChartView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildTitles(),
+            Flexible(child: _buildTitles()),
             _buildCostsButton(),
           ],
         ),
@@ -102,10 +102,10 @@ class BarChartView extends StatelessWidget {
   }
 
   Text _notEnoughEntries() {
-    return const Text(
-      "Add at least two entries to enable monthly usage tracking",
+    return Text(
+      'chart.atLeastTwoEntries'.tr(),
       textAlign: TextAlign.center,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.bold,
         color: Colors.white,
@@ -169,7 +169,7 @@ class BarChartView extends StatelessWidget {
     ViewBarDataPoint rod,
   ) {
     final date = DateTime(0, group.x);
-    final month = DateFormat("MMMM").format(date);
+    final month = DateFormat('MMMM').format(date);
     final prefix = model.showCosts ? '€ ' : '';
     final suffix = model.showCosts ? '' : ' ${rod.relation.yLabel}';
     final content = model.toolTipValue(rod.toY);
@@ -230,7 +230,7 @@ class BarChartView extends StatelessWidget {
   Widget getTitles(double value, TitleMeta meta) {
     final date = DateTime(0, value.toInt());
     final content =
-        DateFormat("MMM").format(date).substring(0, 1).toUpperCase();
+        DateFormat('MMM').format(date).substring(0, 1).toUpperCase();
 
     final text = Text(
       content,

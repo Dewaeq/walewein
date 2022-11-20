@@ -1,8 +1,7 @@
 import 'dart:math';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/models/chart_range.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/graph_node.dart';
@@ -41,7 +40,7 @@ class ChartViewModel extends ViewModel<Graph> {
   late ChartRange chartRange;
   late DisplayDateSpread dateSpread;
   Map<Relation, TrendPrediction> trends = {};
-  late List<BarDataPoint> monthlyUsages;
+  List<BarDataPoint> monthlyUsages = [];
   late double maxMonthlyUsage;
   double selectedPointIndex = -1;
   bool showCosts = false;
@@ -59,6 +58,7 @@ class ChartViewModel extends ViewModel<Graph> {
     loaded = false;
 
     if (isGraphEmpty()) {
+      loaded = true;
       return;
     }
 
@@ -118,7 +118,7 @@ class ChartViewModel extends ViewModel<Graph> {
 
     for (var i = 0; chartRange.maxY - i * stepSize > chartRange.minY; i++) {
       final value = chartRange.maxY - (i * stepSize);
-      labels.add(NumberFormat.compact(locale: "en_GB").format(value.round()));
+      labels.add(NumberFormat.compact(locale: 'en_GB').format(value.round()));
     }
 
     return labels;
@@ -147,15 +147,15 @@ class ChartViewModel extends ViewModel<Graph> {
   String dateLabelFromDateSpread(DateTime date) {
     switch (dateSpread) {
       case DisplayDateSpread.year:
-        return DateFormat("d MMM").format(date);
+        return DateFormat('d MMM').format(date);
       case DisplayDateSpread.month:
-        return DateFormat("d MMM").format(date);
+        return DateFormat('d MMM').format(date);
       case DisplayDateSpread.week:
-        return DateFormat("EEE d").format(date);
+        return DateFormat('EEE d').format(date);
       case DisplayDateSpread.day:
-        return DateFormat("HH:mm").format(date);
+        return DateFormat('HH:mm').format(date);
       default:
-        return "";
+        return '';
     }
   }
 

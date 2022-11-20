@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/shared/components/constants.dart';
@@ -18,10 +19,10 @@ class FinishPage extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Create graph:"),
-        Text(graphName ?? ""),
+        Text('addGraph.createGraph'.tr()),
+        Text(graphName ?? ''),
         defaultHeightSizedBox,
-        const Text("With type:"),
+        Text('addGraph.withType'.tr()),
         Text(graphTypeToString(graphType!)),
       ],
     );

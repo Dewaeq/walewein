@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
 import 'package:walewein/shared/components/help_button.dart';
@@ -28,8 +28,9 @@ class RelationCard extends StatelessWidget {
               TextWithCustomUnderline(text: relation.xLabel),
               const Spacer(),
               TextWithCustomUnderline(text: relation.yLabel),
-              const HelpButton(
-                  content: 'Long press a tile to change its values'),
+              HelpButton(
+                content: 'graph.tileHelpText'.tr(),
+              ),
             ],
           ),
           const Divider(
@@ -68,7 +69,7 @@ class NodeTile extends StatelessWidget {
             color: Colors.grey[200]!,
           ),
         ),
-        leading: Text(DateFormat("d MMMM yyyy").format(node.x)),
+        leading: Text(DateFormat('d MMMM yyyy').format(node.x)),
         trailing: Text(node.y.toString()),
         enableFeedback: true,
         onTap: () {},

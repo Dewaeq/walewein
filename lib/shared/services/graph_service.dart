@@ -47,7 +47,7 @@ class GraphService {
         graph = Graph.firePlace();
         break;
       default:
-        throw Exception("Graph type not found!");
+        throw Exception('Graph type not found!');
     }
 
     if (name != null) {

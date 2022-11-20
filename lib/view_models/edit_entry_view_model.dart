@@ -15,7 +15,7 @@ class EditEntryViewModel extends ViewModel<GraphNode> {
   final Graph graph;
   late final Relation relation;
 
-  String title = "";
+  String title = '';
   final controller = TextEditingController();
 
   DateTime? date;

@@ -1,9 +1,8 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/pages/home/home_page.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/storage_service.dart';
@@ -15,12 +14,18 @@ void main() async {
   final storage = StorageService();
   await storage.initPrices();
 
-  await initializeDateFormatting("nl_BE", null);
-  Intl.defaultLocale = "nl_BE";
+  await EasyLocalization.ensureInitialized();
 
   setSystemNavBarColor();
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('nl'), Locale('fr')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 void setSystemNavBarColor() {
@@ -43,11 +48,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Walewein',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       theme: ThemeData(
         primaryColor: kPrimaryColor,
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: "Mulish",
+        fontFamily: 'Mulish',
         useMaterial3: true,
       ),
       home: const HomePage(),

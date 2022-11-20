@@ -29,7 +29,7 @@ class StorageService {
     final graph = await isar.graphs.get(id);
 
     if (graph == null) {
-      throw Exception("Failed to get graph with id: $id");
+      throw Exception('Failed to get graph with id: $id');
     }
 
     return graph;

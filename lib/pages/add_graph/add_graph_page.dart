@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/pages/add_graph/pages/finish/finish_page.dart';
 import 'package:walewein/pages/add_graph/pages/graph_name/graph_name_page.dart';
@@ -47,10 +48,10 @@ class AddGraphPage extends StatelessWidget {
                   ),
                   GraphNamePage(
                     onChange: model.onGraphName,
-                    value: model.graphName ?? "",
+                    value: model.graphName ?? '${model.selectedType}'.tr(),
                   ),
                   FinishPage(
-                    graphName: model.graphName,
+                    graphName: model.graphName ?? '${model.selectedType}'.tr(),
                     graphType: model.selectedType,
                   ),
                 ],
@@ -66,7 +67,9 @@ class AddGraphPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 15),
               child: BottomIndicator(
-                  numPages: AddGraphViewModel.numPages, page: model.page),
+                numPages: AddGraphViewModel.numPages,
+                page: model.page,
+              ),
             ),
           ],
         ),
@@ -87,7 +90,7 @@ class AddGraphPage extends StatelessWidget {
         ),
         alignment: Alignment.center,
         child: Text(
-          model.isFinished() ? "Finish" : "Continue",
+          model.isFinished() ? 'general.finish'.tr() : 'general.continue'.tr(),
           style: Theme.of(model.context).textTheme.button?.copyWith(
                 color: Colors.white,
               ),

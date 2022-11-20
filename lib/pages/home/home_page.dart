@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/graph/graph_page.dart';
@@ -39,7 +40,7 @@ class HomePage extends StatelessWidget {
           children: [
             _buildTopBar(model),
             TitleWithEditButton(
-              title: "Your graphs",
+              title: 'home.graphs'.tr(),
               isEditing: model.isSelecting,
               onPress: model.editGraphs,
             ),
@@ -83,18 +84,18 @@ class HomePage extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  const Text(
-                    "Costs this month",
-                    style: TextStyle(
+                  Text(
+                    'home.costs'.tr(),
+                    style: const TextStyle(
                       color: kSubTextColor,
                       fontSize: 16,
                     ),
                   ),
                   defaultHalfHeightSizedBox,
                   if (model.graphs.isEmpty)
-                    const Text(
-                      'You need to create a graph first',
-                      style: TextStyle(
+                    Text(
+                      'home.createGraphFirst'.tr(),
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -132,8 +133,8 @@ class HomePage extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            "Hello!",
-            style: Theme.of(model.context).textTheme.headline5?.copyWith(
+            'home.greeting'.tr(),
+            style: Theme.of(model.context).textTheme.headline4?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
@@ -183,7 +184,9 @@ class HomePage extends StatelessWidget {
       onPressed:
           model.isSelecting ? model.deleteSelectedGraphs : model.addGraph,
       backgroundColor: model.isSelecting ? Colors.red : kPrimaryColor,
-      tooltip: model.isSelecting ? 'Delete Selected' : 'Add Graph',
+      tooltip: model.isSelecting
+          ? 'general.deleteSelection'.tr()
+          : 'home.addGraph'.tr(),
       child: Stack(
         children: [
           AnimatedScale(

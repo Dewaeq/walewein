@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/shared/components/charts/bar_chart_view.dart';
@@ -36,25 +37,23 @@ class ChartView extends StatelessWidget {
   }
 
   Widget _view(ChartViewModel model) {
-    final child = _buildChart(model);
-
     return Container(
       decoration: BoxDecoration(
         color: kGraphBackgroundColor,
         borderRadius: BorderRadius.circular(18),
       ),
       padding: const EdgeInsets.all(16),
-      child: child,
+      child: _buildChart(model),
     );
   }
 
   Widget _buildChart(ChartViewModel model) {
     if (!model.loaded) {
-      return const Center(
+      return Center(
         child: Text(
-          "Add an entry first",
+          'chart.addEntryFirst'.tr(),
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             color: kGraphTitleColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -66,16 +65,16 @@ class ChartView extends StatelessWidget {
     if (chartType == ChartViewType.monthlyUsage) {
       return BarChartView(
         model: model,
-        title: 'Monthly Usage',
-        subtitle: 'Values are estimated',
+        title: 'chart.monthlyUsage'.tr(),
+        subtitle: 'chart.monthlyUsageEstimated'.tr(),
       );
     }
 
     if (chartType == ChartViewType.predictions) {
       return LineChartView(
         model: model,
-        title: 'Predicted usage',
-        subtitle: 'Based on past trends',
+        title: 'chart.predictedUsage'.tr(),
+        subtitle: 'chart.predictedUsageEstimated'.tr(),
         showLabels: true,
       );
     }
@@ -83,8 +82,8 @@ class ChartView extends StatelessWidget {
     if (model.showLabels) {
       return LineChartView(
         model: model,
-        title: 'Cumulative usage',
-        subtitle: 'Limited to 4 months',
+        title: 'chart.cumulativeUsage'.tr(),
+        subtitle: 'chart.cumulativeUsageLimit'.tr(),
         showLabels: true,
       );
     }

@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/shared/components/charts/chart_view.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/constants.dart';
@@ -31,9 +31,25 @@ class LineChartView extends StatelessWidget {
             height: 38,
           ),
         Expanded(
-          child: showLabels ? _buildChartWithLabels() : _buildLineChart(),
+          child: model.isGraphEmpty()
+              ? Center(child: _notEnoughEntries())
+              : showLabels
+                  ? _buildChartWithLabels()
+                  : _buildLineChart(),
         ),
       ],
+    );
+  }
+
+  Text _notEnoughEntries() {
+    return Text(
+      'chart.addEntryFirst'.tr(),
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: showLabels ? 22 : 14,
+        fontWeight: FontWeight.bold,
+        color: showLabels ? Colors.white : kGraphTitleColor,
+      ),
     );
   }
 

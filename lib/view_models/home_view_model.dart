@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
@@ -6,6 +7,7 @@ import 'package:walewein/pages/add_graph/add_graph_page.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/services/graph_service.dart';
+import 'package:walewein/shared/services/localization_service.dart';
 import 'package:walewein/shared/services/storage_service.dart';
 
 class HomeViewModel extends ViewModel<List<Graph>> {
@@ -26,6 +28,9 @@ class HomeViewModel extends ViewModel<List<Graph>> {
     final priceStream = storage.listenPrices(false);
 
     prices = await storage.getAllPrices();
+
+    final locale = context.locale.toLanguageTag();
+    await LocalizationService.setDateLocale(locale);
 
     _graphSubscription = graphSream.listen((event) => setState(event));
     _priceSubscription = priceStream.listen((event) => setPrices(event));

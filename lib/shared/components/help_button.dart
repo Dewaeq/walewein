@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class HelpButton extends StatelessWidget {
@@ -12,23 +13,24 @@ class HelpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      tooltip: "Help",
+      tooltip: 'general.help'.tr(),
       onPressed: () {
         showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text("Help"),
+              title: Text('general.help'.tr()),
               content: Text(content),
               actionsPadding: const EdgeInsets.symmetric(horizontal: 10),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => Navigator.pop(context, "Cancel"),
-                  child: const Text("Cancel"),
+                  onPressed: () =>
+                      Navigator.pop(context, 'general.cancel'.tr()),
+                  child: Text('general.cancel'.tr()),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.pop(context, "OK"),
-                  child: const Text("OK"),
+                  onPressed: () => Navigator.pop(context, 'general.ok'.tr()),
+                  child: Text('general.ok'.tr()),
                 ),
               ],
             );

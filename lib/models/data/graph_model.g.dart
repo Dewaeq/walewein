@@ -60,7 +60,12 @@ int _graphEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  bytesCount += 3 + object.name.length * 3;
+  {
+    final value = object.name;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.relations.length * 3;
   {
     final offsets = allOffsets[Relation]!;
@@ -101,7 +106,7 @@ Graph _graphDeserialize(
       _GraphgraphTypeValueEnumMap[reader.readByteOrNull(offsets[1])] ??
           GraphType.gas;
   object.id = id;
-  object.name = reader.readString(offsets[2]);
+  object.name = reader.readStringOrNull(offsets[2]);
   object.relations = reader.readObjectList<Relation>(
         offsets[3],
         RelationSchema.deserialize,
@@ -125,7 +130,7 @@ P _graphDeserializeProp<P>(
       return (_GraphgraphTypeValueEnumMap[reader.readByteOrNull(offset)] ??
           GraphType.gas) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readObjectList<Relation>(
             offset,
@@ -416,8 +421,24 @@ extension GraphQueryFilter on QueryBuilder<Graph, Graph, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Graph, Graph, QAfterFilterCondition> nameIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'name',
+      ));
+    });
+  }
+
+  QueryBuilder<Graph, Graph, QAfterFilterCondition> nameIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'name',
+      ));
+    });
+  }
+
   QueryBuilder<Graph, Graph, QAfterFilterCondition> nameEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -430,7 +451,7 @@ extension GraphQueryFilter on QueryBuilder<Graph, Graph, QFilterCondition> {
   }
 
   QueryBuilder<Graph, Graph, QAfterFilterCondition> nameGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -445,7 +466,7 @@ extension GraphQueryFilter on QueryBuilder<Graph, Graph, QFilterCondition> {
   }
 
   QueryBuilder<Graph, Graph, QAfterFilterCondition> nameLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -460,8 +481,8 @@ extension GraphQueryFilter on QueryBuilder<Graph, Graph, QFilterCondition> {
   }
 
   QueryBuilder<Graph, Graph, QAfterFilterCondition> nameBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -768,7 +789,7 @@ extension GraphQueryProperty on QueryBuilder<Graph, Graph, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Graph, String, QQueryOperations> nameProperty() {
+  QueryBuilder<Graph, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

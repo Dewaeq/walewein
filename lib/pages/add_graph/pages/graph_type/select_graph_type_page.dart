@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/add_graph/pages/graph_type/graph_type_item.dart';
@@ -15,9 +16,9 @@ class SelectGraphTypePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 38),
       child: Column(
         children: [
-          const Text(
-            "Select one of our prebuilt graphs, or add a custom one",
-            style: TextStyle(
+          Text(
+            'addGraph.description'.tr(),
+            style: const TextStyle(
               color: Color.fromARGB(255, 158, 158, 163),
             ),
           ),

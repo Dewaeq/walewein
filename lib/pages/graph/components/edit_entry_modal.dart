@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/simple_text_button.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
@@ -63,21 +63,21 @@ class EditEntryModal extends StatelessWidget {
             ),
             defaultHeightSizedBox,
             Text(
-              DateFormat("EEEE d MMMM, yyyy").format(model.date!),
+              DateFormat('EEEE d MMMM, yyyy').format(model.date!),
             ),
             TextButton(
               onPressed: model.selectDateWithPicker,
-              child: const Text("Change date"),
+              child: Text('general.editDate'.tr()),
             ),
             SimpleTextButton(
               onPressed: model.saveNode,
               color: kPrimaryColor,
-              text: "Save",
+              text: 'general.save'.tr(),
             ),
             SimpleTextButton(
               onPressed: model.deleteNode,
               color: Colors.red,
-              text: "Delete",
+              text: 'general.delete'.tr(),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/pages/home/components/text_with_custom_underline.dart';
 import 'package:walewein/shared/components/constants.dart';
@@ -31,10 +32,10 @@ class TitleWithEditButton extends StatelessWidget {
             ),
             child: isEditing
                 ? Row(
-                    children: const [
+                    children: [
                       Text(
-                        "Done",
-                        style: TextStyle(
+                        'general.done'.tr(),
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),
@@ -42,16 +43,16 @@ class TitleWithEditButton extends StatelessWidget {
                     ],
                   )
                 : Row(
-                    children: const [
+                    children: [
                       Text(
-                        "Edit",
-                        style: TextStyle(
+                        'general.edit'.tr(),
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),
                       ),
                       defaultHalfWidthSizedBox,
-                      Icon(
+                      const Icon(
                         Icons.edit,
                         color: Colors.white,
                       ),

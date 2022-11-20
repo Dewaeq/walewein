@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
@@ -9,9 +10,10 @@ part 'graph_model.g.dart';
 class Graph {
   Id? id;
 
-  late String name = "";
+  /// Override the default name
+  String? name;
 
-  late List<Relation> relations = [];
+  List<Relation> relations = [];
 
   @enumerated
   late GraphType graphType;
@@ -21,26 +23,24 @@ class Graph {
   Graph();
 
   Graph.gas({List<GraphNode> nodes = const []}) {
-    name = "Gas";
     graphType = GraphType.gas;
     dateCreated = DateTime.now();
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: "Datum",
+        xLabel: 'general.date'.tr(),
         yLabel: unityTypeToString(graphType),
       ),
     ];
   }
 
   Graph.electricity({List<GraphNode> nodes = const []}) {
-    name = "Elektriciteit";
     graphType = GraphType.electricity;
     dateCreated = DateTime.now();
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: "Datum",
+        xLabel: 'general.date'.tr(),
         yLabel: unityTypeToString(graphType),
       ),
     ];
@@ -50,44 +50,41 @@ class Graph {
     List<GraphNode> dayNodes = const [],
     List<GraphNode> nightNodes = const [],
   }) {
-    name = "Elektriciteit (dubbele meter)";
     graphType = GraphType.electricityDouble;
     dateCreated = DateTime.now();
     relations = [
       Relation.from(
         nodes: dayNodes,
-        xLabel: "Datum (overdag)",
-        yLabel: '${unityTypeToString(graphType)} (dag)',
+        xLabel: '${'general.date'.tr()} (${'general.day'.tr()})',
+        yLabel: '${unityTypeToString(graphType)} (${'general.day'.tr()})',
       ),
       Relation.from(
         nodes: nightNodes,
-        xLabel: "Datum ('s nachts')",
-        yLabel: '${unityTypeToString(graphType)} (nacht)',
+        xLabel: '${'general.date'.tr()} (${'general.night'.tr()})',
+        yLabel: '${unityTypeToString(graphType)} (${'general.night'.tr()})',
       ),
     ];
   }
 
   Graph.water({List<GraphNode> nodes = const []}) {
-    name = "Water";
     graphType = GraphType.water;
     dateCreated = DateTime.now();
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: "Datum",
+        xLabel: 'general.date'.tr(),
         yLabel: unityTypeToString(graphType),
       ),
     ];
   }
 
   Graph.firePlace({List<GraphNode> nodes = const []}) {
-    name = "Fireplace";
     graphType = GraphType.firePlace;
     dateCreated = DateTime.now();
     relations = [
       Relation.from(
         nodes: nodes,
-        xLabel: "Datum",
+        xLabel: 'general.date'.tr(),
         yLabel: unityTypeToString(graphType),
       ),
     ];

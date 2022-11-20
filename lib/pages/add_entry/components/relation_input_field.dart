@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/relation_model.dart';
 
@@ -20,7 +21,7 @@ class RelationInputField extends StatelessWidget {
     return Row(children: [
       IconButton(
         onPressed: () => onSelectRelation(relation),
-        tooltip: "Read from image",
+        tooltip: 'graph.readFromImage'.tr(),
         icon: const Icon(
           Icons.image,
           color: Colors.white,

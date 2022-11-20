@@ -1,6 +1,6 @@
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:walewein/pages/add_entry/components/relation_input_field.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/help_button.dart';
@@ -35,9 +35,9 @@ class AddEntryPage extends StatelessWidget {
           shrinkWrap: true,
           slivers: [
             SliverAppBar.large(
-              title: const Text(
-                "Add entry",
-                style: TextStyle(color: Color(0xff43a345)),
+              title: Text(
+                'general.addEntry'.tr(),
+                style: const TextStyle(color: Color(0xff43a345)),
               ),
               leading: IconButton(
                 onPressed: () {
@@ -48,7 +48,8 @@ class AddEntryPage extends StatelessWidget {
               ),
               actions: const [
                 HelpButton(
-                  content: "content",
+                  // TODO
+                  content: '',
                   iconColor: Colors.white,
                 ),
               ],
@@ -130,14 +131,14 @@ class AddEntryPage extends StatelessWidget {
               ),
             defaultHeightSizedBox,
             Text(
-              DateFormat("EEEE d MMMM, yyyy").format(model.date),
+              DateFormat('EEEE d MMMM, yyyy').format(model.date),
               style: const TextStyle(
                 color: Colors.white,
               ),
             ),
             TextButton(
               onPressed: model.selectDateWithPicker,
-              child: const Text("Change date"),
+              child: Text('general.editDate'.tr()),
             ),
           ],
         ),
