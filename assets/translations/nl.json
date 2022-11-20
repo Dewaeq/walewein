@@ -32,7 +32,7 @@
         "predictedUsage": "Voorspeld verbruik",
         "predictedUsageEstimated": "Gebaseerd op trends uit het verleden",
         "cumulativeUsage": "Cumulatief verbruik",
-        "cumulativeUsageLimit": "Beperkt tot vier maanden",
+        "cumulativeUsageLimit": "Analyseer je verbruik",
         "atLeastTwoEntries": "Voeg ten minste twee waarden toe om deze functie te gebruiken"
     },
     "general": {
@@ -50,9 +50,7 @@
         "deleteSelection": "Verwijder selectie",
         "finish": "Voltooien",
         "continue": "Verder",
-        "date": "Datum",
-        "day": "dag",
-        "night": "nacht"
+        "date": "Datum"
     },
     "xLabels": {
         "electricityDay": "Datum (dag)",

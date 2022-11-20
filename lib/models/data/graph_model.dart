@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:isar/isar.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/models/data/relation_model.dart';
-import 'package:walewein/shared/utils.dart';
 
 part 'graph_model.g.dart';
 

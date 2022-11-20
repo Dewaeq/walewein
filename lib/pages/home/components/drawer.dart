@@ -176,7 +176,7 @@ class HomeDrawer extends StatelessWidget {
     final unit = unityTypeToString(type);
 
     final typeName = graphTypeToUnitString(type);
-    final title = 'settings.editPrice'.tr(args: [typeName]);
+    final title = 'settings.editPrice'.tr(args: [typeName.toLowerCase()]);
 
     return ListTile(
       title: Text(title),

@@ -1,3 +1,74 @@
 {
-    "welcome-text": "This text is in english"
+    "home": {
+        "greeting": "Hello",
+        "costs": "Costs this month",
+        "createGraphFirst": "Create a graph first",
+        "graphs": "Your graphs",
+        "addGraph": "Create graphs",
+        "changeSince": "Since {}"
+    },
+    "settings": {
+        "packageName": "Package name",
+        "buildNumber": "Build number",
+        "installSource": "Installation source",
+        "unknown": "Unknown",
+        "editPrice": "Edit {} price"
+    },
+    "addGraph": {
+        "description": "Select one of our prebuilt graph types",
+        "graphName": "Graph name:",
+        "createGraph": "Create graph:",
+        "withType": "With type:"
+    },
+    "graph": {
+        "tileHelpText": "Long press a value to edit or delete it",
+        "readFromImage": "Read from image"
+    },
+    "chart": {
+        "addEntryFirst": "Add an entry to use this function",
+        "monthlyUsage": "Monthly usage",
+        "monthlyCosts": "Monthly costs",
+        "monthlyUsageEstimated": "Estimation of how much you consume each month",
+        "predictedUsage": "Predicted usage",
+        "predictedUsageEstimated": "Based on past trends",
+        "cumulativeUsage": "Cumulative usage",
+        "cumulativeUsageLimit": "Analyse your past consumption",
+        "atLeastTwoEntries": "Add at least two entries to use this function"
+    },
+    "general": {
+        "addEntry": "Add entry",
+        "editDate": "Edit date",
+        "settings": "Settings",
+        "help": "Help",
+        "edit": "Edit",
+        "close": "Close",
+        "cancel": "Cancel",
+        "ok": "Ok",
+        "done": "Done",
+        "save": "Save",
+        "delete": "Delete",
+        "deleteSelection": "Delete selection",
+        "finish": "Finish",
+        "continue": "Continue",
+        "date": "Date"
+    },
+    "xLabels": {
+        "electricityDay": "Date (day)",
+        "electricityNight": "Date (night)"
+    },
+    "yLabels": {
+        "gas": "m³",
+        "electricity": "kWh",
+        "electricityDay": "kWh (day)",
+        "electricityNight": "kWh (night)",
+        "water": "m³",
+        "firePlace": "kg"
+    },
+    "GraphType": {
+        "gas": "Gas",
+        "water": "Water",
+        "electricity": "Electricity",
+        "electricityDouble": "Electricity (day/night tariff)",
+        "firePlace": "Fireplace"
+    }
 }

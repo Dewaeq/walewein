@@ -1,1 +1,74 @@
-{}
+{
+    "home": {
+        "greeting": "Bonjour",
+        "costs": "Coûts ce mois-ci",
+        "createGraphFirst": "Créez d'abord un graphique",
+        "graphs": "Vos graphiques",
+        "addGraph": "Créer graphique",
+        "changeSince": "Depuis {}"
+    },
+    "settings": {
+        "packageName": "Nom du paquet",
+        "buildNumber": "Numéro de build",
+        "installSource": "Source de l'installation",
+        "unknown": "Inconnu",
+        "editPrice": "Modifier le prix du {}"
+    },
+    "addGraph": {
+        "description": "Sélectionnez l'un de nos types de graphiques préétablis",
+        "graphName": "Nom du graphique:",
+        "createGraph": "Créer graphique:",
+        "withType": "Avec le type:"
+    },
+    "graph": {
+        "tileHelpText": "Appuyez longuement sur une valeur pour la modifier ou la supprimer",
+        "readFromImage": "Lire de l'image"
+    },
+    "chart": {
+        "addEntryFirst": "Ajouter une valeur pour utiliser cette fonction",
+        "monthlyUsage": "Consommation mensuelle",
+        "monthlyCosts": "Coûts mensuels",
+        "monthlyUsageEstimated": "Estimation de votre consommation mensuelle",
+        "predictedUsage": "Consommation prévue",
+        "predictedUsageEstimated": "Sur la base des tendances passées",
+        "cumulativeUsage": "Consommation cumulative",
+        "cumulativeUsageLimit": "Analysez votre consommation",
+        "atLeastTwoEntries": "Ajoutez au moins deux valeurs pour utiliser cette fonction"
+    },
+    "general": {
+        "addEntry": "Ajouter une valeur",
+        "editDate": "Modifier la date",
+        "settings": "Paramètres",
+        "help": "Aide",
+        "edit": "Modifier",
+        "close": "Fermer",
+        "cancel": "Annuler",
+        "ok": "Ok",
+        "done": "Terminé",
+        "save": "Sauvegarder",
+        "delete": "Supprimer",
+        "deleteSelection": "Supprimer la sélection",
+        "finish": "Compléter",
+        "continue": "Continuer",
+        "date": "Date"
+    },
+    "xLabels": {
+        "electricityDay": "Date (jour)",
+        "electricityNight": "Date (nuit)"
+    },
+    "yLabels": {
+        "gas": "m³",
+        "electricity": "kWh",
+        "electricityDay": "kWh (jour)",
+        "electricityNight": "kWh (nuit)",
+        "water": "m³",
+        "firePlace": "kg"
+    },
+    "GraphType": {
+        "gas": "Gaz",
+        "water": "L'eau",
+        "electricity": "Elektriciteit",
+        "electricityDouble": "Électricité (compteur bi-horaire)",
+        "firePlace": "Cheminée"
+    }
+}
