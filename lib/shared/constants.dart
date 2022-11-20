@@ -16,3 +16,6 @@ const kDefaultPadding = 20.0;
 const maxDisplayDateAgo = Duration(days: 130);
 final minDate = DateTime(0);
 const millisInDay = 1000 * 3600 * 24;
+
+const supportedLocales = [Locale('nl'), Locale('fr'), Locale('en')];
+const defaultLocale = Locale('en');

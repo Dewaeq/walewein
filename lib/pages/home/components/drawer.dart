@@ -8,6 +8,7 @@ import 'package:walewein/models/data/price_model.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/extensions.dart';
+import 'package:walewein/shared/services/localization_service.dart';
 import 'package:walewein/shared/services/storage_service.dart';
 import 'package:walewein/shared/utils.dart';
 
@@ -103,7 +104,7 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () => _showLanguageDialog(context),
             shape: const CircleBorder(),
             minWidth: 0,
             color: kPrimaryColor,
@@ -184,6 +185,15 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
+  Widget _buildLocaleListTile(
+      BuildContext context, bool isSelected, Locale locale) {
+    return ListTile(
+      title: Text(locale.languageCode),
+      selected: isSelected,
+      onTap: () => _setLocale(locale, context),
+    );
+  }
+
   void _showPriceDialog(
     BuildContext context,
     GraphType type,
@@ -221,5 +231,44 @@ class HomeDrawer extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _showLanguageDialog(BuildContext context) {
+    final current = context.locale;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + kDefaultPadding,
+            left: kDefaultPadding,
+            right: kDefaultPadding,
+            top: kDefaultPadding,
+          ),
+          child: ListView(
+            shrinkWrap: true,
+            children: supportedLocales
+                .map((locale) => _buildLocaleListTile(
+                      context,
+                      locale == current,
+                      locale,
+                    ))
+                .toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  void _setLocale(Locale target, BuildContext context) async {
+    await LocalizationService.setGlobalLocale(context, target);
+
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
 }
