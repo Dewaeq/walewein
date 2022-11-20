@@ -27,6 +27,7 @@
     "chart": {
         "addEntryFirst": "Voeg een waarde toe om deze functie te gebruiken",
         "monthlyUsage": "Maandelijks verbruik",
+        "monthlyCosts": "Maandelijkse kosten",
         "monthlyUsageEstimated": "Schatting van hoeveel je maandelijks verbruikt",
         "predictedUsage": "Voorspeld verbruik",
         "predictedUsageEstimated": "Gebaseerd op trends uit het verleden",

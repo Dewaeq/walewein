@@ -8,13 +8,11 @@ class BarChartView extends StatelessWidget {
   const BarChartView({
     super.key,
     required this.model,
-    this.title,
-    this.subtitle,
+    required this.subtitle,
   });
 
   final ChartViewModel model;
-  final String? title;
-  final String? subtitle;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -44,27 +42,25 @@ class BarChartView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
-          Text(
-            title!,
-            style: const TextStyle(
-              color: kGraphTitleColor,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          (model.showCosts ? 'chart.monthlyCosts' : 'chart.monthlyUsage').tr(),
+          style: const TextStyle(
+            color: kGraphTitleColor,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
+        ),
         const SizedBox(
           height: 4,
         ),
-        if (subtitle != null)
-          Text(
-            subtitle!,
-            style: const TextStyle(
-              color: kGraphTextColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          subtitle,
+          style: const TextStyle(
+            color: kGraphTextColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
+        ),
       ],
     );
   }

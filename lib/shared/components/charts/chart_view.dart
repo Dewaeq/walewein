@@ -65,7 +65,6 @@ class ChartView extends StatelessWidget {
     if (chartType == ChartViewType.monthlyUsage) {
       return BarChartView(
         model: model,
-        title: 'chart.monthlyUsage'.tr(),
         subtitle: 'chart.monthlyUsageEstimated'.tr(),
       );
     }
