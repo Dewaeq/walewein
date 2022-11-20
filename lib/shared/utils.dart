@@ -11,7 +11,7 @@ Future<DateTime> pickDate({
         context: context,
         initialDate: initialDate,
         firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
-        lastDate: DateTime.now().add(const Duration(days: 9000)),
+        lastDate: DateTime.now(),
       ) ??
       defaultDate;
 }
