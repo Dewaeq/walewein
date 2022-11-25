@@ -103,15 +103,19 @@ class ChartViewModel extends ViewModel<Graph> {
   }
 
   List<String> yLabels() {
-    final stepSize = (chartRange.maxY - maxNode.y) / 1.5;
+    const steps = 5;
+    final stepSize = (chartRange.maxY - chartRange.minY) ~/ steps;
     List<String> labels = [];
 
-    for (var i = 0; chartRange.maxY - i * stepSize > chartRange.minY; i++) {
-      final value = chartRange.maxY - (i * stepSize);
-      labels.add(NumberFormat.compact(locale: 'en_GB').format(value.round()));
+    for (int i = 0; i < steps; i++) {
+      final value = chartRange.minY.toInt() + i * stepSize;
+      labels.add(NumberFormat.compact(locale: 'en_GB').format(value));
     }
 
-    return labels;
+    labels.add(
+        NumberFormat.compact(locale: 'en_GB').format(chartRange.maxY.round()));
+
+    return labels.reversed.toList();
   }
 
   List<String> xLabels() {
