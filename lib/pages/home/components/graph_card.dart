@@ -163,7 +163,7 @@ class GraphCard extends StatelessWidget {
             Flexible(
               child: Text(
                 'home.changeSince'
-                    .tr(args: [DateFormat('EEE, d MMM').format(date)]),
+                    .tr(args: [DateFormat('d MMM').format(date)]),
                 style: const TextStyle(
                   fontSize: 16,
                   color: Color(0xff8e92a6),
