@@ -107,28 +107,31 @@ class GraphCard extends StatelessWidget {
     final relation = GraphService.lastChangedRelation(graph);
     final empty = relation == null || relation.nodes.isEmpty;
 
-    var diff = 0.0;
-    var lastValue = 0.0;
-    var date = graph.dateCreated;
+    // usage this month
+    double usage = 0;
+    // usage compared to last month
+    double diff = 1;
 
     if (!empty) {
-      final length = relation.nodes.length;
-      final last = relation.nodes.last;
-      final previous = length >= 2 ? relation.nodes[length - 2] : last;
+      final now = DateTime.now();
+      usage = GraphService.monthlyUsage(relation.nodes, now.year, now.month);
 
-      lastValue = last.y;
-      date = previous.dateAdded;
-      diff = last.y / previous.y;
-      date = relation.nodes.last.x;
+      final prevUsage = GraphService.monthlyUsage(
+        relation.nodes,
+        now.year,
+        now.month - 1,
+        endDay: now.day,
+      );
+      if (prevUsage == 0) {
+        diff = 1;
+      } else {
+        diff = (usage / prevUsage);
+      }
     }
 
-    if (diff > 5) {
-      diff = diff.roundToDouble();
-    } else {
-      diff = double.parse(diff.toStringAsFixed(2));
-    }
-
-    final result = '${diff < 1 ? '-' : '+'}$diff%';
+    final result = diff >= 1
+        ? '+${((diff - 1) * 100).toStringAsFixed(2)}%'
+        : '-${(((1 - diff) * 100).toStringAsFixed(2))}%';
     final color = diff < 1 ? const Color(0xfff7564c) : const Color(0xff08bc50);
 
     return Column(
@@ -138,11 +141,11 @@ class GraphCard extends StatelessWidget {
           children: [
             Flexible(
               child: Text(
-                lastValue.toString(),
+                '${usage.round()}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color(0xff19224c),
-                  fontSize: 28,
+                  fontSize: 32,
                 ),
               ),
             ),
@@ -160,11 +163,11 @@ class GraphCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5),
-            Flexible(
+            const Flexible(
               child: Text(
-                'home.changeSince'
-                    .tr(args: [DateFormat('d MMM').format(date)]),
-                style: const TextStyle(
+                // TODO: translation
+                'from last month',
+                style: TextStyle(
                   fontSize: 16,
                   color: Color(0xff8e92a6),
                 ),

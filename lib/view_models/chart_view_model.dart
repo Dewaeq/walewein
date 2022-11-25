@@ -250,14 +250,8 @@ class ChartViewModel extends ViewModel<Graph> {
               prices.firstWhere((e) => e.graphType == GraphType.electricity);
         }
 
-        final start =
-            DateTime(year, month - j, 1).millisecondsSinceEpoch / millisInDay;
-        final end =
-            DateTime(year, month - j, 30).millisecondsSinceEpoch / millisInDay;
-
-        final startUsage = GraphService.interpolate(nodes, start);
-        final endUsage = GraphService.interpolate(nodes, end);
-        final total = (endUsage - startUsage).abs().roundToDouble();
+        final total =
+            GraphService.monthlyUsage(nodes, year, month - j).roundToDouble();
         final usage = total * (showCosts ? price.price : 1);
 
         final x = month - j;

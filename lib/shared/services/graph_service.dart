@@ -150,6 +150,8 @@ class GraphService {
   }
 
   static double interpolate(List<GraphNode> nodes, double x) {
+    if (nodes.length < 2) return 0.0;
+
     final data = nodes
         .map((e) => DataPoint((e.x.millisecondsSinceEpoch) / millisInDay, e.y))
         .toList();
@@ -159,6 +161,24 @@ class GraphService {
     );
 
     return interpolation.compute(x);
+  }
+
+  static double monthlyUsage(
+    List<GraphNode> nodes,
+    int year,
+    int month, {
+    int startDay = 1,
+    int endDay = 30,
+  }) {
+    final start =
+        DateTime(year, month, startDay).millisecondsSinceEpoch / millisInDay;
+    final end =
+        DateTime(year, month, endDay).millisecondsSinceEpoch / millisInDay;
+
+    final startUsage = GraphService.interpolate(nodes, start);
+    final endUsage = GraphService.interpolate(nodes, end);
+
+    return (endUsage - startUsage).abs();
   }
 }
 
