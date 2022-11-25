@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:walewein/shared/components/toggle_button.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/view_models/chart_view_model.dart';
 
@@ -73,25 +74,11 @@ class BarChartView extends StatelessWidget {
       ),
       child: IconButton(
         onPressed: model.toggleCosts,
-        icon: Stack(
-          children: [
-            AnimatedScale(
-              duration: const Duration(milliseconds: 300),
-              scale: model.showCosts ? 0 : 1,
-              child: const Icon(
-                Icons.calendar_month,
-                color: kGraphTitleColor,
-              ),
-            ),
-            AnimatedScale(
-              duration: const Duration(milliseconds: 300),
-              scale: model.showCosts ? 1 : 0,
-              child: const Icon(
-                Icons.price_change,
-                color: kGraphTitleColor,
-              ),
-            ),
-          ],
+        icon: ToggleButton(
+          showPrimary: model.showCosts,
+          primaryIcon: Icons.calendar_month,
+          secondaryIcon: Icons.price_change,
+          iconColor: kGraphTitleColor,
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:walewein/pages/home/components/drawer.dart';
 import 'package:walewein/pages/home/components/graph_card.dart';
 import 'package:walewein/pages/home/components/title_with_edit_button.dart';
 import 'package:walewein/shared/components/constants.dart';
+import 'package:walewein/shared/components/toggle_button.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/utils.dart';
@@ -187,19 +188,10 @@ class HomePage extends StatelessWidget {
       tooltip: model.isSelecting
           ? 'general.deleteSelection'.tr()
           : 'home.addGraph'.tr(),
-      child: Stack(
-        children: [
-          AnimatedScale(
-            duration: const Duration(milliseconds: 300),
-            scale: model.isSelecting ? 0 : 1,
-            child: const Icon(Icons.add),
-          ),
-          AnimatedScale(
-            duration: const Duration(milliseconds: 300),
-            scale: model.isSelecting ? 1 : 0,
-            child: const Icon(Icons.delete),
-          ),
-        ],
+      child: ToggleButton(
+        showPrimary: model.isSelecting,
+        primaryIcon: Icons.add,
+        secondaryIcon: Icons.delete,
       ),
     );
   }
