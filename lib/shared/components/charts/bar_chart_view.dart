@@ -68,7 +68,7 @@ class BarChartView extends StatelessWidget {
   Container _buildCostsButton() {
     return Container(
       decoration: const BoxDecoration(
-        color: Color(0xff72d8bf),
+        color: kGraphAccentColor,
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -167,8 +167,11 @@ class BarChartView extends StatelessWidget {
     final date = DateTime(0, group.x);
     final month = DateFormat('MMMM').format(date);
     final prefix = model.showCosts ? '€ ' : '';
-    final suffix = model.showCosts ? '' : ' ${rod.relation.yLabel.tr()}';
-    final content = model.toolTipValue(rod.toY);
+
+    String content(int i) =>
+        (rod.entries[i].toY - rod.entries[i].fromY).round().toString();
+    String label(int i) => model.showCosts ? '' : rod.entries[i].label.tr();
+    String suffix(int i) => i == rod.entries.length - 1 ? '' : '\n';
 
     return BarTooltipItem(
       '$month\n',
@@ -178,14 +181,15 @@ class BarChartView extends StatelessWidget {
         fontSize: 18,
       ),
       children: <TextSpan>[
-        TextSpan(
-          text: prefix + content + suffix,
-          style: const TextStyle(
-            color: Colors.yellow,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+        for (int i = 0; i < rod.entries.length; i++)
+          TextSpan(
+            text: '$prefix${content(i)} ${label(i)}${suffix(i)}',
+            style: const TextStyle(
+              color: Colors.yellow,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
       ],
     );
   }
@@ -202,25 +206,45 @@ class BarChartView extends StatelessWidget {
   }
 
   BarChartGroupData barData(ChartViewModel model, BarDataPoint data) {
+    final barColors = model.graph.relations.length == 1
+        ? [Colors.white, Colors.white]
+        : [kPrimaryColor, Colors.white];
+
     return BarChartGroupData(
       x: data.x,
       barRods: [
         ViewBarDataPoint(
-          relation: data.relation,
+          entries: data.entries,
           toY: model.barHeight(data),
-          color: data.isSelected ? Colors.yellow : model.graphColor,
+          color: model.barColor(data),
           width: 22,
+          rodStackItems: _buildRodStackItems(data, model, barColors),
+          borderRadius: BorderRadius.circular(50),
           borderSide: data.isSelected
               ? const BorderSide(color: Colors.yellow)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: model.barBackgroundHeight(),
-            color: const Color(0xff72d8bf),
+            toY: model.barBackgroundHeight(data),
+            color: kGraphAccentColor,
           ),
         ),
       ],
     );
+  }
+
+  List<BarChartRodStackItem> _buildRodStackItems(
+      BarDataPoint data, ChartViewModel model, List<Color> barColors) {
+    return [
+      for (int i = 0; i < data.entries.length; i++)
+        BarChartRodStackItem(
+          data.entries[i].fromY,
+          data.entries[i].toY,
+          data.isSelected || model.isAnimatingCosts
+              ? Colors.yellow
+              : barColors[i],
+        ),
+    ];
   }
 
   Widget getTitles(double value, TitleMeta meta) {

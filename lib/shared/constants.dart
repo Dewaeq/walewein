@@ -8,6 +8,7 @@ const kSubTextColor = Color(0xff6c6d70);
 const kBackgroundColor = Color(0xfff9f8fd);
 
 const kGraphBackgroundColor = Color(0xff81e5cd);
+const kGraphAccentColor = Color(0xff72d8bf);
 const kGraphTitleColor = Color(0xff0f4a3c);
 const kGraphTextColor = Color(0xff379982);
 

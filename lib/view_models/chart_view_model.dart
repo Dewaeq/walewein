@@ -44,13 +44,13 @@ class ChartViewModel extends ViewModel<Graph> {
   late double maxMonthlyUsage;
   double selectedPointIndex = -1;
   bool showCosts = false;
-  late final Price price;
-  Color graphColor = Colors.white;
+  bool isAnimatingCosts = false;
+  List<Price> prices = [];
 
   @override
-  Future<void> init() {
+  Future<void> init() async {
+    prices = await storage.getAllPrices();
     setState(graph);
-    return Future.value();
   }
 
   @override
@@ -61,8 +61,6 @@ class ChartViewModel extends ViewModel<Graph> {
       loaded = true;
       return;
     }
-
-    price = (await storage.getPrice(graph.graphType))!;
 
     setRelations();
     setNodes();
@@ -89,16 +87,8 @@ class ChartViewModel extends ViewModel<Graph> {
       drawHorizontalLine: true,
       drawVerticalLine: true,
       verticalInterval: vInterval,
-      getDrawingHorizontalLine: (value) {
-        return FlLine(
-          color: const Color(0xff72d8bf),
-        );
-      },
-      getDrawingVerticalLine: (value) {
-        return FlLine(
-          color: const Color(0xff72d8bf),
-        );
-      },
+      getDrawingHorizontalLine: (value) => FlLine(color: kGraphAccentColor),
+      getDrawingVerticalLine: (value) => FlLine(color: kGraphAccentColor),
     );
   }
 
@@ -161,21 +151,18 @@ class ChartViewModel extends ViewModel<Graph> {
 
   double barHeight(BarDataPoint data) {
     final offset = data.isSelected ? maxMonthlyUsage * 0.05 : 0;
-    final priceMultiplier = showCosts ? price.price : 1;
-
-    return (data.y + offset) * priceMultiplier;
+    return (data.y + offset);
   }
 
-  double barBackgroundHeight() {
-    return maxMonthlyUsage * 1.1 * (showCosts ? price.price : 1);
+  double barBackgroundHeight(BarDataPoint data) {
+    return maxMonthlyUsage * 1.1;
   }
 
-  String toolTipValue(double y) {
-    final offset = maxMonthlyUsage * 0.05;
-    final priceMultiplier = showCosts ? price.price : 1;
+  Color barColor(BarDataPoint data) {
+    if (data.isSelected) return Colors.yellow;
+    if (isAnimatingCosts) return Colors.yellow;
 
-    final value = y - offset * priceMultiplier;
-    return value.round().toString();
+    return Colors.white;
   }
 
   void setRelations() {
@@ -245,23 +232,54 @@ class ChartViewModel extends ViewModel<Graph> {
     final year = DateTime.now().year;
     final month = DateTime.now().month;
 
-    for (final relation in graph.relations) {
+    for (int i = 0; i < graph.relations.length; i++) {
+      final relation = graph.relations[i];
       final nodes = relation.nodes;
 
-      if (nodes.length < 2) return;
+      if (nodes.length < 2) continue;
 
-      for (int i = 4; i >= 0; i--) {
+      for (int j = 4; j >= 0; j--) {
+        var price = prices.firstWhere((e) => e.graphType == graph.graphType);
+
+        if (i == 0 && graph.graphType == GraphType.electricityDouble) {
+          price =
+              prices.firstWhere((e) => e.graphType == GraphType.electricity);
+        }
+
         final start =
-            DateTime(year, month - i, 1).millisecondsSinceEpoch / millisInDay;
+            DateTime(year, month - j, 1).millisecondsSinceEpoch / millisInDay;
         final end =
-            DateTime(year, month - i, 30).millisecondsSinceEpoch / millisInDay;
+            DateTime(year, month - j, 30).millisecondsSinceEpoch / millisInDay;
 
         final startUsage = GraphService.interpolate(nodes, start);
         final endUsage = GraphService.interpolate(nodes, end);
-        final usage = (endUsage - startUsage).abs().roundToDouble();
+        final total = (endUsage - startUsage).abs().roundToDouble();
+        final usage = total * (showCosts ? price.price : 1);
 
-        maxMonthlyUsage = max(maxMonthlyUsage, usage);
-        monthlyUsages.add(BarDataPoint(month - i, usage, relation));
+        final x = month - j;
+
+        if (monthlyUsages.any((e) => e.x == x)) {
+          final dataPoint = monthlyUsages.firstWhere((e) => e.x == x);
+          final fromY = dataPoint.entries.last.toY;
+          final toY = fromY + usage;
+
+          maxMonthlyUsage = max(maxMonthlyUsage, toY);
+          dataPoint.y = toY;
+          dataPoint.entries.add(EntryPoint(
+            x,
+            fromY,
+            toY,
+            relation.yLabel,
+            price,
+          ));
+        } else {
+          maxMonthlyUsage = max(maxMonthlyUsage, usage);
+          monthlyUsages.add(BarDataPoint(
+            x,
+            usage,
+            [EntryPoint(x, 0, usage, relation.yLabel, price)],
+          ));
+        }
       }
     }
 
@@ -275,13 +293,13 @@ class ChartViewModel extends ViewModel<Graph> {
       monthlyUsages[i].y /= 2;
     }
 
-    graphColor = Colors.yellow;
+    isAnimatingCosts = true;
     notifyListeners();
 
     await Future.delayed(const Duration(milliseconds: 500));
 
     setMonthlyUsage();
-    graphColor = Colors.white;
+    isAnimatingCosts = false;
 
     notifyListeners();
   }
@@ -311,17 +329,34 @@ class BarDataPoint {
   int x;
   double y;
   bool isSelected;
-  Relation relation;
+  List<EntryPoint> entries;
 
-  BarDataPoint(this.x, this.y, this.relation, [this.isSelected = false]);
+  BarDataPoint(
+    this.x,
+    this.y,
+    this.entries, [
+    this.isSelected = false,
+  ]);
+}
+
+class EntryPoint {
+  int x;
+  double fromY;
+  double toY;
+  String label;
+  Price price;
+
+  EntryPoint(this.x, this.fromY, this.toY, this.label, this.price);
 }
 
 class ViewBarDataPoint extends BarChartRodData {
-  final Relation relation;
+  final List<EntryPoint> entries;
 
   ViewBarDataPoint({
-    required this.relation,
+    required this.entries,
     required super.toY,
+    super.rodStackItems,
+    super.borderRadius,
     super.color,
     super.width,
     super.backDrawRodData,
