@@ -136,12 +136,14 @@ class GraphCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              lastValue.toString(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xff19224c),
-                fontSize: 32,
+            Flexible(
+              child: Text(
+                lastValue.toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff19224c),
+                  fontSize: 28,
+                ),
               ),
             ),
             const SizedBox(width: 5),
@@ -158,12 +160,14 @@ class GraphCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5),
-            Text(
-              'home.changeSince'
-                  .tr(args: [DateFormat('EEE, d MMM').format(date)]),
-              style: const TextStyle(
-                fontSize: 16,
-                color: Color(0xff8e92a6),
+            Flexible(
+              child: Text(
+                'home.changeSince'
+                    .tr(args: [DateFormat('EEE, d MMM').format(date)]),
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xff8e92a6),
+                ),
               ),
             ),
           ],
