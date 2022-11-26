@@ -15,10 +15,12 @@
         "editPrice": "Edit {} price"
     },
     "addGraph": {
+        "title": "Create a graph",
         "description": "Select one of our prebuilt graph types",
         "graphName": "Graph name:",
         "createGraph": "Create graph:",
-        "withType": "With type:"
+        "withType": "With type:",
+        "checkValues": "Are these values correct?"
     },
     "addEntry": {
         "helpText": "Directly add your values or select them from an image. Click the button to the left of an input field and select a value from your image to quickly insert it.\nYou can always edit your values from the graph page if you made a mistake."

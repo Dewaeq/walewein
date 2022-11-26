@@ -15,10 +15,12 @@
         "editPrice": "Modifier le prix du {}"
     },
     "addGraph": {
+        "title": "Créer une graphique",
         "description": "Sélectionnez l'un de nos types de graphiques préétablis",
         "graphName": "Nom du graphique:",
         "createGraph": "Créer graphique:",
-        "withType": "Avec le type:"
+        "withType": "Avec le type:",
+        "checkValues": "Ces valeurs sont-elles correctes?"
     },
     "addEntry": {
         "helpText": "Ajoutez directement vos valeurs ou sélectionnez-les dans une image. Cliquez sur le bouton situé à gauche d'un champ de saisie et sélectionnez une valeur dans votre image pour l'insérer rapidement.\nVous pouvez toujours modifier vos valeurs à partir de la page du graphique si vous avez fait une erreur."

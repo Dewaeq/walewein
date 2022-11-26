@@ -68,8 +68,11 @@ class AddGraphViewModel extends ViewModel {
   }
 
   void onGraphType(GraphType type) {
+    if (selectedType != type) {
+      graphName = null;
+    }
+
     selectedType = type;
-    // graphName = graphTypeToString(type);
 
     notifyListeners();
   }

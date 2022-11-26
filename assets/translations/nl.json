@@ -15,10 +15,12 @@
         "editPrice": "Bewerk {} prijs"
     },
     "addGraph": {
+        "title": "Een grafiek maken",
         "description": "Selecteer een van onze vooraf samengestelde grafiektypes",
         "graphName": "Naam grafiek:",
         "createGraph": "Maak grafiek:",
-        "withType": "Met type:"
+        "withType": "Met type:",
+        "checkValues": "Kloppen deze waarden?"
     },
     "addEntry": {
         "helpText": "Voeg uw waarden direct toe of selecteer ze uit een afbeelding. Klik op de knop links van een invoerveld en selecteer een waarde uit uw afbeelding om deze snel te plakken.\nU kunt uw waarden altijd bewerken op de grafiekpagina als u een fout heeft gemaakt."

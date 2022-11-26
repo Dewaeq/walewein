@@ -24,6 +24,9 @@ class AddGraphPage extends StatelessWidget {
       onWillPop: model.willPop,
       child: Scaffold(
         appBar: AppBar(
+          title: Text(
+            'addGraph.title'.tr(),
+          ),
           leading: IconButton(
             onPressed: () {
               if (model.page >= 1) {
