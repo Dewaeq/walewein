@@ -24,11 +24,6 @@ class HelpButton extends StatelessWidget {
               actionsPadding: const EdgeInsets.symmetric(horizontal: 10),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () =>
-                      Navigator.pop(context, 'general.cancel'.tr()),
-                  child: Text('general.cancel'.tr()),
-                ),
-                TextButton(
                   onPressed: () => Navigator.pop(context, 'general.ok'.tr()),
                   child: Text('general.ok'.tr()),
                 ),
