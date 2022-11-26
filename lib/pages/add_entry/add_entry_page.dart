@@ -5,6 +5,7 @@ import 'package:walewein/pages/add_entry/components/relation_input_field.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/components/help_button.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
+import 'package:walewein/shared/constants.dart';
 import 'package:walewein/view_models/add_entry_view_model.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/pages/add_entry/components/image_container.dart';
@@ -27,16 +28,21 @@ class AddEntryPage extends StatelessWidget {
       backgroundColor: const Color(0xff111111),
       floatingActionButton: FloatingActionButton(
         onPressed: model.save,
+        backgroundColor: kPrimaryColor,
         child: const Icon(Icons.done_rounded),
       ),
       body: GestureDetector(
-        onTap: model.bottomBarController.closeSheet,
+        onTap: model.closeSheet,
         child: CustomScrollView(
           slivers: [
             SliverAppBar.large(
               title: Text(
                 'general.addEntry'.tr(),
-                style: const TextStyle(color: Color(0xff43a345)),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 36,
+                ),
               ),
               leading: IconButton(
                 onPressed: () {
@@ -71,11 +77,19 @@ class AddEntryPage extends StatelessWidget {
         controller: model.bottomBarController,
         curve: Curves.fastOutSlowIn,
         mainActionButtonTheme: const MainActionButtonTheme(
-          color: Color(0xff43a345),
+          color: Colors.white,
+          margin: EdgeInsets.symmetric(vertical: 20),
+          size: 65,
+          icon: Icon(
+            Icons.graphic_eq,
+            size: 32,
+            color: Colors.black,
+          ),
         ),
         bottomBarTheme: BottomBarTheme(
           mainButtonPosition: MainButtonPosition.middle,
           heightOpened: model.size.height * 0.35,
+          heightClosed: 110,
           decoration: const BoxDecoration(
             color: Color(0xff1e1e1e),
             borderRadius: BorderRadius.vertical(top: Radius.circular(25)),

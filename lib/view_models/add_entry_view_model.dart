@@ -30,8 +30,7 @@ class AddEntryViewModel extends ViewModel {
       controllers[relation] = TextEditingController();
     }
 
-    Future.delayed(const Duration(milliseconds: 400))
-        .then((_) => bottomBarController.openSheet());
+    Future.delayed(const Duration(milliseconds: 400)).then((_) => openSheet());
   }
 
   @override
@@ -39,6 +38,8 @@ class AddEntryViewModel extends ViewModel {
     for (final controller in controllers.values) {
       controller.dispose();
     }
+
+    bottomBarController.close();
   }
 
   void getImage(int modeIndex) async {
@@ -56,7 +57,7 @@ class AddEntryViewModel extends ViewModel {
 
   void selectText(String text) async {
     text = text.parse();
-    bottomBarController.closeSheet();
+    closeSheet();
 
     if (graph.relations.length == 1) {
       controllers[graph.relations.first]?.text = text;
@@ -67,7 +68,15 @@ class AddEntryViewModel extends ViewModel {
     notifyListeners();
 
     await Future.delayed(const Duration(milliseconds: 500));
+    openSheet();
+  }
+
+  void openSheet() {
     bottomBarController.openSheet();
+  }
+
+  void closeSheet() {
+    bottomBarController.closeSheet();
   }
 
   void selectDateWithPicker() async {
