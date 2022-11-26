@@ -5,7 +5,7 @@
         "createGraphFirst": "Créez d'abord un graphique",
         "graphs": "Vos graphiques",
         "addGraph": "Créer graphique",
-        "changeSince": "Depuis {}"
+        "changeSince": "mois passé"
     },
     "settings": {
         "packageName": "Nom du paquet",

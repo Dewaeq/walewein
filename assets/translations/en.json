@@ -5,7 +5,7 @@
         "createGraphFirst": "Create a graph first",
         "graphs": "Your graphs",
         "addGraph": "Create graphs",
-        "changeSince": "Since {}"
+        "changeSince": "last month"
     },
     "settings": {
         "packageName": "Package name",

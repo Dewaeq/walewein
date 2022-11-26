@@ -163,11 +163,10 @@ class GraphCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5),
-            const Flexible(
+            Flexible(
               child: Text(
-                // TODO: translation
-                'from last month',
-                style: TextStyle(
+                'home.changeSince'.tr(),
+                style: const TextStyle(
                   fontSize: 16,
                   color: Color(0xff8e92a6),
                 ),

@@ -5,7 +5,7 @@
         "createGraphFirst": "Maak eerst een grafiek aan",
         "graphs": "Jouw grafieken",
         "addGraph": "Maak grafiek",
-        "changeSince": "Sinds {}"
+        "changeSince": "vorige maand"
     },
     "settings": {
         "packageName": "Pakket naam",
