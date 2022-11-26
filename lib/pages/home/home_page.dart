@@ -141,10 +141,9 @@ class HomePage extends StatelessWidget {
                 ),
           ),
           const Spacer(),
-          const Icon(
-            size: 38,
-            Icons.graphic_eq,
-            color: Colors.white,
+          Image.asset(
+            'assets/icon/icon.png',
+            width: 36,
           ),
         ],
       ),
