@@ -21,11 +21,20 @@ class HelpButton extends StatelessWidget {
             return AlertDialog(
               title: Text('general.help'.tr()),
               content: Text(content),
-              actionsPadding: const EdgeInsets.symmetric(horizontal: 10),
+              actionsPadding: const EdgeInsets.only(
+                right: 20,
+                bottom: 10,
+              ),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context, 'general.ok'.tr()),
-                  child: Text('general.ok'.tr()),
+                  child: Text(
+                    'general.ok'.tr(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
                 ),
               ],
             );

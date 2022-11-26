@@ -20,6 +20,9 @@
         "createGraph": "Maak grafiek:",
         "withType": "Met type:"
     },
+    "addEntry": {
+        "helpText": "Voeg uw waarden direct toe of selecteer ze uit een afbeelding. Klik op de knop links van een invoerveld en selecteer een waarde uit uw afbeelding om deze snel te plakken.\nU kunt uw waarden altijd bewerken op de grafiekpagina als u een fout heeft gemaakt."
+    },
     "graph": {
         "tileHelpText": "Druk lang op een waarde om ze te bewerken of te verwijderen",
         "readFromImage": "Lees van afbeelding"

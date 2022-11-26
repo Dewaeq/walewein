@@ -35,31 +35,7 @@ class AddEntryPage extends StatelessWidget {
         onTap: model.closeSheet,
         child: CustomScrollView(
           slivers: [
-            SliverAppBar.large(
-              title: Text(
-                'general.addEntry'.tr(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 36,
-                ),
-              ),
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.of(model.context).pop();
-                },
-                color: Colors.white,
-                icon: const Icon(Icons.arrow_back),
-              ),
-              actions: const [
-                HelpButton(
-                  // TODO
-                  content: '',
-                  iconColor: Colors.white,
-                ),
-              ],
-              backgroundColor: const Color(0xff111111),
-            ),
+            _buildAppBar(model),
             SliverToBoxAdapter(
               child: _galleryBody(model),
             ),
@@ -67,6 +43,32 @@ class AddEntryPage extends StatelessWidget {
         ),
       ),
       bottomSheet: _buildBottomSheet(model),
+    );
+  }
+
+  SliverAppBar _buildAppBar(AddEntryViewModel model) {
+    return SliverAppBar.large(
+      title: Text(
+        'general.addEntry'.tr(),
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 36,
+        ),
+      ),
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        onPressed: () => Navigator.of(model.context).pop(),
+        color: Colors.white,
+        icon: const Icon(Icons.arrow_back),
+      ),
+      actions: [
+        HelpButton(
+          content: 'addEntry.helpText'.tr(),
+          iconColor: Colors.white,
+        ),
+      ],
+      backgroundColor: const Color(0xff111111),
     );
   }
 

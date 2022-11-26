@@ -20,6 +20,9 @@
         "createGraph": "Créer graphique:",
         "withType": "Avec le type:"
     },
+    "addEntry": {
+        "helpText": "Ajoutez directement vos valeurs ou sélectionnez-les dans une image. Cliquez sur le bouton situé à gauche d'un champ de saisie et sélectionnez une valeur dans votre image pour l'insérer rapidement.\nVous pouvez toujours modifier vos valeurs à partir de la page du graphique si vous avez fait une erreur."
+    },
     "graph": {
         "tileHelpText": "Appuyez longuement sur une valeur pour la modifier ou la supprimer",
         "readFromImage": "Lire de l'image"

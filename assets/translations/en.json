@@ -20,6 +20,9 @@
         "createGraph": "Create graph:",
         "withType": "With type:"
     },
+    "addEntry": {
+        "helpText": "Directly add your values or select them from an image. Click the button to the left of an input field and select a value from your image to quickly insert it.\nYou can always edit your values from the graph page if you made a mistake."
+    },
     "graph": {
         "tileHelpText": "Long press a value to edit or delete it",
         "readFromImage": "Read from image"
