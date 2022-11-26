@@ -32,25 +32,28 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      appBar: _buildAppBar(),
-      backgroundColor: kBackgroundColor,
-      drawer: HomeDrawer(prices: model.prices),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildTopBar(model),
-            TitleWithEditButton(
-              title: 'home.graphs'.tr(),
-              isEditing: model.isSelecting,
-              onPress: model.editGraphs,
-            ),
-            _buildGraphsList(model),
-            defaultHeightSizedBox,
-          ],
+    return WillPopScope(
+      onWillPop: model.willPop,
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        backgroundColor: kBackgroundColor,
+        drawer: HomeDrawer(prices: model.prices),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _buildTopBar(model),
+              TitleWithEditButton(
+                title: 'home.graphs'.tr(),
+                isEditing: model.isEditing,
+                onPress: model.toggleEditing,
+              ),
+              _buildGraphsList(model),
+              defaultHeightSizedBox,
+            ],
+          ),
         ),
+        floatingActionButton: _buildFloatingActionButton(model),
       ),
-      floatingActionButton: _buildFloatingActionButton(model),
     );
   }
 
@@ -181,14 +184,13 @@ class HomePage extends StatelessWidget {
 
   FloatingActionButton _buildFloatingActionButton(HomeViewModel model) {
     return FloatingActionButton(
-      onPressed:
-          model.isSelecting ? model.deleteSelectedGraphs : model.addGraph,
-      backgroundColor: model.isSelecting ? Colors.red : kPrimaryColor,
-      tooltip: model.isSelecting
+      onPressed: model.isEditing ? model.deleteSelectedGraphs : model.addGraph,
+      backgroundColor: model.isEditing ? Colors.red : kPrimaryColor,
+      tooltip: model.isEditing
           ? 'general.deleteSelection'.tr()
           : 'home.addGraph'.tr(),
       child: ToggleButton(
-        showPrimary: model.isSelecting,
+        showPrimary: model.isEditing,
         primaryIcon: Icons.add,
         secondaryIcon: Icons.delete,
       ),
@@ -222,7 +224,7 @@ class HomePage extends StatelessWidget {
               child: GraphCard(
                 key: model.chartViewKeys[i],
                 graph: model.graphs[i],
-                isSelecting: model.isSelecting,
+                isSelecting: model.isEditing,
                 isSelected: model.selectedGraphs[model.graphs[i]]!,
                 onSelect: () => model.select(model.graphs[i]),
               ),

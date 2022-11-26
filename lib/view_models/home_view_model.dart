@@ -16,7 +16,7 @@ class HomeViewModel extends ViewModel<List<Graph>> {
   List<Graph> graphs = [];
   Map<Graph, bool> selectedGraphs = {};
   List<Price> prices = [];
-  bool isSelecting = false;
+  bool isEditing = false;
 
   /// Generate a new key everytime [graph] changes, to update the charts
   late List<Key> chartViewKeys;
@@ -75,19 +75,19 @@ class HomeViewModel extends ViewModel<List<Graph>> {
     );
   }
 
-  void editGraphs() {
-    isSelecting = !isSelecting;
+  void toggleEditing() {
+    isEditing = !isEditing;
     selectedGraphs = selectedGraphs.map((key, value) => MapEntry(key, false));
 
     notifyListeners();
   }
 
   void select(Graph graph) {
-    isSelecting = true;
+    isEditing = true;
     selectedGraphs[graph] = !selectedGraphs[graph]!;
 
     if (selectedGraphs.entries.every((x) => !x.value)) {
-      isSelecting = false;
+      isEditing = false;
       selectedGraphs = selectedGraphs.map((key, value) => MapEntry(key, false));
     }
 
@@ -101,7 +101,7 @@ class HomeViewModel extends ViewModel<List<Graph>> {
       await storage.removeGraph(entry.key.id!);
     }
 
-    isSelecting = false;
+    isEditing = false;
     notifyListeners();
   }
 
@@ -132,5 +132,14 @@ class HomeViewModel extends ViewModel<List<Graph>> {
     }
 
     return result;
+  }
+
+  Future<bool> willPop() async {
+    if (isEditing) {
+      toggleEditing();
+      return false;
+    }
+
+    return true;
   }
 }
