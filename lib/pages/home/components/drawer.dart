@@ -175,7 +175,7 @@ class HomeDrawer extends StatelessWidget {
     final value = prices.firstWhere((x) => x.graphType == type);
     final unit = unityTypeToString(type);
 
-    final typeName = graphTypeToUnitString(type);
+    final typeName = '$type'.tr();
     final title = 'settings.editPrice'.tr(args: [typeName.toLowerCase()]);
 
     return ListTile(
