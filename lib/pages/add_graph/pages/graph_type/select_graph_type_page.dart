@@ -18,6 +18,7 @@ class SelectGraphTypePage extends StatelessWidget {
         children: [
           Text(
             'addGraph.description'.tr(),
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color.fromARGB(255, 158, 158, 163),
             ),

@@ -2,7 +2,7 @@ name: walewein
 description: Easily track your consumption.
 publish_to: 'none'
 
-version: 0.4.3+2
+version: 0.4.3+6
 
 environment:
   sdk: '>=2.18.1 <3.0.0'
