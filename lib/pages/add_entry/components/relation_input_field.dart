@@ -52,6 +52,7 @@ class RelationInputField extends StatelessWidget {
                 textAlignVertical: TextAlignVertical.center,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
+                  isDense: true,
                   hintText: '...',
                   hintStyle: TextStyle(
                     fontSize: 18,
