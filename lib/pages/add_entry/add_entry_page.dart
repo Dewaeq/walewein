@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bottom_bar_with_sheet/bottom_bar_with_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,26 +25,33 @@ class AddEntryPage extends StatelessWidget {
     );
   }
 
-  Scaffold _view(AddEntryViewModel model) {
-    return Scaffold(
-      backgroundColor: const Color(0xff111111),
-      floatingActionButton: FloatingActionButton(
-        onPressed: model.save,
-        backgroundColor: kPrimaryColor,
-        child: const Icon(Icons.done_rounded),
-      ),
-      body: GestureDetector(
-        onTap: model.closeSheet,
-        child: CustomScrollView(
-          slivers: [
-            _buildAppBar(model),
-            SliverToBoxAdapter(
-              child: _galleryBody(model),
-            ),
-          ],
+  Widget _view(AddEntryViewModel model) {
+    return Theme(
+      data: Theme.of(model.context).copyWith(
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: Color(0xff111111),
         ),
       ),
-      bottomSheet: _buildBottomSheet(model),
+      child: Scaffold(
+        backgroundColor: const Color(0xff111111),
+        floatingActionButton: FloatingActionButton(
+          onPressed: model.save,
+          backgroundColor: kPrimaryColor,
+          child: const Icon(Icons.done_rounded),
+        ),
+        body: GestureDetector(
+          onTap: model.closeSheet,
+          child: CustomScrollView(
+            slivers: [
+              _buildAppBar(model),
+              SliverToBoxAdapter(
+                child: _galleryBody(model),
+              ),
+            ],
+          ),
+        ),
+        bottomSheet: _buildBottomSheet(model),
+      ),
     );
   }
 
@@ -72,48 +81,46 @@ class AddEntryPage extends StatelessWidget {
     );
   }
 
-  Container _buildBottomSheet(AddEntryViewModel model) {
-    return Container(
-      color: const Color(0xff111111),
-      child: BottomBarWithSheet(
-        controller: model.bottomBarController,
-        curve: Curves.fastOutSlowIn,
-        mainActionButtonTheme: const MainActionButtonTheme(
-          color: Colors.white,
-          margin: EdgeInsets.symmetric(vertical: 20),
-          size: 65,
-          icon: Icon(
-            Icons.graphic_eq,
-            size: 32,
-            color: Colors.black,
-          ),
+  Widget _buildBottomSheet(AddEntryViewModel model) {
+    return BottomBarWithSheet(
+      controller: model.bottomBarController,
+      curve: Curves.fastOutSlowIn,
+      mainActionButtonTheme: const MainActionButtonTheme(
+        color: Colors.white,
+        margin: EdgeInsets.symmetric(vertical: 20),
+        size: 65,
+        icon: Icon(
+          Icons.graphic_eq,
+          size: 32,
+          color: Colors.black,
         ),
-        bottomBarTheme: BottomBarTheme(
-          mainButtonPosition: MainButtonPosition.middle,
-          heightOpened: model.size.height * 0.35,
-          heightClosed: 110,
-          decoration: const BoxDecoration(
-            color: Color(0xff1e1e1e),
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-          ),
-          itemIconColor: Colors.white,
-          selectedItemIconColor: Colors.white,
-          itemTextStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 10.0,
-          ),
-          selectedItemTextStyle: const TextStyle(
-            color: Colors.blue,
-            fontSize: 10.0,
-          ),
-        ),
-        onSelectItem: model.getImage,
-        sheetChild: _inputs(model),
-        items: const [
-          BottomBarWithSheetItem(icon: Icons.camera_alt),
-          BottomBarWithSheetItem(icon: Icons.image_search),
-        ],
       ),
+      bottomBarTheme: BottomBarTheme(
+        mainButtonPosition: MainButtonPosition.middle,
+        heightOpened: min(model.size.height * 0.25, 215) +
+            model.graph.relations.length * 60,
+        heightClosed: 110,
+        decoration: const BoxDecoration(
+          color: Color(0xff1e1e1e),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+        ),
+        itemIconColor: Colors.white,
+        selectedItemIconColor: Colors.white,
+        itemTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 10.0,
+        ),
+        selectedItemTextStyle: const TextStyle(
+          color: Colors.blue,
+          fontSize: 10.0,
+        ),
+      ),
+      onSelectItem: model.getImage,
+      sheetChild: _inputs(model),
+      items: const [
+        BottomBarWithSheetItem(icon: Icons.camera_alt),
+        BottomBarWithSheetItem(icon: Icons.image_search),
+      ],
     );
   }
 
