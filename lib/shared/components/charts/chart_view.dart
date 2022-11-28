@@ -49,15 +49,9 @@ class ChartView extends StatelessWidget {
 
   Widget _buildChart(ChartViewModel model) {
     if (!model.loaded) {
-      return Center(
-        child: Text(
-          'chart.addEntryFirst'.tr(),
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: kGraphTitleColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
         ),
       );
     }

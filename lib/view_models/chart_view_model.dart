@@ -59,6 +59,7 @@ class ChartViewModel extends ViewModel<Graph> {
 
     if (isGraphEmpty()) {
       loaded = true;
+      notifyListeners();
       return;
     }
 

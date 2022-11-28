@@ -30,7 +30,8 @@ dependencies:
   equations: ^4.1.0
   package_info_plus: ^3.0.2
   url_launcher: ^6.1.6
-  easy_localization: ^3.0.1  
+  easy_localization: ^3.0.1
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
