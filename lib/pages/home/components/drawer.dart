@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
+import 'package:walewein/pages/home/home_page.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/extensions.dart';
@@ -72,6 +73,24 @@ class HomeDrawer extends StatelessWidget {
               FutureBuilder(
                 future: PackageInfo.fromPlatform(),
                 builder: (_, snapshot) => _buildAboutListTile(snapshot),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: kDefaultPadding / 2),
+                child: Row(
+                  children: [
+                    _buildBackupButton(
+                      () => _saveBackup(context),
+                      Icons.file_download_outlined,
+                      'general.backup',
+                    ),
+                    defaultHalfWidthSizedBox,
+                    _buildBackupButton(
+                      () => _loadBackup(context),
+                      Icons.backup,
+                      'general.restore',
+                    ),
+                  ],
+                ),
               ),
               _buildFooter(context)
             ],
@@ -194,6 +213,24 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
+  Widget _buildBackupButton(Function() onPressed, IconData icon, String title) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(kPrimaryColor),
+      ),
+      icon: Icon(
+        icon,
+        color: Colors.white,
+        size: 24,
+      ),
+      label: Text(
+        title.tr(),
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
   void _showPriceDialog(
     BuildContext context,
     GraphType type,
@@ -265,10 +302,59 @@ class HomeDrawer extends StatelessWidget {
     );
   }
 
-  void _setLocale(Locale target, BuildContext context) async {
+  Future<void> _setLocale(Locale target, BuildContext context) async {
     await LocalizationService.setGlobalLocale(context, target);
 
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
+  }
+
+  Future<void> _saveBackup(BuildContext context) async {
+    final storage = StorageService();
+    await storage.saveBackup(
+      onSucces: () {
+        showModalBottomSheetNote(context, 'settings.savedBackup');
+      },
+      onError: () {
+        _showAlertDialog(
+            context, 'general.saveError', 'settings.saveBackupError');
+      },
+    );
+  }
+
+  Future<void> _loadBackup(BuildContext context) async {
+    final storage = StorageService();
+    await storage.loadBackup(
+      onSucces: () {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const HomePage()));
+      },
+      onError: () {
+        _showAlertDialog(
+            context, 'general.readError', 'settings.loadBackupError');
+      },
+    );
+  }
+
+  void _showAlertDialog(BuildContext context, String title, String text) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title.tr()),
+          content: Text(text.tr()),
+          actionsPadding: const EdgeInsets.only(
+            right: 20,
+            bottom: 10,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'general.close'.tr()),
+              child: Text('general.close'.tr()),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

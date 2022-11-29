@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_model.dart';
@@ -122,5 +123,41 @@ Widget graphTypeToIcon(GraphType graphType, [double radius = 20]) {
       color: color,
       size: radius * 1.2,
     ),
+  );
+}
+
+void showModalBottomSheetNote(BuildContext context, String text) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.transparent,
+    builder: (context) {
+      return Container(
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                text.tr(),
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () => Navigator.of(context).maybePop(),
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        ),
+      );
+    },
   );
 }
