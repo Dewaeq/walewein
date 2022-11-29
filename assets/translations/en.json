@@ -12,7 +12,10 @@
         "buildNumber": "Build number",
         "installSource": "Installation source",
         "unknown": "Unknown",
-        "editPrice": "Edit {} price"
+        "editPrice": "Edit {} price",
+        "savedBackup": "Saved backup in Downloads folder",
+        "saveBackupError": "Failed to save backup. Check if the app has permission to access files.",
+        "loadBackupError": "Unable to restore backup. Choose a Walewein backup file with the .wbak extension."
     },
     "addGraph": {
         "title": "Create a graph",
@@ -51,11 +54,15 @@
         "ok": "Ok",
         "done": "Done",
         "save": "Save",
+        "backup": "Backup",
+        "restore": "Restore",
         "delete": "Delete",
         "deleteSelection": "Delete selection",
         "finish": "Finish",
         "continue": "Continue",
-        "date": "Date"
+        "date": "Date",
+        "saveError": "Failed to save",
+        "readError": "Failed to read"
     },
     "xLabels": {
         "electricityDay": "Date (day)",

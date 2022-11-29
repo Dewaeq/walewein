@@ -12,7 +12,10 @@
         "buildNumber": "Numéro de build",
         "installSource": "Source de l'installation",
         "unknown": "Inconnu",
-        "editPrice": "Modifier le prix du {}"
+        "editPrice": "Modifier le prix du {}",
+        "savedBackup": "Sauvegardé dans le dossier des téléchargements",
+        "saveBackupError": "Impossible d'enregistrer la sauvegarde. Vérifiez si l'application est autorisée à enregistrer des fichiers.",
+        "loadBackupError": "Impossible de restaurer la sauvegarde. Choisissez un fichier de sauvegarde Walewein avec l'extension .wbak."
     },
     "addGraph": {
         "title": "Créer une graphique",
@@ -52,10 +55,14 @@
         "done": "Terminé",
         "save": "Sauvegarder",
         "delete": "Supprimer",
+        "backup": "Sauvegarder",
+        "restore": "Restaurer",
         "deleteSelection": "Supprimer la sélection",
         "finish": "Compléter",
         "continue": "Continuer",
-        "date": "Date"
+        "date": "Date",
+        "saveError": "Echec de l'enregistrement du fichier",
+        "readError": "Impossible de lire le fichier"
     },
     "xLabels": {
         "electricityDay": "Date (jour)",

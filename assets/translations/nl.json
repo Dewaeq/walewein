@@ -12,7 +12,10 @@
         "buildNumber": "Build nummer",
         "installSource": "Installatiebron",
         "unknown": "Onbekend",
-        "editPrice": "Bewerk {} prijs"
+        "editPrice": "Bewerk {} prijs",
+        "savedBackup": "Backup opgeslagen in Downloads map",
+        "saveBackupError": "Kan backup niet opslaan. Controleer of de app toestemming heeft om bestanden te bewaren.",
+        "loadBackupError": "Kan backup niet herstellen. Kies een Walewein-backup bestand met de .wbak extensie."
     },
     "addGraph": {
         "title": "Een grafiek maken",
@@ -52,10 +55,14 @@
         "done": "Klaar",
         "save": "Opslaan",
         "delete": "Verwijderen",
+        "backup": "Backup",
+        "restore": "Herstellen",
         "deleteSelection": "Verwijder selectie",
         "finish": "Voltooien",
         "continue": "Verder",
-        "date": "Datum"
+        "date": "Datum",
+        "saveError": "Opslaan mislukt",
+        "readError": "Lezen mislukt"
     },
     "xLabels": {
         "electricityDay": "Datum (dag)",
