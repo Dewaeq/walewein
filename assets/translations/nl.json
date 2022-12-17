@@ -12,7 +12,7 @@
         "buildNumber": "Build nummer",
         "installSource": "Installatiebron",
         "unknown": "Onbekend",
-        "editPrice": "Bewerk {} prijs",
+        "editPrice": "Prijzen aanpassen",
         "savedBackup": "Backup opgeslagen",
         "saveBackupError": "Kan backup niet opslaan. Controleer of de app toestemming heeft om bestanden te bewaren.",
         "loadBackupError": "Kan backup niet herstellen. Kies een Walewein-backup bestand met de .wbak extensie."

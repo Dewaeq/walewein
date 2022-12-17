@@ -12,7 +12,7 @@
         "buildNumber": "Build number",
         "installSource": "Installation source",
         "unknown": "Unknown",
-        "editPrice": "Edit {} price",
+        "editPrice": "Edit prices",
         "savedBackup": "Saved backup",
         "saveBackupError": "Failed to save backup. Check if the app has permission to access files.",
         "loadBackupError": "Unable to restore backup. Choose a Walewein backup file with the .wbak extension."

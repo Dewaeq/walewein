@@ -58,6 +58,20 @@ class HomeDrawer extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: kDefaultPadding,
+                        top: kDefaultPadding,
+                      ),
+                      child: Text(
+                        'settings.editPrice'.tr(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: kTextColor,
+                        ),
+                      ),
+                    ),
                     _buildPriceListTile(context, GraphType.gas),
                     divider(),
                     _buildPriceListTile(context, GraphType.electricity),
@@ -199,7 +213,7 @@ class HomeDrawer extends StatelessWidget {
     final title = 'settings.editPrice'.tr(args: [typeName.toLowerCase()]);
 
     return ListTile(
-      title: Text(title),
+      title: Text('$type'.tr()),
       subtitle: Text('€ ${value.price.toStringAsFixed(2)}/$unit'),
       onTap: () => _showPriceDialog(context, type, title),
     );
