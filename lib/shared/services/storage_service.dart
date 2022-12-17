@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:walewein/models/data/graph_model.dart';
 import 'package:walewein/models/data/price_model.dart';
 import 'package:walewein/shared/services/file_service.dart';
@@ -90,11 +92,7 @@ class StorageService {
     final now = DateTime.now();
     final fileName =
         'walewein_backup_${DateFormat('yyyy-MM-dd_HH:mm').format(now)}.wbak';
-    final dir = Directory('/storage/emulated/0/Download/walewein');
-
-    if (!await dir.exists()) {
-      await dir.create();
-    }
+    final dir = await getTemporaryDirectory();
 
     return '${dir.path}/$fileName';
   }
@@ -119,6 +117,13 @@ class StorageService {
       }
 
       await isar.writeTxn(() async => await isar.copyToFile(savePath));
+
+      final params = SaveFileDialogParams(sourceFilePath: savePath);
+      await FlutterFileDialog.saveFile(params: params);
+
+      // Delete the temporary file
+      await File(savePath).delete();
+
       onSucces();
     } catch (e) {
       onError();
