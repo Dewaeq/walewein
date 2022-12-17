@@ -13,7 +13,7 @@
         "installSource": "Installatiebron",
         "unknown": "Onbekend",
         "editPrice": "Bewerk {} prijs",
-        "savedBackup": "Backup opgeslagen in Downloads map",
+        "savedBackup": "Backup opgeslagen",
         "saveBackupError": "Kan backup niet opslaan. Controleer of de app toestemming heeft om bestanden te bewaren.",
         "loadBackupError": "Kan backup niet herstellen. Kies een Walewein-backup bestand met de .wbak extensie."
     },

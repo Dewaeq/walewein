@@ -13,7 +13,7 @@
         "installSource": "Source de l'installation",
         "unknown": "Inconnu",
         "editPrice": "Modifier le prix ({})",
-        "savedBackup": "Sauvegardé dans le dossier des téléchargements",
+        "savedBackup": "La sauvegarde est enregistrée",
         "saveBackupError": "Impossible d'enregistrer la sauvegarde. Vérifiez si l'application est autorisée à enregistrer des fichiers.",
         "loadBackupError": "Impossible de restaurer la sauvegarde. Choisissez un fichier de sauvegarde Walewein avec l'extension .wbak."
     },
