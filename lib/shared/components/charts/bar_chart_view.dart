@@ -212,7 +212,7 @@ class BarChartView extends StatelessWidget {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: model.barBackgroundHeight(data),
+            toY: model.barBackgroundHeight,
             color: kGraphAccentColor,
           ),
         ),

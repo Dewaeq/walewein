@@ -156,12 +156,16 @@ class ChartViewModel extends ViewModel<Graph> {
 
   double barHeight(BarDataPoint data) {
     final offset = data.isSelected ? maxMonthlyUsage * 0.05 : 0;
-    return (data.y + offset);
+    final height = data.y + offset;
+
+    if (height == 0) {
+      return 0;
+    }
+
+    return max(height, barBackgroundHeight * 0.1);
   }
 
-  double barBackgroundHeight(BarDataPoint data) {
-    return maxMonthlyUsage * 1.1;
-  }
+  double get barBackgroundHeight => maxMonthlyUsage * 1.1;
 
   Color barColor(BarDataPoint data) {
     if (data.isSelected) return Colors.yellow;
@@ -192,13 +196,15 @@ class ChartViewModel extends ViewModel<Graph> {
   }
 
   void setChartRange() {
+    final offset = (maxNode.y - minNode.y) * 0.2;
+
     chartRange = ChartRange(
       firstNode.x.millisecondsSinceEpoch.toDouble(),
       chartType == ChartViewType.predictions
           ? predictionDate.millisecondsSinceEpoch.toDouble()
           : lastNode.x.millisecondsSinceEpoch.toDouble(),
-      minNode.y * 0.8,
-      maxNode.y * 1.1,
+      (minNode.y - offset) < 0 ? 0 : minNode.y - offset,
+      maxNode.y + offset,
     );
   }
 
