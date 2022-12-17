@@ -12,13 +12,13 @@
         "buildNumber": "Numéro de build",
         "installSource": "Source de l'installation",
         "unknown": "Inconnu",
-        "editPrice": "Modifier le prix du {}",
+        "editPrice": "Modifier le prix ({})",
         "savedBackup": "Sauvegardé dans le dossier des téléchargements",
         "saveBackupError": "Impossible d'enregistrer la sauvegarde. Vérifiez si l'application est autorisée à enregistrer des fichiers.",
         "loadBackupError": "Impossible de restaurer la sauvegarde. Choisissez un fichier de sauvegarde Walewein avec l'extension .wbak."
     },
     "addGraph": {
-        "title": "Créer une graphique",
+        "title": "Créer un graphique",
         "description": "Sélectionnez l'un de nos types de graphiques préétablis",
         "graphName": "Nom du graphique:",
         "createGraph": "Créer graphique:",
@@ -79,7 +79,7 @@
     "GraphType": {
         "gas": "Gaz",
         "water": "L'eau",
-        "electricity": "Elektriciteit",
+        "electricity": "Électricité",
         "electricityDouble": "Électricité (compteur bi-horaire)",
         "firePlace": "Cheminée"
     }
