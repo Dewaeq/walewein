@@ -28,6 +28,11 @@ class AddEntryViewModel extends ViewModel {
   Future<void> init() async {
     for (final relation in graph.relations) {
       controllers[relation] = TextEditingController();
+
+      if (relation.nodes.isNotEmpty) {
+        final lastNode = relation.nodes.last;
+        controllers[relation]?.text = lastNode.y.toString();
+      }
     }
 
     Future.delayed(const Duration(milliseconds: 400)).then((_) => openSheet());
