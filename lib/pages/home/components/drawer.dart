@@ -9,6 +9,7 @@ import 'package:walewein/pages/home/home_page.dart';
 import 'package:walewein/shared/components/constants.dart';
 import 'package:walewein/shared/constants.dart';
 import 'package:walewein/shared/extensions.dart';
+import 'package:walewein/shared/services/backup_service.dart';
 import 'package:walewein/shared/services/localization_service.dart';
 import 'package:walewein/shared/services/storage_service.dart';
 import 'package:walewein/shared/utils.dart';
@@ -310,8 +311,7 @@ class HomeDrawer extends StatelessWidget {
   }
 
   Future<void> _saveBackup(BuildContext context) async {
-    final storage = StorageService();
-    await storage.saveBackup(
+    await BackupService.saveBackup(
       onSucces: () {
         showModalBottomSheetNote(context, 'settings.savedBackup');
       },
@@ -323,8 +323,7 @@ class HomeDrawer extends StatelessWidget {
   }
 
   Future<void> _loadBackup(BuildContext context) async {
-    final storage = StorageService();
-    await storage.loadBackup(
+    await BackupService.loadBackup(
       onSucces: () {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const HomePage()));
