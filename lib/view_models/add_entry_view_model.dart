@@ -84,11 +84,25 @@ class AddEntryViewModel extends ViewModel {
     bottomBarController.closeSheet();
   }
 
-  void selectDateWithPicker() async {
-    date = await pickDate(
+  void changeDate() async {
+    final newDate = await pickDate(
       context: context,
       initialDate: DateTime.now(),
       defaultDate: DateTime.now(),
+    );
+
+    final newTime = await pickTime(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      defaultTime: TimeOfDay.now(),
+    );
+
+    date = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      newTime.hour,
+      newTime.minute,
     );
 
     notifyListeners();

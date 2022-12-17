@@ -63,10 +63,11 @@ class EditEntryModal extends StatelessWidget {
             ),
             defaultHeightSizedBox,
             Text(
-              DateFormat('EEEE d MMMM, yyyy').format(model.date!),
+              DateFormat('EEEE d MMMM, yyyy, HH:mm').format(model.date!),
+              textAlign: TextAlign.center,
             ),
             TextButton(
-              onPressed: model.selectDateWithPicker,
+              onPressed: model.changeDate,
               child: Text('general.editDate'.tr()),
             ),
             SimpleTextButton(

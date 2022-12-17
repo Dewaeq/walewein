@@ -165,7 +165,7 @@ class AddEntryPage extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: model.selectDateWithPicker,
+              onPressed: model.changeDate,
               child: Text('general.editDate'.tr()),
             ),
           ],

@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:walewein/models/data/graph_node.dart';
 import 'package:walewein/shared/components/view_model_builder.dart';
 import 'package:walewein/shared/extensions.dart';
@@ -45,11 +45,25 @@ class EditEntryViewModel extends ViewModel<GraphNode> {
     notifyListeners();
   }
 
-  void selectDateWithPicker() async {
-    date = await pickDate(
+  void changeDate() async {
+    final newDate = await pickDate(
       context: context,
       initialDate: date!,
       defaultDate: node.x,
+    );
+
+    final newTime = await pickTime(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(date!),
+      defaultTime: TimeOfDay.fromDateTime(node.x),
+    );
+
+    date = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      newTime.hour,
+      newTime.minute,
     );
 
     notifyListeners();

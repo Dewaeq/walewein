@@ -17,6 +17,18 @@ Future<DateTime> pickDate({
       defaultDate;
 }
 
+Future<TimeOfDay> pickTime({
+  required BuildContext context,
+  required TimeOfDay initialTime,
+  required TimeOfDay defaultTime,
+}) async {
+  return await showTimePicker(
+        context: context,
+        initialTime: initialTime,
+      ) ??
+      defaultTime;
+}
+
 String unityTypeToString(GraphType graphType) {
   switch (graphType) {
     case GraphType.gas:
