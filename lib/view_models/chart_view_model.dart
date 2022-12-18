@@ -65,9 +65,9 @@ class ChartViewModel extends ViewModel<Graph> {
 
     setRelations();
     setNodes();
+    setPredictions();
     setChartRange();
     setDateSpread();
-    setPredictions();
     setMonthlyUsage();
 
     super.setState();
@@ -232,8 +232,7 @@ class ChartViewModel extends ViewModel<Graph> {
       trends[relation] = TrendPrediction(predictionDate, prediction);
     }
 
-    chartRange.maxY = maxTrendPrediction * 1.1;
-    chartRange.maxX = predictionDate.millisecondsSinceEpoch.toDouble();
+    maxNode = GraphNode.from(x: predictionDate, y: maxTrendPrediction);
   }
 
   void setMonthlyUsage() {
